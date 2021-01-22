@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <group
+        android:checkableBehavior="single"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <item
+            android:id="@+id/navi_alterar_perfil"
+            android:icon="@drawable/ic_create_edit_black_24dp"
+            android:title="@string/editar_perfil" />
+        <item
+            android:id="@+id/navi_minha_agenda"
+            android:icon="@drawable/ic_calendario_black_24dp"
+            android:title="@string/minha_agenda" />
+        <item
+            android:id="@+id/navi_configuracoes"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/configuracoes" />
+        <item
+            android:id="@+id/navi_trocar_usuario"
+            android:icon="@drawable/ic_change_arrows_black_24dp"
+            android:title="@string/trocar_usuario" />
+        <item
+            android:id="@+id/navi_sobre_app_info"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="@string/sobre_o_app" />
+        <item
+            android:id="@+id/navi_fale_conosco"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="@string/fale_conosco" />
+    </group>
+</menu>

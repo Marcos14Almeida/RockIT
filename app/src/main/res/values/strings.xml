@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">RockIT</string>
+
+    <!--          CADASTRO              -->
+    <string name="cadastro">Cadastro</string>
+    <string name="nome">Nome</string>
+    <string name="idade">Data de Nascimento</string>
+    <string name="sexo">Sexo</string>
+    <string name="homem">Homem</string>
+    <string name="mulher">Mulher</string>
+    <string name="cidade">Cidade</string>
+
+    <!--         TESTE MUSICAL              -->
+    <string name="voce_toca_algum_instrumento_musical">Você toca algum instrumento musical?</string>
+    <string name="habilidade_no_instrumento">Habilidade no instrumento</string>
+    <string name="avalie_as_seguintes_bandas">Avalie as seguintes bandas:(10)</string>
+    <string name="qual_genero_musical_voce_gosta">Qual Gênero Musical você gosta?</string>
+    <string name="red_hot_chilli_peppers">Red Hot Chilli Peppers</string>
+    <string name="metallica">Metallica</string>
+    <string name="katy_perry">Katy Perry</string>
+    <string name="proximo">PRÓXIMO</string>
+
+    <!--          SIDEBAR              -->
+    <string name="open">Abrir sidebar</string>
+    <string name="close">Fechar sidebar</string>
+    <!--          CONFIGURAÇÕES              -->
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="minha_agenda">Minha Agenda</string>
+    <string name="configuracoes">Configurações</string>
+    <string name="trocar_usuario">Trocar de usuário</string>
+    <string name="sobre_o_app">Sobre o app</string>
+    <string name="fale_conosco">Fale Conosco</string>
+
+
+    <!--          MAIN              -->
+    <string name="rockit">RockIT</string>
+
+    <string name="pessoas_com_perfis_similares">Pessoas com perfis similares</string>
+    <string name="nome_pessoa1">Zeca Hardcore</string>
+    <string name="nota1">9.1</string>
+    <string name="nome_pessoa2">Chad Smith</string>
+    <string name="nota2">8.6</string>
+
+    <string name="bandas_em_destaque">Bandas em Destaque</string>
+    <string name="Titulo1">Os bacanudos - Zona Oeste SP</string>
+    <string name="descricao1">Rock, Metal Progressivo, Pagode Japones, clica na imagem e ouve musica</string>
+    <string name="Titulo2">Sum 41 - Zona Norte</string>
+    <string name="descricao2">Nova música para o album Kasino no Sabadaço</string>
+    <string name="Titulo3">Chimbinha</string>
+    <string name="descricao3">Cover Through The Fire and Flames</string>
+    <!--          BOTTOM              -->
+    <string name="shows">Shows</string>
+    <string name="cadastrar_banda">Cadastrar Banda</string>
+    <string name="menu">Menu</string>
+    <string name="procurar_banda">Procurar Banda</string>
+    <string name="tutorial">Tutorial de como fazer sucesso</string>
+
+
+    <!--          PERFIL DO USUÁRIO              -->
+    <string name="nome_usuario">Chimbinha</string>
+    <string name="descricao">Descrição</string>
+    <string name="bandas_favoritas">Bandas Favoritas</string>
+    <string name="instrumentos">Instrumentos</string>
+    <string name="shows_usuario">Últimos Shows que foi/tocou</string>
+    <string name="contato">Contato Whatsapp</string>
+    <string name="videos_musicas">Vídeos/Músicas</string>
+
+    <!--          BANDA              -->
+    <string name="nome_banda">Os Bacanudos</string>
+    <string name="imagem_banda">Imagem da banda selecionada pelo usuário</string>
+    <string name="tags_banda">Rock, Metal Progressivo, Pagode Japones</string>
+    <string name="descricao_banda">Somos os bacanudos a nova sensação, só diversão. Vem na boa vem na fé, enquanto você lia gol do Pelé</string>
+    <string name="agenda_shows_banda">Agenda de Shows</string>
+    <string name="contato_banda">Contato:</string>
+    <string name="musicas_banda">Músicas</string>
+    <string name="videos_banda">Videos</string>
+    <string name="avalie_a_banda">Avalie a Banda:</string>
+
+    <!--          FILTROS              -->
+    <string name="filtros">FILTROS</string>
+    <string name="ambos">Ambos</string>
+    <string name="somente_mulheres">Somente Mulheres</string>
+    <string name="somente_homens">Somente Homens</string>
+    <string name="grau_de_afinidade_musical">Grau de Afinidade Musical</string>
+    <string name="instrumentos_praticados">Instrumentos Praticados:</string>
+    <string name="habilidade_musical">Habilidade Musical</string>
+
+    <!--          IMAGENS              -->
+    <string name="todo">TODO</string>
+</resources>

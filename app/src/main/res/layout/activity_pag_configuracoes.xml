@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Pag_configuracoes">
+
+    <TextView
+        android:id="@+id/nome_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/nome_usuario"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/im_perfil"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="124dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.203"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/ic_create_edit_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/editar_perfil"
+        app:layout_constraintBottom_toBottomOf="@+id/im_perfil"
+        app:layout_constraintStart_toEndOf="@+id/im_perfil"
+        app:layout_constraintTop_toTopOf="@+id/im_perfil"
+        app:layout_constraintVertical_bias="0.448" />
+
+    <ImageView
+        android:id="@+id/im_calendario"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="@+id/im_perfil"
+        app:layout_constraintTop_toTopOf="@+id/im_perfil"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/ic_calendario_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minha_agenda"
+        app:layout_constraintBottom_toBottomOf="@+id/im_calendario"
+        app:layout_constraintStart_toStartOf="@+id/textView27"
+        app:layout_constraintTop_toTopOf="@+id/im_calendario"
+        app:layout_constraintVertical_bias="0.448" />
+
+    <ImageView
+        android:id="@+id/im_configuracoes"
+        android:layout_width="48dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="112dp"
+        app:layout_constraintStart_toStartOf="@+id/im_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/im_perfil"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/ic_settings_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configuracoes"
+        app:layout_constraintBottom_toBottomOf="@+id/im_configuracoes"
+        app:layout_constraintStart_toStartOf="@+id/textView27"
+        app:layout_constraintTop_toTopOf="@+id/im_configuracoes" />
+
+    <ImageView
+        android:id="@+id/im_info"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="256dp"
+        app:layout_constraintStart_toStartOf="@+id/im_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/im_perfil"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/ic_info_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sobre_o_app"
+        app:layout_constraintBottom_toBottomOf="@+id/im_info"
+        app:layout_constraintStart_toStartOf="@+id/textView27"
+        app:layout_constraintTop_toTopOf="@+id/im_info" />
+
+    <ImageView
+        android:id="@+id/im_trocar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="176dp"
+        app:layout_constraintStart_toStartOf="@+id/im_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/im_perfil"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/ic_change_arrows_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/trocar_usuario"
+        app:layout_constraintBottom_toBottomOf="@+id/im_trocar"
+        app:layout_constraintStart_toStartOf="@+id/textView27"
+        app:layout_constraintTop_toTopOf="@+id/im_trocar" />
+
+    <ImageView
+        android:id="@+id/im_contato"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="324dp"
+        app:layout_constraintStart_toStartOf="@+id/im_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/im_perfil"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/ic_message_black_24dp" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fale_conosco"
+        app:layout_constraintBottom_toBottomOf="@+id/im_contato"
+        app:layout_constraintStart_toStartOf="@+id/textView27"
+        app:layout_constraintTop_toTopOf="@+id/im_contato" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
