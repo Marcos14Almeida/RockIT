@@ -16,7 +16,7 @@
         <activity android:name=".Pag_configuracoes" />
         <activity android:name=".Pag_perfil_usuario" />
         <activity android:name=".Pag_teste_musical" />
-        <activity android:name=".Pag_banda" />
+        <activity android:name=".Pag_banda"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
