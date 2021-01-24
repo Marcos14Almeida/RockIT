@@ -23,6 +23,7 @@
     <!--          SIDEBAR              -->
     <string name="open">Abrir sidebar</string>
     <string name="close">Fechar sidebar</string>
+
     <!--          CONFIGURAÇÕES              -->
     <string name="editar_perfil">Editar Perfil</string>
     <string name="minha_agenda">Minha Agenda</string>
@@ -87,4 +88,21 @@
 
     <!--          IMAGENS              -->
     <string name="todo">TODO</string>
+
+    <!--          SOBRE NÓS              -->
+    <string name="sobre_nos">\t\tNós somos a RockIT, um aplicativo com o propósito de incentivar a formação e desenvolvimento de Bandas no Brasil.
+                            Além disso, você pode encontrar outras pessoas com o mesmo perfil musical que você.
+                            \n\t\t Aqui você pode escutar e conhecer bandas novas e bem pertinho de onde você mora, e avaliar e comentar a respeito
+                            dos músicos locais.\n
+                            </string>
+
+    <!--          FRAGMENT PROCURAR BANDA              -->
+    <string name="procurar_bandas">Procurar Bandas</string>
+
+    <!--          FRAGMENT LISTA DE SHOWS              -->
+    <string name="agenda_shows">Agenda de Shows</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

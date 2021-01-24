@@ -3,19 +3,15 @@ package com.example.rockit;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -35,10 +31,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        //PAGINA INICIAL É O FRAGMENT MENU
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_menu()).commit();
+
         //BARRA LATERAL
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         drawerLayout=findViewById(R.id.drawer);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.open, R.string.close);
 
@@ -53,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationViewBottom = findViewById(R.id.bottom_nav);
         frameLayout = findViewById(R.id.frame_layout);
         navigationViewBottom.setOnNavigationItemSelectedListener(nav);
+        navigationViewBottom.setSelectedItemId(R.id.bottom_home);
     }
 ////////                ITEMS BARRA LATERAL                   /////////
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
@@ -89,13 +89,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()){
                 case R.id.bottom_procurar_shows:
-                    frameLayout.setBackgroundColor(Color.GREEN);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_shows()).commit();
                     break;
                 case R.id.bottom_home:
-                    frameLayout.setBackgroundColor(Color.WHITE);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_menu()).commit();
                     break;
                 case R.id.bottom_procurar_banda:
-                    frameLayout.setBackgroundColor(Color.BLUE);
+                    frameLayout.setBackgroundColor(Color.LTGRAY);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragment_procurar_banda()).commit();
+                    frameLayout.setBackgroundColor(Color.WHITE);
                     break;
             }
             return true;
@@ -105,10 +107,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 ////////                FUNÇÕES                      /////////
     public void abrirPag_banda(View view){
         Intent intent = new Intent(this, Pag_banda.class);
-        startActivity(intent);
-    }
-    public void abrir_Bottom(View view){
-        Intent intent = new Intent(this, Barra_inferior.class);
         startActivity(intent);
     }
     public void abrirPag_perfil_usuario(View view){
