@@ -68,7 +68,7 @@ public class Fragmento_menu extends Fragment {
         startActivity(intent);
     }
     public void abrir_Bottom(View view){
-        Intent intent = new Intent(getActivity(), Barra_inferior.class);
+        Intent intent = new Intent(getActivity(), Extra_Barra_inferior.class);
         startActivity(intent);
     }
     public void abrirPag_perfil_usuario(View view){

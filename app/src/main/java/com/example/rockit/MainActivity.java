@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.navi_trocar_usuario:
-                intent = new Intent(this, Pag_cadastro.class);
+                intent = new Intent(this, Pag_0login_inicio.class);
                 startActivity(intent);
                 break;
             case R.id.navi_sobre_app_info:
-                intent = new Intent(this, sobre_app.class);
+                intent = new Intent(this, Pag_Config_Sobre_App.class);
                 startActivity(intent);
                 break;
             case R.id.navi_fale_conosco:

@@ -50,7 +50,7 @@
     <string name="Titulo3">Chimbinha</string>
     <string name="descricao3">Cover Through The Fire and Flames</string>
     <!--          BOTTOM              -->
-    <string name="shows">Shows</string>
+    <string name="eventos">Eventos</string>
     <string name="cadastrar_banda">Cadastrar Banda</string>
     <string name="menu">Menu</string>
     <string name="procurar_banda">Procurar Banda</string>
@@ -102,7 +102,10 @@
     <!--          FRAGMENT LISTA DE SHOWS              -->
     <string name="agenda_shows">Agenda de Shows</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--          LOGIN INICIAL              -->
+    <string name="usuario">Usuário:</string>
+    <string name="senha">Senha:</string>
+    <string name="nao_possuo_cadastro"><u>Não Tem Cadastro?</u></string>
 
 </resources>

@@ -9,14 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Filtro"/>
-        <activity android:name=".Barra_inferior" />
-        <activity android:name=".sobre_app" />
-        <activity android:name=".Pag_cadastro" />
+        <activity android:name=".Pag_0login_inicio"></activity>
+        <activity android:name=".Pag_Filtro" />
+        <activity android:name=".Extra_Barra_inferior" />
+        <activity android:name=".Pag_Config_Sobre_App" />
+        <activity android:name=".Pag_0login_Cadastro" />
         <activity android:name=".Pag_configuracoes" />
         <activity android:name=".Pag_perfil_usuario" />
-        <activity android:name=".Pag_teste_musical" />
-        <activity android:name=".Pag_banda"/>
+        <activity android:name=".Pag_0login_teste_musical" />
+        <activity android:name=".Pag_banda" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

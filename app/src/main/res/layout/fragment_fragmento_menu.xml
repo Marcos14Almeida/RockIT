@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:background="@color/colorSecondary"
+            android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/usuario" />
+            app:srcCompat="@drawable/foto_usuario" />
 
         <ImageView
             android:id="@+id/circulo_externo2"
@@ -80,7 +80,7 @@
             android:contentDescription="@string/todo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/circle_externo" />
+            app:srcCompat="@drawable/circle_externo_006060" />
 
         <TextView
             android:id="@+id/textView9"
@@ -102,7 +102,7 @@
             app:layout_constraintHorizontal_bias="0.047"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/pessoa" />
+            app:srcCompat="@drawable/foto_pessoa" />
 
         <ImageView
             android:id="@+id/im_instrumento1"
@@ -112,7 +112,7 @@
             android:contentDescription="@string/todo"
             app:layout_constraintStart_toStartOf="@+id/im_pessoa1"
             app:layout_constraintTop_toTopOf="@+id/im_pessoa1"
-            app:srcCompat="@drawable/guitar" />
+            app:srcCompat="@drawable/instrumento_guitar" />
 
         <ImageView
             android:id="@+id/imageView6"
@@ -158,7 +158,7 @@
             app:layout_constraintHorizontal_bias="0.35"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/im_pessoa1"
-            app:srcCompat="@drawable/pessoa" />
+            app:srcCompat="@drawable/foto_pessoa" />
 
         <ImageView
             android:id="@+id/im_instrumento2"
@@ -168,7 +168,7 @@
             android:contentDescription="@string/todo"
             app:layout_constraintStart_toStartOf="@+id/im_pessoa2"
             app:layout_constraintTop_toTopOf="@+id/im_pessoa2"
-            app:srcCompat="@drawable/drums" />
+            app:srcCompat="@drawable/instrumento_drums" />
 
         <ImageView
             android:id="@+id/imageView7"
@@ -213,7 +213,7 @@
             app:layout_constraintHorizontal_bias="0.611"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/im_pessoa1"
-            app:srcCompat="@drawable/pessoa" />
+            app:srcCompat="@drawable/foto_pessoa" />
 
         <ImageView
             android:id="@+id/im_pessoa4"
@@ -225,7 +225,7 @@
             app:layout_constraintHorizontal_bias="0.902"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/im_pessoa1"
-            app:srcCompat="@drawable/pessoa" />
+            app:srcCompat="@drawable/foto_pessoa" />
 
         <ImageView
             android:id="@+id/im_instrumento4"
@@ -235,7 +235,7 @@
             android:contentDescription="@string/todo"
             app:layout_constraintStart_toStartOf="@+id/im_pessoa4"
             app:layout_constraintTop_toTopOf="@+id/im_pessoa4"
-            app:srcCompat="@drawable/microfone" />
+            app:srcCompat="@drawable/instrumento_microfone" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -282,7 +282,7 @@
                     android:onClick="abrirPag_banda"
                     app:layout_constraintStart_toStartOf="@+id/textView12"
                     app:layout_constraintTop_toBottomOf="@+id/textView12"
-                    app:srcCompat="@drawable/banda_generica" />
+                    app:srcCompat="@drawable/foto_banda_generica" />
 
                 <TextView
                     android:id="@+id/nome_banda1"
@@ -302,7 +302,7 @@
                     android:onClick="abrirPag_banda"
                     app:layout_constraintStart_toStartOf="@+id/im_banda"
                     app:layout_constraintTop_toBottomOf="@+id/im_banda"
-                    app:srcCompat="@drawable/capa_album" />
+                    app:srcCompat="@drawable/foto_capa_album" />
 
                 <TextView
                     android:id="@+id/nome_banda"
@@ -349,7 +349,7 @@
                     android:onClick="abrirPag_banda"
                     app:layout_constraintStart_toStartOf="@+id/im_banda"
                     app:layout_constraintTop_toBottomOf="@+id/im_banda2"
-                    app:srcCompat="@drawable/cover" />
+                    app:srcCompat="@drawable/foto_cover" />
 
                 <TextView
                     android:id="@+id/texto_banda2"
@@ -379,7 +379,7 @@
                     android:onClick="abrirPag_banda"
                     app:layout_constraintStart_toStartOf="@+id/im_banda"
                     app:layout_constraintTop_toBottomOf="@+id/im_banda3"
-                    app:srcCompat="@drawable/banda_generica" />
+                    app:srcCompat="@drawable/foto_banda_generica" />
 
                 <TextView
                     android:id="@+id/texto_banda3"

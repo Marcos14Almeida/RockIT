@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class sobre_app extends AppCompatActivity {
+public class Pag_Config_Sobre_App extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sobre_app);
+        setContentView(R.layout.activity_config_sobre_app);
     }
 }

@@ -38,7 +38,7 @@
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:background="@color/colorSecondary"
+            android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,21 +55,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/retangulo" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/rockit"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.548"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/im_filtro"
             android:layout_width="35dp"
@@ -84,26 +69,37 @@
 
         <ImageView
             android:id="@+id/im_usuario"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="45dp"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
             android:contentDescription="@string/todo"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/usuario" />
+            app:srcCompat="@drawable/foto_usuario" />
 
         <ImageView
             android:id="@+id/circulo_externo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/todo"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/im_usuario"
+            app:layout_constraintStart_toStartOf="@+id/im_usuario"
+            app:layout_constraintTop_toTopOf="@+id/retangulo"
+            app:srcCompat="@drawable/circle_externo_006060" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="163dp"
+            android:layout_height="41dp"
+            android:contentDescription="@string/todo"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/circle_externo" />
+            app:layout_constraintTop_toTopOf="@+id/retangulo"
+            app:srcCompat="@drawable/logo_branco" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

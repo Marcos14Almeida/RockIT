@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Pag_teste_musical extends AppCompatActivity {
+public class Pag_0login_teste_musical extends AppCompatActivity {
 
     ArrayList<String> ListaInstrumentos = new ArrayList<>();
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
@@ -21,7 +21,7 @@ public class Pag_teste_musical extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pag_teste_musical);
+        setContentView(R.layout.activity_0login_teste_musical);
 
 
         func_Lista_Instrumentos();
@@ -34,7 +34,7 @@ public class Pag_teste_musical extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
-                Toast.makeText(Pag_teste_musical.this,clickedItem,Toast.LENGTH_LONG).show();
+                Toast.makeText(Pag_0login_teste_musical.this,clickedItem,Toast.LENGTH_LONG).show();
                 Lista_MeuInstrumentos.add(clickedItem);
                 //show lista 2
                 show_list2();
