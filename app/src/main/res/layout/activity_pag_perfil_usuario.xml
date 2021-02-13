@@ -27,16 +27,12 @@
                 <ListView
                     android:layout_width="364dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@+id/textView45"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView45"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView16"
+                    tools:layout_editor_absoluteX="27dp" />
 
                 <ListView
                     android:layout_width="364dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@+id/textView45"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView7"
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -223,20 +219,9 @@
                     app:layout_constraintTop_toTopOf="@+id/textView17"
                     app:srcCompat="@drawable/ic_create_edit_black_24dp" />
 
-                <TextView
-                    android:id="@+id/textView45"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:text="@string/descricao1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textView17"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
                 <ListView
                     android:layout_width="364dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@+id/textView45"
                     app:layout_constraintStart_toStartOf="@+id/textView7"
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -247,6 +232,21 @@
                     android:text="@android:string/emptyPhoneNumber"
                     app:layout_constraintStart_toStartOf="@+id/textView18"
                     app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+                <EditText
+                    android:id="@+id/editText5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparente"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:text="@string/descricao1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView17"
+                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

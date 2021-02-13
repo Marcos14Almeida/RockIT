@@ -6,16 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class Pag_0login_inicio extends AppCompatActivity {
+public class Pag0_login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pag_0login_inicio);
+        setContentView(R.layout.activity_pag0_login);
     }
 
     public void abrirPag_Cadastro(View view){
-        Intent intent = new Intent(this, Pag_0login_Cadastro.class);
+        Intent intent = new Intent(this, Pag0_Cadastro.class);
         startActivity(intent);
     }
     public void abrirMainActivity(View view){

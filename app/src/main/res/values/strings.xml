@@ -14,11 +14,16 @@
     <string name="voce_toca_algum_instrumento_musical">Você toca algum instrumento musical?</string>
     <string name="habilidade_no_instrumento">Habilidade no instrumento</string>
     <string name="avalie_as_seguintes_bandas">Avalie as seguintes bandas:(10)</string>
-    <string name="qual_genero_musical_voce_gosta">Qual Gênero Musical você gosta?</string>
     <string name="red_hot_chilli_peppers">Red Hot Chilli Peppers</string>
     <string name="metallica">Metallica</string>
     <string name="katy_perry">Katy Perry</string>
     <string name="proximo">PRÓXIMO</string>
+
+    <!--         Bandas Favoritas              -->
+
+    <!--         Estilo Musical              -->
+    <string name="qual_genero_musical_voce_gosta">Qual Gênero Musical você gosta?</string>
+
 
     <!--          SIDEBAR              -->
     <string name="open">Abrir sidebar</string>

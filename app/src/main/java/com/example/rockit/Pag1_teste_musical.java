@@ -12,16 +12,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Pag_0login_teste_musical extends AppCompatActivity {
+public class Pag1_teste_musical extends AppCompatActivity {
 
     ArrayList<String> ListaInstrumentos = new ArrayList<>();
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
     ArrayList<String> Lista_MeuInstrumentos = new ArrayList<>();
+    ArrayList<String> ListaBandas = new ArrayList<>();
     ArrayList<String> Lista_MeuEstilosMusicais = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_0login_teste_musical);
+        setContentView(R.layout.activity_pag1_teste_musical);
 
 
         func_Lista_Instrumentos();
@@ -34,7 +35,7 @@ public class Pag_0login_teste_musical extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
-                Toast.makeText(Pag_0login_teste_musical.this,clickedItem,Toast.LENGTH_LONG).show();
+                Toast.makeText(Pag1_teste_musical.this,clickedItem,Toast.LENGTH_LONG).show();
                 Lista_MeuInstrumentos.add(clickedItem);
                 //show lista 2
                 show_list2();
@@ -128,14 +129,27 @@ public class Pag_0login_teste_musical extends AppCompatActivity {
         ListaEstilosMusicais.add("Skate Rock");
         ListaEstilosMusicais.add("Thrash Metal");
     }
+    public void func_Lista_Bandas(){
+        ListaBandas.add("Red Hot Chili Peppers");
+        ListaBandas.add("Green Day");
+        ListaBandas.add("Far From Alaska");
+        ListaBandas.add("Bring Me The Horizon");
+        ListaBandas.add("MUSE");
+        ListaBandas.add("Madonna");
+        ListaBandas.add("Bob Marley");
+        ListaBandas.add("Beatles");
+        ListaBandas.add("Aerosmith");
+        ListaBandas.add("Queen");
+        ListaBandas.add("Linkin Park");
+    }
     public void show_list2(){
         final ListView list2 = findViewById(R.id.lista_2);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Lista_MeuInstrumentos);
         list2.setAdapter(arrayAdapter);
     }
 
-    public void abrirPag_MENU(View view){
-        Intent intent = new Intent(this, MainActivity.class);
+    public void abrirPag_genero_musical(View view){
+        Intent intent = new Intent(this, Pag1_genero_musical.class);
         startActivity(intent);
     }
 }

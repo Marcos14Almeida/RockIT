@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pag_0login_teste_musical">
+    tools:context=".Pag1_teste_musical">
 
     <TextView
         android:id="@+id/textView38"
@@ -12,32 +12,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="356dp"
         android:text="@string/habilidade_no_instrumento"
-        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/searchView2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="231dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="68dp"
-        android:onClick="abrirPag_MENU"
+        android:layout_marginBottom="24dp"
+        android:onClick="abrirPag_genero_musical"
         android:text="@string/proximo"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="268dp"
-        android:text="@string/qual_genero_musical_voce_gosta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.422"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <SearchView
         android:id="@+id/searchView2"
@@ -62,27 +51,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="205dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" >
-
-    </SearchView>
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="404dp"
         android:text="@string/avalie_as_seguintes_bandas"
-        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView38"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -91,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="456dp"
         android:text="@string/red_hot_chilli_peppers"
-        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
