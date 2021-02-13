@@ -41,6 +41,7 @@
         android:id="@+id/textView48"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/avalie_as_seguintes_bandas"
         android:textColor="@color/branco"
