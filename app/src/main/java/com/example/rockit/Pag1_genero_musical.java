@@ -5,24 +5,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Pag1_genero_musical extends AppCompatActivity {
 
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
+    ArrayList<String> Lista_MeuEstilosMusicais = new ArrayList<>();
+    TextView texto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pag1_genero_musical);
 
         func_Lista_Estilos_Musicais();
-        //SHOW LIST
-        final ListView list = findViewById(R.id.lista_generos);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, ListaEstilosMusicais);
-        list.setAdapter(arrayAdapter);
+        texto = findViewById(R.id.textView50);
+        texto.setText("");
+        func_Lista_Estilos_Musicais();
+        show_list();
 
     }
 
@@ -72,7 +77,43 @@ public class Pag1_genero_musical extends AppCompatActivity {
         ListaEstilosMusicais.add("Skate Rock");
         ListaEstilosMusicais.add("Thrash Metal");
     }
+    public void show_list(){
+        final ListView list = findViewById(R.id.lista_generos);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, ListaEstilosMusicais);
+        list.setAdapter(arrayAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String clickedItem=(String) list.getItemAtPosition(position);
+                Toast.makeText(Pag1_genero_musical.this,clickedItem,Toast.LENGTH_LONG).show();
+                Lista_MeuEstilosMusicais.add(clickedItem);
+                ListaEstilosMusicais.remove(clickedItem);
+                //show lista 2
+                show_list2();
+            }
+        });
+    }
+    public void show_list2(){
+        //Titulo da pag: Meus intrumentos praticados
+        if(Lista_MeuEstilosMusicais.size()>0){
+            texto.setText(getResources().getString(R.string.instrumentos_praticados));
+        }else{texto.setText("");}
 
+        final ListView list2 = findViewById(R.id.lista_2);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, Lista_MeuEstilosMusicais);
+        list2.setAdapter(arrayAdapter);
+        //Se clicar deleta o item selecionado
+        list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String clickedItem=(String) list2.getItemAtPosition(position);
+                Lista_MeuEstilosMusicais.remove(clickedItem);
+                ListaEstilosMusicais.add(clickedItem);
+                //show lista 2
+                show_list2();
+            }
+        });
+    }
     public void abrir_Pag_bandas_favoritas(View view){
         Intent intent = new Intent(this, Pag1_bandas_preferidas.class);
         startActivity(intent);
