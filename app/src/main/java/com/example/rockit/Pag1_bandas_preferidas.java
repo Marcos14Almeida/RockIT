@@ -26,21 +26,8 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         texto = findViewById(R.id.textView51);
         texto.setText("");
         func_Lista_Bandas();
-        //SHOW LIST
-        final ListView list = findViewById(R.id.lista_bandas);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, ListaBandas);
-        list.setAdapter(arrayAdapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String clickedItem=(String) list.getItemAtPosition(position);
-                Toast.makeText(Pag1_bandas_preferidas.this,clickedItem,Toast.LENGTH_LONG).show();
-                Lista_MeuBandas.add(clickedItem);
-                ListaBandas.remove(clickedItem);
-                //show lista 2
-                show_list2();
-            }
-        });
+        show_list();
+
     }
 
     public void func_Lista_Bandas(){
@@ -55,6 +42,22 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         ListaBandas.add("Aerosmith");
         ListaBandas.add("Queen");
         ListaBandas.add("Linkin Park");
+    }
+    public void show_list(){
+        final ListView list = findViewById(R.id.lista_bandas);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, ListaBandas);
+        list.setAdapter(arrayAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String clickedItem=(String) list.getItemAtPosition(position);
+                Toast.makeText(Pag1_bandas_preferidas.this,clickedItem,Toast.LENGTH_LONG).show();
+                Lista_MeuBandas.add(clickedItem);
+                ListaBandas.remove(clickedItem);
+                //show lista 2
+                show_list2();
+            }
+        });
     }
     public void show_list2(){
         //Titulo da pag: Meus intrumentos praticados

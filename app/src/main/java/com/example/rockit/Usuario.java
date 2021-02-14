@@ -2,6 +2,7 @@ package com.example.rockit;
 
 public class Usuario {
 
+    //Usado no fragment Show
     private int mphoto;
     private String mname;
     private String mlocal;

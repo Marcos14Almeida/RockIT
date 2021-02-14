@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Pag1_qual_intrumento_toca"></activity>
+        <activity android:name=".Database_teste"></activity>
+        <activity android:name=".Pag1_qual_intrumento_toca" />
         <activity android:name=".Pag1_bandas_preferidas" />
         <activity android:name=".Pag1_genero_musical" />
         <activity android:name=".Pag0_login" />

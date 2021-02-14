@@ -77,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.navi_fale_conosco:
-                Toast.makeText(this,"Fale Conosco",Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, Database_teste.class);
+                startActivity(intent);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
