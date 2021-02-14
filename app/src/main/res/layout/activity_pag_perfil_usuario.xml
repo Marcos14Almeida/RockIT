@@ -24,26 +24,50 @@
                 android:layout_height="match_parent"
                 tools:context=".Pag_perfil_usuario">
 
-                <ListView
-                    android:layout_width="364dp"
+                <TextView
+                    android:id="@+id/textViewSex"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16"
-                    tools:layout_editor_absoluteX="27dp" />
+                    android:text="@string/homem"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView16"
+                    app:layout_constraintTop_toBottomOf="@+id/textView47" />
 
                 <ListView
+                    android:id="@+id/listInstruments"
                     android:layout_width="364dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     app:layout_constraintStart_toStartOf="@+id/textView7"
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
                 <ImageView
-                    android:id="@+id/imageView14"
+                    android:id="@+id/imageView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/todo"
+                    android:onClick="Editar_Fav_bandas"
+                    app:layout_constraintStart_toEndOf="@+id/textView7"
+                    app:layout_constraintTop_toTopOf="@+id/textView7"
+                    app:srcCompat="@drawable/ic_create_edit_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/todo"
+                    android:onClick="Editar_Instruments"
+                    app:layout_constraintStart_toEndOf="@+id/textView15"
+                    app:layout_constraintTop_toTopOf="@+id/textView15"
+                    app:srcCompat="@drawable/ic_create_edit_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/imageView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/todo"
                     android:onClick="Editar_conteudo"
-                    app:layout_constraintStart_toEndOf="@+id/textView29"
-                    app:layout_constraintTop_toTopOf="@+id/textView29"
+                    app:layout_constraintStart_toEndOf="@+id/textView47"
+                    app:layout_constraintTop_toTopOf="@+id/textView47"
                     app:srcCompat="@drawable/ic_create_edit_black_24dp" />
 
                 <ImageView
@@ -57,33 +81,13 @@
                     app:srcCompat="@drawable/ic_create_edit_black_24dp" />
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/imageView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/todo"
                     android:onClick="Editar_conteudo"
-                    app:layout_constraintStart_toEndOf="@+id/textView16"
-                    app:layout_constraintTop_toTopOf="@+id/textView16"
-                    app:srcCompat="@drawable/ic_create_edit_black_24dp" />
-
-                <ImageView
-                    android:id="@+id/imageView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/todo"
-                    android:onClick="Editar_conteudo"
-                    app:layout_constraintStart_toEndOf="@+id/textView15"
-                    app:layout_constraintTop_toTopOf="@+id/textView15"
-                    app:srcCompat="@drawable/ic_create_edit_black_24dp" />
-
-                <ImageView
-                    android:id="@+id/imageView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/todo"
-                    android:onClick="Editar_conteudo"
-                    app:layout_constraintStart_toEndOf="@+id/textView7"
-                    app:layout_constraintTop_toTopOf="@+id/textView7"
+                    app:layout_constraintStart_toEndOf="@+id/textView29"
+                    app:layout_constraintTop_toTopOf="@+id/textView29"
                     app:srcCompat="@drawable/ic_create_edit_black_24dp" />
 
                 <ImageView
@@ -160,31 +164,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="140dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/instrumentos"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/textView17"
-                    app:layout_constraintTop_toBottomOf="@+id/fundo" />
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="372dp"
-                    android:text="@string/shows_usuario"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView17"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/listFavBands" />
 
                 <TextView
                     android:id="@+id/textView18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="270dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/contato"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/textView17"
-                    app:layout_constraintTop_toBottomOf="@+id/fundo" />
+                    app:layout_constraintTop_toBottomOf="@+id/listInstruments" />
 
                 <TextView
                     android:id="@+id/textView29"
@@ -194,7 +188,54 @@
                     android:text="@string/videos_musicas"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/textView17"
+                    app:layout_constraintTop_toBottomOf="@+id/listContact" />
+
+                <TextView
+                    android:id="@+id/textView47"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/idade"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView17"
+                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+                <TextView
+                    android:id="@+id/textViewAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/numero"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView17"
                     app:layout_constraintTop_toBottomOf="@+id/textView47" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="116dp"
+                    android:text="@string/sexo"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView12"
+                    app:layout_constraintTop_toTopOf="@+id/textView47" />
+
+                <TextView
+                    android:id="@+id/textView55"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/procurar_banda"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView17"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewAge" />
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="@+id/textViewSex"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewSex" />
 
                 <ImageView
                     android:id="@+id/im_usuario_tocando"
@@ -220,13 +261,14 @@
                     app:srcCompat="@drawable/ic_create_edit_black_24dp" />
 
                 <ListView
+                    android:id="@+id/listFavBands"
                     android:layout_width="364dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     app:layout_constraintStart_toStartOf="@+id/textView7"
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                 <TextView
-                    android:id="@+id/textView47"
+                    android:id="@+id/listContact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@android:string/emptyPhoneNumber"
@@ -234,7 +276,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
                 <EditText
-                    android:id="@+id/editText5"
+                    android:id="@+id/textDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
