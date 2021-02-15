@@ -32,13 +32,13 @@ public class Pag0_Cadastro extends AppCompatActivity {
         age = editAge.getText().toString();
         password = editPassword.getText().toString();
         city = editCity.getText().toString();
-        if(name.equals("") ||  age.equals("") || password.equals("") || city.equals("")){
-            Toast.makeText(this,"Por favor preencha os campos",Toast.LENGTH_SHORT).show();
-        }else {
+        //if(name.equals("") ||  age.equals("") || password.equals("") || city.equals("")){
+        //    Toast.makeText(this,"Por favor preencha os campos",Toast.LENGTH_SHORT).show();
+        //}else {
             //db.addName(name);
             //db.updateAge( 5,age);
             Intent intent = new Intent(this, Pag1_genero_musical.class);
             startActivity(intent);
-        }
+        //}
     }
 }

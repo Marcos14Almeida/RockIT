@@ -15,7 +15,7 @@
         android:layout_height="100dp"
         android:contentDescription="@string/todo"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/textView34"
+        app:layout_constraintBottom_toTopOf="@+id/textViewUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toTopOf="@+id/textView34"
+        app:layout_constraintBottom_toTopOf="@+id/textViewUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         app:srcCompat="@drawable/circle_externo_006060" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/textViewUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"

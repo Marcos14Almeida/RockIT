@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,10 +17,11 @@ import android.widget.FrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import android.content.Intent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    DatabaseHelper db=new DatabaseHelper(this);
     FrameLayout frameLayout;
     BottomNavigationView navigationViewBottom;
     Toolbar toolbar;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         frameLayout = findViewById(R.id.frame_layout);
         navigationViewBottom.setOnNavigationItemSelectedListener(nav);
         navigationViewBottom.setSelectedItemId(R.id.bottom_home);
+
     }
 ////////                ITEMS BARRA LATERAL                   /////////
     public boolean onNavigationItemSelected(@NonNull MenuItem item){

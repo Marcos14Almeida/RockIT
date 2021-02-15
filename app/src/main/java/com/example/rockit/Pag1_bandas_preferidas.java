@@ -7,17 +7,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class Pag1_bandas_preferidas extends AppCompatActivity {
 
+    DatabaseHelper db=new DatabaseHelper(this);
     ArrayList<String> ListaBandas = new ArrayList<>();
     ArrayList<String> Lista_MeuBandas = new ArrayList<>();
     TextView texto;
+    AutoCompleteTextView searchViewBands;String selecionado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +34,11 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         func_Lista_Bandas();
         show_list();
 
+        //SEARCH VIEW
+        searchViewBands=findViewById(R.id.autoCompleteTextView2);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,ListaBandas);
+        final ListView list = findViewById(R.id.lista_bandas);
+        searchViewBands.setAdapter(adapter);
     }
 
     public void func_Lista_Bandas(){
@@ -80,9 +91,28 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
             }
         });
     }
+
+    public void search_icon(View view){
+        selecionado = searchViewBands.getEditableText().toString();
+        //If selecionado is on the list
+        for(int i=0; i<ListaBandas.size();i++){
+            if(ListaBandas.get(i).equals(selecionado)){
+                Lista_MeuBandas.add(selecionado);
+                ListaBandas.remove(selecionado);
+            }
+        }
+        searchViewBands.setText("");
+        show_list2();
+    }
     ////////                FUNÇÕES                      /////////
     public void abrirPag(View view){
+        //UPDATE DATABASE
+        //Arraylist to String
+        String string = "";
+        for (String s : Lista_MeuBandas){string += s + ";\t";}
+        db.updateFavBands(1,string);
         Intent intent = new Intent(this, Pag1_qual_intrumento_toca.class);
         startActivity(intent);
     }
+
 }

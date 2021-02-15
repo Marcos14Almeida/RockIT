@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Pag1_qual_intrumento_toca extends AppCompatActivity {
-
+    DatabaseHelper db=new DatabaseHelper(this);
     ArrayList<String> ListaInstrumentos = new ArrayList<>();
     ArrayList<String> Lista_MeuInstrumentos = new ArrayList<>();
     TextView texto;
@@ -108,6 +108,12 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
     }
     ////////                FUNÇÕES                      /////////
     public void abrirMain(View view){
+        //UPDATE DATABASE
+        //Arraylist to String
+        String string = "";
+        for (String s : Lista_MeuInstrumentos){string += s + ";\t";}
+        db.updateInstruments(1,string);
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

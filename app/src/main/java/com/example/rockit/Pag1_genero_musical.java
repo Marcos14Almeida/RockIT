@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class Pag1_genero_musical extends AppCompatActivity {
 
+    DatabaseHelper db=new DatabaseHelper(this);
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
     ArrayList<String> Lista_MeuEstilosMusicais = new ArrayList<>();
     TextView texto;
@@ -23,7 +24,6 @@ public class Pag1_genero_musical extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pag1_genero_musical);
 
-        func_Lista_Estilos_Musicais();
         texto = findViewById(R.id.textView50);
         texto.setText("");
         func_Lista_Estilos_Musicais();
@@ -88,7 +88,7 @@ public class Pag1_genero_musical extends AppCompatActivity {
                 Toast.makeText(Pag1_genero_musical.this,clickedItem,Toast.LENGTH_LONG).show();
                 Lista_MeuEstilosMusicais.add(clickedItem);
                 ListaEstilosMusicais.remove(clickedItem);
-                //show lista 2
+                //Refresh list
                 show_list2();
             }
         });
@@ -96,7 +96,7 @@ public class Pag1_genero_musical extends AppCompatActivity {
     public void show_list2(){
         //Titulo da pag: Meus intrumentos praticados
         if(Lista_MeuEstilosMusicais.size()>0){
-            texto.setText(getResources().getString(R.string.instrumentos_praticados));
+            texto.setText(getResources().getString(R.string.meus_generos));
         }else{texto.setText("");}
 
         final ListView list2 = findViewById(R.id.lista_2);
@@ -109,12 +109,18 @@ public class Pag1_genero_musical extends AppCompatActivity {
                 String clickedItem=(String) list2.getItemAtPosition(position);
                 Lista_MeuEstilosMusicais.remove(clickedItem);
                 ListaEstilosMusicais.add(clickedItem);
-                //show lista 2
+                //Refresh list
                 show_list2();
             }
         });
     }
     public void abrir_Pag_bandas_favoritas(View view){
+        //UPDATE DATABASE
+        //Arraylist to String
+        String string = "";
+        for (String s : Lista_MeuEstilosMusicais){string += s + ";\t";}
+        db.updateFavGenres(1,string);
+
         Intent intent = new Intent(this, Pag1_bandas_preferidas.class);
         startActivity(intent);
     }
