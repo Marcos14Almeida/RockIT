@@ -6,13 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".Pag_Config_Sobre_App">
 
+    <ImageView
+        android:id="@+id/background7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.92"
+        android:contentDescription="@string/todo"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background" />
+
     <TextView
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/sobre_o_app"
-        android:textColor="#000000"
+        android:textColor="@color/branco"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +39,20 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="20dp"
         android:text="@string/sobre_nos"
+        android:textColor="@color/branco"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/logo_branco" />
 </androidx.constraintlayout.widget.ConstraintLayout>
