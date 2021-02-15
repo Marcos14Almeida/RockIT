@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
     ArrayList<String> ListaInstrumentos = new ArrayList<>();
     ArrayList<String> Lista_MeuInstrumentos = new ArrayList<>();
     TextView texto;
+    AutoCompleteTextView searchViewBands;String selecionado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +30,14 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
         func_Lista_Instrumentos();
         show_list();
 
+        //SEARCH VIEW
+        searchViewBands=findViewById(R.id.autoCompleteTextView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,Lista_MeuInstrumentos);
+        final ListView list = findViewById(R.id.lista_bandas);
+        searchViewBands.setAdapter(adapter);
 
     }
+    ////////                FUNÇÕES                      /////////
     public void func_Lista_Instrumentos(){
         ListaInstrumentos.add("Banjo");
         ListaInstrumentos.add("Bateria");
@@ -106,7 +114,20 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
             }
         });
     }
-    ////////                FUNÇÕES                      /////////
+    public void search_icon(View view){
+        selecionado = searchViewBands.getEditableText().toString();
+        //If selecionado is on the list
+        for(int i=0; i<ListaInstrumentos.size();i++){
+            if(ListaInstrumentos.get(i).equals(selecionado)){
+                Lista_MeuInstrumentos.add(selecionado);
+                ListaInstrumentos.remove(selecionado);
+            }
+        }
+        searchViewBands.setText("");
+        show_list2();
+    }
+
+    ////////                PROXIMA PAG                      /////////
     public void abrirMain(View view){
         //UPDATE DATABASE
         //Arraylist to String

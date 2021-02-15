@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ public class Pag1_genero_musical extends AppCompatActivity {
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
     ArrayList<String> Lista_MeuEstilosMusicais = new ArrayList<>();
     TextView texto;
+    AutoCompleteTextView searchViewBands;String selecionado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +31,15 @@ public class Pag1_genero_musical extends AppCompatActivity {
         func_Lista_Estilos_Musicais();
         show_list();
 
+        //SEARCH VIEW
+        searchViewBands=findViewById(R.id.autoCompleteTextView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,ListaEstilosMusicais);
+        final ListView list = findViewById(R.id.lista_bandas);
+        searchViewBands.setAdapter(adapter);
+
     }
 
+    ////////                FUNÇÕES                      /////////
     public void func_Lista_Estilos_Musicais() {
         ListaEstilosMusicais.add("Blues");
         ListaEstilosMusicais.add("Clássica");
@@ -114,6 +123,19 @@ public class Pag1_genero_musical extends AppCompatActivity {
             }
         });
     }
+    public void search_icon(View view){
+        selecionado = searchViewBands.getEditableText().toString();
+        //If selecionado is on the list
+        for(int i=0; i<ListaEstilosMusicais.size();i++){
+            if(ListaEstilosMusicais.get(i).equals(selecionado)){
+                Lista_MeuEstilosMusicais.add(selecionado);
+                ListaEstilosMusicais.remove(selecionado);
+            }
+        }
+        searchViewBands.setText("");
+        show_list2();
+    }
+    ////////                PROXIMA PAG                      /////////
     public void abrir_Pag_bandas_favoritas(View view){
         //UPDATE DATABASE
         //Arraylist to String

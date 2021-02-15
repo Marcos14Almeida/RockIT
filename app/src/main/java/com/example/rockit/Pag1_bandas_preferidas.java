@@ -41,6 +41,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         searchViewBands.setAdapter(adapter);
     }
 
+    ////////                FUNÇÕES                      /////////
     public void func_Lista_Bandas(){
         ListaBandas.add("Red Hot Chili Peppers");
         ListaBandas.add("Green Day");
@@ -104,7 +105,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         searchViewBands.setText("");
         show_list2();
     }
-    ////////                FUNÇÕES                      /////////
+    ////////                PROXIMA PAG                      /////////
     public void abrirPag(View view){
         //UPDATE DATABASE
         //Arraylist to String
