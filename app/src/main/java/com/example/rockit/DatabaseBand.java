@@ -26,8 +26,10 @@ public class DatabaseBand extends SQLiteOpenHelper{
     private static final String KEY_FAV_GENRES = "fav_genres";
     private static final String KEY_FAV_BANDS = "fav_bands";
     private static final String KEY_INSTRUMENTS = "instruments";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_EXTRAINFO = "extra";
     String[] columns = new String[]{KEY_ID,KEY_NAME,KEY_CONTACT,KEY_DESCRIPTION,KEY_AGE,KEY_STARS,KEY_NUMBER_FOLLOWERS,
-            KEY_LOCATION,KEY_INSTRUMENT_NEEDED,KEY_SEARCHING_MEMBER,KEY_FAV_GENRES,KEY_FAV_BANDS,KEY_INSTRUMENTS};
+            KEY_LOCATION,KEY_INSTRUMENT_NEEDED,KEY_SEARCHING_MEMBER,KEY_FAV_GENRES,KEY_FAV_BANDS,KEY_INSTRUMENTS,KEY_EMAIL,KEY_EXTRAINFO};
 
     public DatabaseBand(Context context){
         super(context, DATABASE_NAME, null, 1);
@@ -47,7 +49,9 @@ public class DatabaseBand extends SQLiteOpenHelper{
                 + KEY_SEARCHING_MEMBER +" TEXT, "
                 + KEY_FAV_GENRES +" TEXT, "
                 + KEY_FAV_BANDS +" TEXT, "
-                + KEY_INSTRUMENTS +" TEXT);"
+                + KEY_INSTRUMENTS +" TEXT, "
+                + KEY_EMAIL +" TEXT, "
+                + KEY_EXTRAINFO +" TEXT);"
                 ;
         db.execSQL(createTable);
     }
@@ -60,7 +64,8 @@ public class DatabaseBand extends SQLiteOpenHelper{
 
     //Add User to table
     public boolean addData(String name,String contact,String description,String age,String stars,
-                           String number_followers,String location,String instrument_needed,String searching_member,String fav_genres,String fav_bands,String instruments) {
+                           String number_followers,String location,String instrument_needed,String searching_member,
+                           String fav_genres,String fav_bands,String instruments,String email,String extra) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, name);
@@ -75,6 +80,8 @@ public class DatabaseBand extends SQLiteOpenHelper{
         values.put(KEY_FAV_GENRES, fav_genres);
         values.put(KEY_FAV_BANDS, fav_bands);
         values.put(KEY_INSTRUMENTS, instruments);
+        values.put(KEY_EMAIL, email);
+        values.put(KEY_EXTRAINFO, extra);
         //Log.d(name, "addData: Adding " + name + " to " + TABLE_NAME);
 
         long result = db.insert(TABLE_NAME, null, values);
@@ -119,14 +126,26 @@ public class DatabaseBand extends SQLiteOpenHelper{
     public String getFavGenres(long id){return getItem(id,10);}
     public String getFavBands(long id){return getItem(id,11);}
     public String getInstruments(long id){return getItem(id,12);}
+    public String getEmail(long id){return getItem(id,13);}
+    public String getExtraInfo(long id){return getItem(id,14);}
 
-    public String getItem(long id,int n){
+
+    public String getItem(long id,int n){//id=-1 último valor inserido            com n>=1 n= posicao do nome(1), email, descricao latitude etc...
         db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME,columns,KEY_ID+"="+id,null,null,null,null);
-        if(cursor!=null){
-            cursor.moveToFirst();
-            String name=cursor.getString(n);
-            return name;
+        if(id>-1) {
+            Cursor cursor = db.query(TABLE_NAME, columns, KEY_ID + "=" + id, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                String name = cursor.getString(n);
+                return name;
+            }
+        }
+        if(id==-1) {
+            Cursor cursor = db.rawQuery("SELECT  * FROM " + TABLE_NAME, null);
+            if (cursor.moveToLast()) {
+                String name = cursor.getString(n);
+                return name;
+            }
         }
         return null;
     }
@@ -193,6 +212,16 @@ public class DatabaseBand extends SQLiteOpenHelper{
         values.put(KEY_INSTRUMENTS, variable);
         updateValue(id,values);
     }
+    public void updateEmail(long id, String variable){
+        ContentValues values=new ContentValues();
+        values.put(KEY_EMAIL, variable);
+        updateValue(id,values);
+    }
+    public void updateExtraInfo(long id, String variable){
+        ContentValues values=new ContentValues();
+        values.put(KEY_EXTRAINFO, variable);
+        updateValue(id,values);
+    }
 
     public void updateValue(long id, ContentValues values){
         db = this.getWritableDatabase();
@@ -207,6 +236,7 @@ public class DatabaseBand extends SQLiteOpenHelper{
         db.delete(TABLE_NAME,KEY_ID+"="+l,null);
     }
 
+    //deleta os dados da tabela, mas não a tabela
     public void deleteTable(){
         db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);

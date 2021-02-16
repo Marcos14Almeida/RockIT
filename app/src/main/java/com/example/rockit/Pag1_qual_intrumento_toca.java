@@ -33,7 +33,6 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
         //SEARCH VIEW
         searchViewBands=findViewById(R.id.autoCompleteTextView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,Lista_MeuInstrumentos);
-        final ListView list = findViewById(R.id.lista_bandas);
         searchViewBands.setAdapter(adapter);
 
     }

@@ -15,8 +15,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,6 @@ public class Pag_perfil_usuario extends AppCompatActivity {
     Integer id;
     ListView list;
     TextView textView;
-    String texto;
     Switch aSwitch;
     ArrayList<String> arrayText = new ArrayList<>();
     ArrayList<String> arrayText2 = new ArrayList<>();
@@ -70,14 +67,14 @@ public class Pag_perfil_usuario extends AppCompatActivity {
         ListView list2 = findViewById(R.id.listInstruments);
         arrayText2.clear();
         arrayText2.add(db.getInstruments(id));
-        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayText2);
+        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayText2);
         list2.setAdapter(arrayAdapter2);
 
         //Lista Fav Genres
         ListView list3 = findViewById(R.id.listFavGenres);
         arrayText3.clear();
         arrayText3.add(db.getFavGenres(id));
-        ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayText3);
+        ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayText3);
         list3.setAdapter(arrayAdapter3);
 
         //Switch Search Band
@@ -85,14 +82,11 @@ public class Pag_perfil_usuario extends AppCompatActivity {
         if(db.getSearchingBand(id).equals("1")){
             aSwitch.setChecked(true);
         }
-        aSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(aSwitch.isChecked()){
-                    db.updateSearchingBand(id,"1");
-                }else{
-                    db.updateSearchingBand(id,"0");
-                }
+        aSwitch.setOnClickListener(v -> {
+            if(aSwitch.isChecked()){
+                db.updateSearchingBand(id,"1");
+            }else{
+                db.updateSearchingBand(id,"0");
             }
         });
 
@@ -113,8 +107,8 @@ public class Pag_perfil_usuario extends AppCompatActivity {
             List<Address> addresses = geocoder.getFromLocation(lat,lon, 1);
             String yourCity = addresses.get(0).getAddressLine(0);
 
-            String subString = yourCity.split("\\-")[1];//Rua Saude,56 - Vila Aurora, São Paulo - SP, 123523-23
-            return subString.split("\\,")[1];//Vila Aurora, São Paulo
+            String subString = yourCity.split("-")[1];//Rua Saude,56 - Vila Aurora, São Paulo - SP, 123523-23
+            return subString.split(",")[1];//Vila Aurora, São Paulo
         }
         catch(IOException e) {e.printStackTrace();}
         return "";

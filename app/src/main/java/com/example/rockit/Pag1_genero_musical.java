@@ -34,7 +34,6 @@ public class Pag1_genero_musical extends AppCompatActivity {
         //SEARCH VIEW
         searchViewBands=findViewById(R.id.autoCompleteTextView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,ListaEstilosMusicais);
-        final ListView list = findViewById(R.id.lista_bandas);
         searchViewBands.setAdapter(adapter);
 
     }

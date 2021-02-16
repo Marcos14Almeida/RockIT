@@ -37,7 +37,6 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         //SEARCH VIEW
         searchViewBands=findViewById(R.id.autoCompleteTextView2);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,ListaBandas);
-        final ListView list = findViewById(R.id.lista_bandas);
         searchViewBands.setAdapter(adapter);
     }
 

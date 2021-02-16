@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/background_verde"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:background="@color/colorPrimary"
+        android:gravity="bottom|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/helloText"
+        android:layout_width="match_parent"
+        android:layout_height="402dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="150dp"
+        android:gravity="bottom|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        tools:text="@string/generico" />
+
+    <ImageView
+        android:id="@+id/imageViewFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/todo"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/foto_banda_generica" />
+
+    <View
+        android:id="@+id/item_swipe_left_indicator"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:alpha="0"
+        android:background="#A5F" />
+
+    <View
+        android:id="@+id/item_swipe_right_indicator"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
+        android:alpha="0"
+        android:background="#5AF" />
+
+</FrameLayout>

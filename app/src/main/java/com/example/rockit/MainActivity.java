@@ -8,32 +8,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import android.content.Intent;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -54,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        id = 1;
+        id = 1;//update locate user
         getlocation();
 
         //PAGINA INICIAL É O FRAGMENT MENU
@@ -91,15 +79,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(ActivityCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             return;
         }
-        client.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if(location!=null){
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
-                    db.updateLocationLongitude(id,Double.toString(longitude));
-                    db.updateLocationLatitude(id,Double.toString(latitude));
-                }
+        client.getLastLocation().addOnSuccessListener(MainActivity.this, location -> {
+            if(location!=null){
+                double longitude = location.getLongitude();
+                double latitude = location.getLatitude();
+                db.updateLocationLongitude(id,Double.toString(longitude));
+                db.updateLocationLatitude(id,Double.toString(latitude));
             }
         });
     }
