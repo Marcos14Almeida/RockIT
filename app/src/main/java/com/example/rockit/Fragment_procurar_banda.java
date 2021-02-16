@@ -33,11 +33,12 @@ public class Fragment_procurar_banda extends Fragment {
         View view =  inflater.inflate(R.layout.fragmento_procurar_banda, container, false);
 
         al = new ArrayList<>();
+        //Se o perfil está no database
         boolean flag=false; int n=1;
         while(!flag) {
             try{
                 DatabaseHelper db=new DatabaseHelper(getActivity());
-                al.add(db.getName(n));
+                al.add(db.getName(n)+"\n"+db.getAge(n));
                 n++;
             }catch (Exception e){
                 flag=true;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#006060</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="colorSecondary">#00BCD4</color>
-    <color name="statusColor">#3700B3</color>
+    <color name="colorPrimary">#005166</color>
+    <color name="colorPrimaryDark">#003D4D</color>
+    <color name="colorAccent">#008FB3</color>
+    <color name="colorSecondary">#00C2F2</color>
+    <color name="statusColor">#005C73</color>
     <color name="branco">#FEFFFF</color>
     <color name="preto">#000000</color>
     <color name="transparente">#00FFFFFF</color>

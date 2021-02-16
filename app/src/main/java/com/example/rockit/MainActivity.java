@@ -130,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.bottom_procurar_shows:
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_shows()).commit();
                     break;
+                case R.id.bottom_chat:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_menu()).commit();
+                    break;
                 case R.id.bottom_home:
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_menu()).commit();
                     break;
@@ -154,3 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 }
+//FIREBASE FIRST CONNECTION WITH ANDROID
+//https://www.youtube.com/watch?v=U5p8MAJAn_c
+
+//Toast.makeText(this,"Agenda",Toast.LENGTH_SHORT).show();

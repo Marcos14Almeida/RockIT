@@ -4,28 +4,29 @@ public class Usuario {
 
     //Usado no fragment Show
     private int mphoto;
-    private String mname;
-    private String mlocal;
-    private String mdescription;
+    private String fullname;
+    private String age;
+    private String email;
 
-    public Usuario(String name, String local, String description, int photo) {
-        mphoto = photo;
-        mname = name;
-        mlocal = local;
-        mdescription = description;
+    //used in fragmento shows para mostrar scroll da pagina
+    public Usuario(String Username, String Userage, String Useremail, int photo) {
+        this.mphoto = photo;
+        this.fullname = Username;
+        this.age = Userage;
+        this.email = Useremail;
     }
 
     public int getPhoto() {
         return mphoto;
     }
     public String getName() {
-        return mname;
+        return fullname;
     }
     public String getAge() {
-        return mlocal;
+        return age;
     }
     public String getDescription() {
-        return mdescription;
+        return email;
     }
 }
 

@@ -32,24 +32,25 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/im_facebook"
         android:layout_width="50dp"
         android:layout_height="0dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintBottom_toBottomOf="@+id/im_google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/im_google"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo_facebook" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/im_google"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
         android:contentDescription="@string/todo"
+        android:onClick="LoginEmail"
         app:layout_constraintStart_toStartOf="@+id/editText2"
         app:layout_constraintTop_toBottomOf="@+id/textView44"
         app:srcCompat="@drawable/logo_google" />

@@ -26,6 +26,10 @@ public class Pag0_Cadastro extends AppCompatActivity {
 
     }
 
+    public void authentication(){
+        //startActivity(new Intent(this, RegisterUser.class));
+    }
+
     public void abrirPag_teste_musical(View view){
         name = editName.getText().toString();
         age = editAge.getText().toString();
@@ -36,8 +40,7 @@ public class Pag0_Cadastro extends AppCompatActivity {
         //}else {
             //db.addName(name);
             //db.updateAge( 5,age);
-            Intent intent = new Intent(this, Pag1_genero_musical.class);
-            startActivity(intent);
+            startActivity(new Intent(this, Pag1_genero_musical.class));
         //}
     }
 }
