@@ -1,8 +1,6 @@
 package com.example.rockit;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,11 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
+import com.example.rockit.Pages.band.BandPageActivity;
 
 public class Fragmento_menu extends Fragment {
 
@@ -44,7 +39,7 @@ public class Fragmento_menu extends Fragment {
 
 
     public void abrirPag_banda(View view){
-        Intent intent = new Intent(getActivity(), Pag_banda.class);
+        Intent intent = new Intent(getActivity(), BandPageActivity.class);
         startActivity(intent);
     }
     public void abrir_Bottom(View view){

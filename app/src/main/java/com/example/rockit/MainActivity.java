@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.rockit.Pages.band.BandPageActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 ////////                FUNÇÕES                      /////////
     public void abrirPag_banda(View view){
-        Intent intent = new Intent(this, Pag_banda.class);
+        Intent intent = new Intent(this, BandPageActivity.class);
         startActivity(intent);
     }
     public void abrirPag_perfil_usuario(View view){
