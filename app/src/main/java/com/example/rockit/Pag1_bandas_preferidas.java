@@ -2,13 +2,18 @@ package com.example.rockit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +43,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         searchViewBands=findViewById(R.id.autoCompleteTextView2);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,ListaBandas);
         searchViewBands.setAdapter(adapter);
+
     }
 
     ////////                FUNÇÕES                      /////////
@@ -65,6 +71,8 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
                 Toast.makeText(Pag1_bandas_preferidas.this,clickedItem,Toast.LENGTH_LONG).show();
                 Lista_MeuBandas.add(clickedItem);
                 ListaBandas.remove(clickedItem);
+
+                alerta(clickedItem);
                 //show lista 2
                 show_list2();
             }
@@ -91,6 +99,29 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
             }
         });
     }
+
+    public void alerta(String item){
+                Dialog rankDialog = new Dialog(Pag1_bandas_preferidas.this, R.style.FullHeightDialog);
+                rankDialog.setContentView(R.layout.rank_dialog);
+                rankDialog.setCancelable(true);
+                RatingBar ratingBar = (RatingBar)rankDialog.findViewById(R.id.dialog_ratingbar);
+                ratingBar.setRating(5);
+
+                TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
+                text.setText(item);
+
+                Button updateButton = (Button) rankDialog.findViewById(R.id.rank_dialog_button);
+                updateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //nota = ratingBar.getRating();
+                        rankDialog.dismiss();
+                    }
+                });
+                //now that the dialog is set up, it's time to show it
+                rankDialog.show();
+    }
+
 
     public void search_icon(View view){
         selecionado = searchViewBands.getEditableText().toString();

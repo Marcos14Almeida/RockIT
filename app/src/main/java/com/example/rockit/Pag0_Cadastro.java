@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-public class Pag0_Cadastro extends AppCompatActivity {
-    DatabaseHelper db;
-    EditText editName,editCity,editAge,editPassword;
+import com.google.firebase.auth.FirebaseAuth;
 
-    String name,city,age,password;
+public class Pag0_Cadastro extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    DatabaseHelper db;
+    EditText editName,editEmail,editAge,editPassword;
+
+    String name,email,age,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,26 +23,22 @@ public class Pag0_Cadastro extends AppCompatActivity {
         editName = findViewById(R.id.editTextName);
         editAge = findViewById(R.id.editTextAge);
         editPassword = findViewById(R.id.editTextPassword);
-        editCity = findViewById(R.id.autoCompleteTextViewCity);
+        editEmail = findViewById(R.id.autoCompleteTextViewCity);
 
         db = new DatabaseHelper(this);
 
-    }
-
-    public void authentication(){
-        //startActivity(new Intent(this, RegisterUser.class));
     }
 
     public void abrirPag_teste_musical(View view){
         name = editName.getText().toString();
         age = editAge.getText().toString();
         password = editPassword.getText().toString();
-        city = editCity.getText().toString();
-        //if(name.equals("") ||  age.equals("") || password.equals("") || city.equals("")){
+        email = editEmail.getText().toString();
+        //if(name.equals("") ||  age.equals("") || password.equals("") || email.equals("")){
         //    Toast.makeText(this,"Por favor preencha os campos",Toast.LENGTH_SHORT).show();
         //}else {
             //db.addName(name);
-            //db.updateAge( 5,age);
+            //db.updateAge(1,age);
             startActivity(new Intent(this, Pag1_genero_musical.class));
         //}
     }

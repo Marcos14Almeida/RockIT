@@ -69,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationViewBottom.setOnNavigationItemSelectedListener(nav);
         navigationViewBottom.setSelectedItemId(R.id.bottom_home);
 
+        DatabaseHelper db=new DatabaseHelper(this);
+        //If there is no data in databaseHelp then create a new one
+        try{
+            db.getItem(1,1);
+        }catch (Exception e){
+            db.addData("Joaquim", "M", "Eu sou Legal", "21", "4", "230",
+                    "23.56", "741.2", "0", "Rock", "Green Day", "Bateria", "pedrinho@gmail.com", "0");
+        }
+
     }
 
 
@@ -162,3 +171,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //https://www.youtube.com/watch?v=U5p8MAJAn_c
 
 //Toast.makeText(this,"Agenda",Toast.LENGTH_SHORT).show();
+
+//Branches GIT tutorial
+//https://www.youtube.com/watch?v=TbRpFqjv0iM
+//BRANCH INTO MASTER
+//        git add -A
+//        git commit -m
+//        git checkout master (switches to master branch)
+//        git pull origin master (pulls any new code thats been added to the master branch)
+//        if there is new code then: git add -A and git commit -m again
+//        git push origin master (push your code to the master branch on github)

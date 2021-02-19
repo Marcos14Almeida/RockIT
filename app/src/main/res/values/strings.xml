@@ -12,6 +12,7 @@
     <string name="nome">Nome</string>
     <string name="data_nascimento">Data de Nascimento</string>
     <string name="sexo">Sexo</string>
+    <string name="email">Email</string>
     <string name="homem">Homem</string>
     <string name="mulher">Mulher</string>
     <string name="cidade">Cidade</string>
