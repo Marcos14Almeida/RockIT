@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "811487165903",
+    "firebase_url": "https://davaiapp-c447a-default-rtdb.firebaseio.com",
+    "project_id": "davaiapp-c447a",
+    "storage_bucket": "davaiapp-c447a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811487165903:android:abbc685f7aec460b03a6ba",
+        "android_client_info": {
+          "package_name": "com.example.rockit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811487165903-hjff74d7i8vu310s10kgnqmctjusm53l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rockit",
+            "certificate_hash": "0c840955be2b5bacd603f6304afe1841f2d8ddc5"
+          }
+        },
+        {
+          "client_id": "811487165903-07sa6vfad6lfhsd6atmj2dhgel3626mg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALgpxGxwLjQ7P4WpJim70MQmiRsKnYE_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811487165903-07sa6vfad6lfhsd6atmj2dhgel3626mg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
