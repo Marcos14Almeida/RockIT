@@ -1,5 +1,6 @@
 package com.example.rockit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,10 +11,23 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.rockit.Cadastro.Pag1_bandas_preferidas;
+import com.example.rockit.Cadastro.Pag1_genero_musical;
+import com.example.rockit.Cadastro.Pag1_qual_intrumento_toca;
+import com.example.rockit.Classes.Usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +35,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class Pag_perfil_usuario extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    FirebaseUser firebaseUser;
+    DatabaseReference reference;
 
     DatabaseHelper db=new DatabaseHelper(this);
     AutoCompleteTextView autoCompleteTextView;
@@ -37,24 +54,10 @@ public class Pag_perfil_usuario extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pag_perfil_usuario);
 
+        //FIREBASE
+        fireBaseDataUser();
 
          id = 1;
-
-        //Name User
-        textView = findViewById(R.id.nome_usuario);
-        textView.setText(db.getName(id));
-
-        //Age User
-        textView = findViewById(R.id.textViewAge);
-        textView.setText(db.getAge(id));
-
-        //Sex User
-        autoCompleteTextView = findViewById(R.id.autoCompleteTextViewSex);
-        autoCompleteTextView.setText(db.getSex(id));
-
-        //Description
-        editDescription=findViewById(R.id.textDescription);
-        editDescription.setText( db.getDescription(id));
 
         //Lista Fav Bands
         list = findViewById(R.id.listFavBands);
@@ -94,6 +97,8 @@ public class Pag_perfil_usuario extends AppCompatActivity {
         String cidade = cidade_user();
         TextView texto = findViewById(R.id.textViewCidade);
         texto.setText(cidade);
+
+
     }
 
     public String cidade_user(){
@@ -113,7 +118,57 @@ public class Pag_perfil_usuario extends AppCompatActivity {
         catch(IOException e) {e.printStackTrace();}
         return "";
     }
+    /////////////////////////////////////////////////////////////
+    //                    F I R E B A S E                      //
+    /////////////////////////////////////////////////////////////
+    public void fireBaseDataUser(){
+    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+reference.addValueEventListener(new ValueEventListener() {
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        Usuario user = snapshot.getValue(Usuario.class);
+        if (user != null) {
 
+        //Name User
+        textView = findViewById(R.id.nome_usuario);
+        textView.setText(user.getName());
+
+        //Age User
+        textView = findViewById(R.id.textViewAge);
+        textView.setText(user.getAge());
+
+        //Sex User
+        autoCompleteTextView = findViewById(R.id.autoCompleteTextViewSex);
+        autoCompleteTextView.setText(user.getSex());
+
+        //Description
+        editDescription=findViewById(R.id.textDescription);
+        editDescription.setText(user.getDescription());
+
+        if(user.getImageURL().equals("default")){
+            ImageView fotoUsuario = findViewById(R.id.im_user);
+            fotoUsuario.setImageResource(R.drawable.foto_pessoa);
+        }
+        else{
+            ImageView fotoUsuario = findViewById(R.id.im_user);
+            fotoUsuario.setImageResource(R.drawable.foto_usuario);
+        }
+        }
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+});
+    }
+
+
+
+    /////////////////////////////////////////////////////////////
+    //                     F U N Ç Õ E S                       //
+    /////////////////////////////////////////////////////////////
     public void Salvar_conteudo(View view){
         String selecionado = editDescription.getEditableText().toString();
         db.updateDescription(id,selecionado);

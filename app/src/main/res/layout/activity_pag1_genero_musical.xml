@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pag1_genero_musical">
+    tools:context=".Cadastro.Pag1_genero_musical">
 
     <ImageView
         android:id="@+id/background4"
@@ -21,11 +21,23 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/background" />
 
+    <TextView
+        android:id="@+id/background_transparente"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#31FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/autoCompleteTextView"
+        app:layout_constraintEnd_toEndOf="@+id/autoCompleteTextView"
+        app:layout_constraintStart_toStartOf="@+id/autoCompleteTextView"
+        app:layout_constraintTop_toTopOf="@+id/background4" />
+
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:textColor="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,8 +1,6 @@
-package com.example.rockit;
+package com.example.rockit.Fragments;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,11 +8,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
+import com.example.rockit.Extra_Barra_inferior;
+import com.example.rockit.Pag_banda;
+import com.example.rockit.Pag_perfil_usuario;
+import com.example.rockit.R;
 
 public class Fragmento_menu extends Fragment {
 

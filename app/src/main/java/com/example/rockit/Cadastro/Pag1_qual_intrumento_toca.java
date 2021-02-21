@@ -1,4 +1,4 @@
-package com.example.rockit;
+package com.example.rockit.Cadastro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.rockit.DatabaseHelper;
+import com.example.rockit.MainActivity;
+import com.example.rockit.R;
 
 import java.util.ArrayList;
 

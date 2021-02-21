@@ -1,7 +1,8 @@
-package com.example.rockit;
+package com.example.rockit.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -9,8 +10,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rockit.Classes.Usuario;
+import com.example.rockit.DatabaseHelper;
+import com.example.rockit.R;
+import com.example.rockit.RecycleView_Adapter;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -23,6 +38,9 @@ public class Fragment_procurar_banda extends Fragment {
 //https://www.youtube.com/watch?v=SJW_4UMXbu8
 //https://github.com/Diolor/Swipecards
 ///////////////////////////////////////////////
+FirebaseUser firebaseUser;
+    DatabaseReference reference;
+
     private ArrayList<String> al;
     private ArrayAdapter<String> arrayAdapter;
     private int i;
@@ -33,25 +51,11 @@ public class Fragment_procurar_banda extends Fragment {
         View view =  inflater.inflate(R.layout.fragmento_procurar_banda, container, false);
 
         al = new ArrayList<>();
+
         //Se o perfil está no database
-        boolean flag=false; int n=1;
-        while(!flag) {
-            try{
-                DatabaseHelper db=new DatabaseHelper(getActivity());
-                al.add(db.getName(n)+"\n"+db.getAge(n));
-                n++;
-            }catch (Exception e){
-                flag=true;
-            }
-        }
-        al.add("Geremias\n23\n São Paulo\n H");
-        al.add("Rodolfo");
-        al.add("Claudio");
-        al.add("Barbara");
-        al.add("Natália");
-        al.add("Aaron Rodger");
-        al.add("Silvio Santos");
-        al.add("Rony Rústico");
+        al.add("Boris");
+        //users from firebase
+        readUsers();
 
         arrayAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), R.layout.card_tinder, R.id.helloText, al );
 
@@ -64,6 +68,7 @@ public class Fragment_procurar_banda extends Fragment {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
                 al.remove(0);
+
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -103,5 +108,36 @@ public class Fragment_procurar_banda extends Fragment {
 
 
         return view;
+    }
+
+
+    /////////////////////////////////////////////////////////////
+    //                    F I R E B A S E                      //
+    /////////////////////////////////////////////////////////////
+    private void readUsers(){
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    Usuario oneUser = dataSnapshot.getValue(Usuario.class);
+                    //garante que tem algum valor disponível
+                    assert oneUser != null;
+                    assert firebaseUser != null;
+                    //Se não for o meu usuario mostra na lista
+                    if(!oneUser.getImageURL().equals(firebaseUser.getUid())) {//getImageURL->GETid!!!
+                        al.add(oneUser.getName()+"\n"+oneUser.getAge()+"\n"+oneUser.getSex());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

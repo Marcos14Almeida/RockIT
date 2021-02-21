@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pag1_qual_intrumento_toca">
+    tools:context=".Cadastro.Pag1_qual_intrumento_toca">
 
     <ImageView
         android:id="@+id/background6"
@@ -19,11 +19,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background" />
 
+    <TextView
+        android:id="@+id/background_transparente"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#31FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/autoCompleteTextView"
+        app:layout_constraintEnd_toEndOf="@+id/autoCompleteTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/autoCompleteTextView"
+        app:layout_constraintTop_toTopOf="@id/autoCompleteTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:textColor="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +48,7 @@
         android:id="@+id/imageView15"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:contentDescription="@string/todo"
         android:onClick="search_icon"
         app:layout_constraintBottom_toBottomOf="@+id/button7"
         app:layout_constraintEnd_toEndOf="parent"

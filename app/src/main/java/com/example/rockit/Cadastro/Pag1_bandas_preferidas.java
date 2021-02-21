@@ -1,10 +1,8 @@
-package com.example.rockit;
+package com.example.rockit.Cadastro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,13 +12,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rockit.DatabaseHelper;
+import com.example.rockit.R;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 public class Pag1_bandas_preferidas extends AppCompatActivity {
 

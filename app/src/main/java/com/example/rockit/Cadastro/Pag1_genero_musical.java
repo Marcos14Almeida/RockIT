@@ -1,5 +1,6 @@
-package com.example.rockit;
+package com.example.rockit.Cadastro;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,10 +13,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rockit.DatabaseHelper;
+import com.example.rockit.R;
+import com.example.rockit.Classes.Usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class Pag1_genero_musical extends AppCompatActivity {
-
+    private FirebaseAuth mAuth;
+    DatabaseReference reff;
+    Usuario usuario;
     DatabaseHelper db=new DatabaseHelper(this);
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
     ArrayList<String> Lista_MeuEstilosMusicais = new ArrayList<>();
@@ -36,7 +50,11 @@ public class Pag1_genero_musical extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,ListaEstilosMusicais);
         searchViewBands.setAdapter(adapter);
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
     }
+
+
 
     ////////                FUNÇÕES                      /////////
     public void func_Lista_Estilos_Musicais() {
@@ -134,12 +152,62 @@ public class Pag1_genero_musical extends AppCompatActivity {
         searchViewBands.setText("");
         show_list2();
     }
+
+    /////////////////////////////////////////////////////////////
+    //                    F I R E B A S E                      //
+    /////////////////////////////////////////////////////////////
+    public void Registro(){
+        //Objeto usuario com dados genericos
+        FirebaseDatabase.getInstance().getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .setValue(usuario);
+    }
+
+    public void acesso(){
+        reff = FirebaseDatabase.getInstance().getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                reff.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String name = snapshot.child("name").getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+    public void AcessUserInformation(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+
+            // Check if user's email is verified
+            boolean emailVerified = user.isEmailVerified();
+
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            String uid = user.getUid();
+
+
+            Toast.makeText(Pag1_genero_musical.this,"Ex:"+name+"\n"+uid,Toast.LENGTH_LONG).show();
+        }
+    }
     ////////                PROXIMA PAG                      /////////
     public void abrir_Pag_bandas_favoritas(View view){
         //UPDATE DATABASE
         //Arraylist to String
         String string = "";
         for (String s : Lista_MeuEstilosMusicais){string += s + ";\t";}
+        Usuario usuario;
+
+        //acesso();
+        //AcessUserInformation();
+        //Registro();
         db.updateFavGenres(1,string);
 
         Intent intent = new Intent(this, Pag1_bandas_preferidas.class);

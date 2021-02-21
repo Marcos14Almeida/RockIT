@@ -2,13 +2,10 @@ package com.example.rockit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.rockit.Classes.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,14 +53,14 @@ public class Database_teste extends AppCompatActivity {
         /////////
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("User");
+        DatabaseReference myRef = database.getReference("Users");
 
-        myRef.setValue("Hello, World!");
+        //myRef.setValue("Hello, World!");
 
-        //Objeto usuario com dados generiocos
-        Usuario user = new Usuario("Mickey", "18","teste@gma",0);
-        myRef = database.getReference().child("User");
-        myRef.setValue(user);
+        //Objeto usuario com dados genericos
+        //Usuario usuario = new Usuario("Mickey","17","email","M","5","1000","latitude","longitude","1","default","nenhum","nenhum","nenhum");
+        //myRef = database.getReference().child("Users");
+        //myRef.setValue(usuario);
         ////////////
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -71,9 +68,9 @@ public class Database_teste extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
+                //String value = dataSnapshot.getValue(String.class);
 
-                texto.setText(Resultado+"\nValue is: " + value);
+                //texto.setText("FIREBASE CONECTADO ");
             }
 
             @Override

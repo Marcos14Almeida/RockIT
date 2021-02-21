@@ -68,7 +68,7 @@
             app:srcCompat="@drawable/ic_menu_black_24dp" />
 
         <ImageView
-            android:id="@+id/im_usuario"
+            android:id="@+id/im_user"
             android:layout_width="45dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
@@ -85,10 +85,10 @@
             android:layout_height="0dp"
             android:contentDescription="@string/todo"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-            app:layout_constraintEnd_toEndOf="@+id/im_usuario"
-            app:layout_constraintStart_toStartOf="@+id/im_usuario"
+            app:layout_constraintEnd_toEndOf="@+id/im_user"
+            app:layout_constraintStart_toStartOf="@+id/im_user"
             app:layout_constraintTop_toTopOf="@+id/retangulo"
-            app:srcCompat="@drawable/circle_externo_006060" />
+            app:srcCompat="@drawable/circle_externo_azul_petroleo" />
 
         <ImageView
             android:id="@+id/imageView4"

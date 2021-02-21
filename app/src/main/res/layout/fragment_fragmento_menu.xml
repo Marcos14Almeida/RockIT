@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragmento_menu">
+    tools:context=".Fragments.Fragmento_menu">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:contentDescription="@string/todo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/circle_externo_006060" />
+            app:srcCompat="@drawable/circle_externo_azul_petroleo" />
 
         <TextView
             android:id="@+id/textView9"

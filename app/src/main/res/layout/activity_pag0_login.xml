@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pag0_login">
+    tools:context=".Cadastro.Pag0_login">
 
     <ImageView
         android:id="@+id/background3"
@@ -50,8 +50,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
         android:contentDescription="@string/todo"
-        android:onClick="LoginEmail"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
+        android:onClick="LoginGoogle"
+        app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/textView44"
         app:srcCompat="@drawable/logo_google" />
 
@@ -78,10 +78,11 @@
         app:layout_constraintTop_toBottomOf="@+id/logo3" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        tools:ignore="LabelFor"
         android:inputType="textPassword"
         android:textColor="@color/branco"
         android:importantForAutofill="no"
@@ -101,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logo3" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/editTextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -123,6 +124,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:onClick="esqueceuSenha"
+        android:text="@string/esqueceu_a_senha"
+        android:textColor="@color/branco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

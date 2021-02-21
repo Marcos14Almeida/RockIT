@@ -36,5 +36,9 @@
             android:id="@+id/navi_fale_conosco"
             android:icon="@drawable/ic_message_black_24dp"
             android:title="@string/fale_conosco" />
+        <item
+            android:id="@+id/navi_deletar_conta"
+            android:icon="@drawable/ic_close_red"
+            android:title="@string/deletar_conta" />
     </group>
 </menu>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pag1_bandas_preferidas">
+    tools:context=".Cadastro.Pag1_bandas_preferidas">
 
     <ImageView
         android:id="@+id/background5"
@@ -26,6 +26,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+    <TextView
+        android:id="@+id/background_transparente"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#31FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/autoCompleteTextView2"
+        app:layout_constraintEnd_toEndOf="@+id/autoCompleteTextView2"
+        app:layout_constraintStart_toStartOf="@+id/autoCompleteTextView2"
+        app:layout_constraintTop_toTopOf="@+id/autoCompleteTextView2" />
 
     <TextView
         android:id="@+id/textView51"
@@ -54,7 +64,9 @@
         android:id="@+id/autoCompleteTextView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:textColor="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"

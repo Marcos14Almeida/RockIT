@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rockit">
+    package="com.example.rockit" >
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -11,20 +11,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar" >
+        <activity android:name=".Pag_message" />
         <activity android:name=".Database_teste" />
-        <activity android:name=".Pag1_qual_intrumento_toca" />
-        <activity android:name=".Pag1_bandas_preferidas" />
-        <activity android:name=".Pag1_genero_musical" />
-        <activity android:name=".Pag0_login" />
+        <activity android:name=".Cadastro.Pag1_qual_intrumento_toca" />
+        <activity android:name=".Cadastro.Pag1_bandas_preferidas" />
+        <activity android:name=".Cadastro.Pag1_genero_musical" />
+        <activity android:name=".Cadastro.Pag0_login" />
         <activity android:name=".Pag_Filtro" />
         <activity android:name=".Extra_Barra_inferior" />
         <activity android:name=".Pag_Config_Sobre_App" />
-        <activity android:name=".Pag0_Cadastro" />
+        <activity android:name=".Cadastro.Pag0_Cadastro" />
         <activity android:name=".Pag_configuracoes" />
         <activity android:name=".Pag_perfil_usuario" />
         <activity android:name=".Pag_banda" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

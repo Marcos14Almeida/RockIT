@@ -35,7 +35,7 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
-                    android:id="@+id/circle_externo"
+                    android:id="@+id/im_user"
                     android:layout_width="116dp"
                     android:layout_height="116dp"
                     android:layout_marginTop="50dp"
@@ -59,14 +59,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/im_user"
+                    android:id="@+id/circulo_externo"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     app:layout_constraintBottom_toBottomOf="@+id/fundo"
-                    app:layout_constraintEnd_toEndOf="@+id/circle_externo"
-                    app:layout_constraintStart_toStartOf="@+id/circle_externo"
+                    app:layout_constraintEnd_toEndOf="@+id/im_user"
+                    app:layout_constraintStart_toStartOf="@+id/im_user"
                     app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
-                    app:srcCompat="@drawable/circle_externo_006060"
+                    app:srcCompat="@drawable/circle_externo_azul_petroleo"
                     tools:ignore="ContentDescription" />
 
                 <TextView
