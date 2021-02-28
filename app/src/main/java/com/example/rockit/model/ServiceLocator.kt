@@ -1,10 +1,10 @@
-package com.example.rockit.Model
+package com.example.rockit.model
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
-import com.example.rockit.Model.Repositories.BaseRepository
-import com.example.rockit.Model.Repositories.IBaseRepository
+import com.example.rockit.model.Repositories.BaseRepository
+import com.example.rockit.model.Repositories.IBaseRepository
 
 object ServiceLocator {
     private var database: RockItDatabase? = null

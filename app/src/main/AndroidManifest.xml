@@ -23,7 +23,7 @@
         <activity android:name=".Pag0_Cadastro" />
         <activity android:name=".Pag_configuracoes" />
         <activity android:name=".Pag_perfil_usuario" />
-        <activity android:name="com.example.rockit.Pages.band.BandPageActivity" />
+        <activity android:name="com.example.rockit.pages.band.BandPageActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

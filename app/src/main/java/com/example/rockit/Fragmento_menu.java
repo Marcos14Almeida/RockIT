@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rockit.Pages.band.BandPageActivity;
-
 public class Fragmento_menu extends Fragment {
 
     public Fragmento_menu() {
@@ -37,11 +35,11 @@ public class Fragmento_menu extends Fragment {
     }
 
 
-
-    public void abrirPag_banda(View view){
+    // todo: Change to use nagivation components
+    /*public void abrirPag_banda(View view){
         Intent intent = new Intent(getActivity(), BandPageActivity.class);
         startActivity(intent);
-    }
+    }*/
     public void abrir_Bottom(View view){
         Intent intent = new Intent(getActivity(), Extra_Barra_inferior.class);
         startActivity(intent);

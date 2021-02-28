@@ -79,6 +79,7 @@
     <string name="idade">Idade</string>
 
     <!--          BANDA              -->
+    <string name="band_fragment_name">Banda</string>
     <string name="nome_banda">Os Bacanudos</string>
     <string name="imagem_banda">Imagem da banda selecionada pelo usuário</string>
     <string name="tags_banda">Rock, Metal Progressivo, Pagode Japones</string>
