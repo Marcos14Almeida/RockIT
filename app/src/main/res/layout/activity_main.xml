@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottom_nav"
+            android:layout_marginTop="44dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -68,6 +69,17 @@
             app:srcCompat="@drawable/ic_menu_black_24dp" />
 
         <ImageView
+            android:id="@+id/circulo_externo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/todo"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/im_user"
+            app:layout_constraintStart_toStartOf="@+id/im_user"
+            app:layout_constraintTop_toTopOf="@+id/retangulo"
+            app:srcCompat="@drawable/chat_background_right" />
+
+        <ImageView
             android:id="@+id/im_user"
             android:layout_width="45dp"
             android:layout_height="0dp"
@@ -77,10 +89,10 @@
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/foto_usuario" />
+            app:srcCompat="@drawable/foto_pessoa" />
 
         <ImageView
-            android:id="@+id/circulo_externo"
+            android:id="@+id/circulo_externo2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/todo"
@@ -100,6 +112,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/retangulo"
             app:srcCompat="@drawable/logo_branco" />
+
+        <ImageView
+            android:id="@+id/circle_status"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@string/todo"
+            app:layout_constraintBottom_toBottomOf="@+id/im_user"
+            app:layout_constraintEnd_toEndOf="@+id/im_user"
+            app:srcCompat="@drawable/circulo_verde" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

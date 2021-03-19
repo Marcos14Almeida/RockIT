@@ -13,7 +13,6 @@
         android:id="@+id/im_user"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="6dp"
         android:contentDescription="@string/todo"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/circulo_externo"
@@ -21,12 +20,13 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/circulo_externo"
         app:layout_constraintTop_toTopOf="@+id/circulo_externo"
-        app:srcCompat="@drawable/foto_usuario" />
+        app:srcCompat="@drawable/foto_pessoa" />
 
     <ImageView
         android:id="@+id/circulo_externo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/todo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

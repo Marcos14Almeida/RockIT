@@ -29,16 +29,24 @@
             android:icon="@drawable/ic_change_arrows_black_24dp"
             android:title="@string/trocar_usuario" />
         <item
+            android:id="@+id/navi_configurar_banda"
+            android:icon="@drawable/ic_music_note_black_24dp"
+            android:title="@string/configurar_banda" />
+        <item
             android:id="@+id/navi_sobre_app_info"
             android:icon="@drawable/ic_info_black_24dp"
             android:title="@string/sobre_o_app" />
+        <item
+            android:id="@+id/navi_avalie_app"
+            android:icon="@drawable/ic_stars_black_24dp"
+            android:title="@string/avalie_app" />
         <item
             android:id="@+id/navi_fale_conosco"
             android:icon="@drawable/ic_message_black_24dp"
             android:title="@string/fale_conosco" />
         <item
-            android:id="@+id/navi_deletar_conta"
+            android:id="@+id/navi_logout"
             android:icon="@drawable/ic_close_red"
-            android:title="@string/deletar_conta" />
+            android:title="@string/logout" />
     </group>
 </menu>

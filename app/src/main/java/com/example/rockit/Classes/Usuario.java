@@ -9,6 +9,7 @@ public class Usuario {
     public String email;
     public String sex;
     public String description;
+    public String status;
     public String stars;
     public String number_followers;
     public String latitude;
@@ -17,12 +18,16 @@ public class Usuario {
     public String generos;
     public String bandas;
     public String instrumentos;
+    public String contact;
+    public String last_seen;
+    public String instagram;
 
     public Usuario(String id, String name, String age, String email, String sex, String description,
-                   String stars, String number_followers,
+                   String status, String stars, String number_followers,
                    String latitude, String longitude, String searching_bands,
                    String imageURL,
-                   String generos, String bandas, String instrumentos) {
+                   String generos, String bandas, String instrumentos,
+                    String contact, String last_seen, String instagram) {
 
         this.id = id;
         this.imageURL = imageURL;
@@ -31,6 +36,7 @@ public class Usuario {
         this.email = email;
         this.sex = sex;
         this.description = description;
+        this.status = status;
         this.stars = stars;
         this.number_followers = number_followers;
         this.latitude = latitude;
@@ -39,6 +45,9 @@ public class Usuario {
         this.generos = generos;
         this.bandas = bandas;
         this.instrumentos = instrumentos;
+        this.contact = contact;
+        this.last_seen = last_seen;
+        this.instagram = instagram;
     }
 
     public Usuario(){
@@ -75,6 +84,9 @@ public class Usuario {
     public String getDescription() {        return description;    }
     public void setDescription(String description) {        this.description = description;    }
 
+    public String getStatus() {        return status;    }
+    public void setStatus(String status) {        this.status = status;    }
+
     public String getStars() {        return stars;    }
     public void setStars(String stars) {        this.stars = stars;    }
 
@@ -90,5 +102,13 @@ public class Usuario {
     public String getSearching_bands() {        return searching_bands;    }
     public void setSearching_bands(String searching_bands) {        this.searching_bands = searching_bands;    }
 
+    public String getContact() {        return contact;    }
+    public void setContact(String contact) {        this.contact = contact;    }
+
+    public String getLast_seen() {        return last_seen;    }
+    public void setLast_seen(String last_seen) {        this.last_seen = last_seen;    }
+
+    public String getInstagram() {        return instagram;    }
+    public void setInstagram(String instagram) {        this.instagram = instagram;    }
 }
 

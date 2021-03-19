@@ -4,36 +4,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/colorPrimary"
     android:layout_gravity="center">
 
-    <TextView
-        android:id="@+id/background_verde"
+    <ImageView
+        android:id="@+id/imageViewFoto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="200dp"
-        android:background="@color/colorPrimary"
-        android:gravity="bottom|center_horizontal"
-        android:textColor="@android:color/white"
-        android:textSize="40sp" />
+        android:layout_height="380dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/todo"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/foto_pessoa" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="300dp"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/gradient" />
 
     <TextView
         android:id="@+id/helloText"
         android:layout_width="match_parent"
-        android:layout_height="402dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="150dp"
-        android:gravity="bottom|center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:gravity="center|center_horizontal"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
+        android:textSize="36sp"
         tools:text="@string/generico" />
 
-    <ImageView
-        android:id="@+id/imageViewFoto"
+    <TextView
+        android:id="@+id/textInstruments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="560dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/instrumentos_praticados" />
+
+    <TextView
+        android:id="@+id/textInstruments2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="580dp"
+        android:gravity="center|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/generico" />
+
+    <TextView
+        android:id="@+id/textAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/todo"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/foto_banda_generica" />
+        android:layout_marginTop="430dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/idade" />
+
+    <TextView
+        android:id="@+id/textAge2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="430dp"
+        android:gravity="center|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/generico" />
+
+    <TextView
+        android:id="@+id/textGenres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="470dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/generos" />
+
+    <TextView
+        android:id="@+id/textGenres2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="490dp"
+        android:gravity="center|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/generico" />
+
+    <TextView
+        android:id="@+id/textCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/cidade" />
+
+    <TextView
+        android:id="@+id/textCity2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="400dp"
+        android:gravity="center|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/generico" />
 
     <View
         android:id="@+id/item_swipe_left_indicator"
@@ -47,9 +129,18 @@
         android:id="@+id/item_swipe_right_indicator"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_margin="10dp"
         android:alpha="0"
         android:background="#5AF" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="400dp"
+        android:text="@string/procurar_banda"
+        android:textColor="@color/branco" />
 
 </FrameLayout>

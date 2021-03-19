@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/avalie_as_seguintes_bandas"
+        android:text="@string/escolha_suas_bandas"
         android:textColor="@color/branco"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,10 +99,24 @@
         android:id="@+id/imageView9"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:contentDescription="@string/todo"
         android:onClick="search_icon"
         app:layout_constraintBottom_toBottomOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button5"
         app:layout_constraintTop_toTopOf="@+id/button5"
         app:srcCompat="@android:drawable/ic_menu_add" />
+
+    <ImageView
+        android:id="@+id/im_search"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/todo"
+        android:onClick="search_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/background_transparente"
+        app:layout_constraintEnd_toEndOf="@+id/background_transparente"
+        app:layout_constraintTop_toTopOf="@+id/background5"
+        app:srcCompat="@drawable/ic_search_black_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

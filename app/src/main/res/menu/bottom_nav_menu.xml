@@ -15,8 +15,8 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/menu" />
     <item
-        android:id="@+id/bottom_procurar_shows"
-        android:icon="@drawable/ic_calendario_black_24dp"
-        android:title="@string/eventos" />
+        android:id="@+id/bottom_bandas"
+        android:icon="@drawable/instrumento_guitar"
+        android:title="@string/bandas" />
 
 </menu>

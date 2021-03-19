@@ -2,10 +2,12 @@ package com.example.rockit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.rockit.Classes.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,31 +21,30 @@ public class Database_teste extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_teste);
+        setContentView(R.layout.activity_fale_conosco);
 
 
         DatabaseHelper db=new DatabaseHelper(this);
         //If there is no data in databaseHelp then create a new one
-       try{
-           db.getItem(1,1);
-       }catch (Exception e){
-           db.addData("Joaquim", "M", "Eu sou Legal", "21", "4", "230",
-                   "23.56", "741.2", "0", "Rock", "Green Day", "Bateria", "pedrinho@gmail.com", "0");
-           //db.addName("Jonas");
-       }
-
-        id = 3;
-        db.updateName(id,  "Boris");
-
-        id = 4;
-        db.deleteName(id); //deleta os dados da tabela, mas não a tabela
+        id = 1;
+        try{
+            db.getItem(1,1);
+        }catch (Exception e){
+            db.addData("Joaquim", "M", "Eu sou Legal", "21", "4", "230",
+                    "23.56", "741.2", "0", "Rock", "Green Day", "Bateria", "pedrinho@gmail.com", "0");
+        }
+        id = 1;
+        //db.updateName(id,  "Boris");
 
         id = 1;
-        String name = db.getItem(1,1);
+        //db.deleteName(id); //deleta os dados da tabela, mas não a tabela
 
-        String Resultado=db.printData();
+        id = 1;
+        //String name = db.getItem(1,1);
+
+        //String Resultado=db.printData();
         TextView texto = findViewById(R.id.textoDatabase);
-        texto.setText(Resultado+id+": "+name);
+        //texto.setText(Resultado+id+": ");
 
 
         /////////////////////////////////////////////////////////////
@@ -83,5 +84,25 @@ public class Database_teste extends AppCompatActivity {
 
 
     }//OnCreate
+
+    //https://www.youtube.com/watch?v=tZ2YEw6SoBU
+    public void sendEmail(View view){
+        EditText editText;
+
+        editText = findViewById(R.id.editTextSubject);
+        String subject = editText.getText().toString();
+
+        editText = findViewById(R.id.editTextMessage);
+        String message = editText.getText().toString();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "davaistartup@gmail.com" });
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent,"Choose an email client"));
+
+    }
 
 }

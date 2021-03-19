@@ -110,4 +110,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/im_search2"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/todo"
+        android:onClick="search_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/background_transparente"
+        app:layout_constraintEnd_toEndOf="@+id/background_transparente"
+        app:layout_constraintTop_toTopOf="@+id/background6"
+        app:srcCompat="@drawable/ic_search_black_24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

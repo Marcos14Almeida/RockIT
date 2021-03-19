@@ -15,12 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.bumptech.glide.Glide;
+import com.example.rockit.Bandas.Pag_List_Your_Band;
 import com.example.rockit.Cadastro.Pag0_login;
+import com.example.rockit.Cadastro.Pag1_genero_musical;
 import com.example.rockit.Classes.Usuario;
-import com.example.rockit.Fragments.Fragment_shows;
-import com.example.rockit.Fragments.Fragment_procurar_banda;
-import com.example.rockit.Fragments.Fragmento_menu;
-import com.example.rockit.Fragments.Fragmento_chats;
+import com.example.rockit.Post.Fragment_post;
+import com.example.rockit.TinderCard.Fragment_procurar_banda;
+import com.example.rockit.FragmentBands.Fragmento_bandas;
+import com.example.rockit.Chat.Fragmento_chats;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,11 +42,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    DatabaseHelper db=new DatabaseHelper(this);
-    Integer id;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
@@ -52,19 +58,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    //GPS location
-    private FusedLocationProviderClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        id = 1;//update locate user
-        getlocation();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser==null){
+            Intent intent = new Intent(this, Pag0_login.class);
+            startActivity(intent);
+            finish();
+        }else {
+            //GET LOCATION
+            //update locate user
+            getlocation();
+            //GET DATA FROM USER
+            fireBaseDataUser();
+        }
 
         //PAGINA INICIAL É O FRAGMENT MENU
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_menu()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_bandas()).commit();
 
         //BARRA LATERAL
         toolbar = findViewById(R.id.toolbar);
@@ -85,33 +99,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         frameLayout = findViewById(R.id.frame_layout);
         navigationViewBottom.setOnNavigationItemSelectedListener(nav);
         navigationViewBottom.setSelectedItemId(R.id.bottom_home);
-
-        DatabaseHelper db=new DatabaseHelper(this);
-        //If there is no data in databaseHelp then create a new one
-        try{
-            db.getItem(1,1);
-        }catch (Exception e){
-            db.addData("Joaquim", "M", "Eu sou Legal", "21", "4", "230",
-                    "23.56", "741.2", "0", "Rock", "Green Day", "Bateria", "pedrinho@gmail.com", "0");
-        }
-
-
-
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser==null){
-            Intent intent = new Intent(this, Pag0_login.class);
-            startActivity(intent);
-            finish();
-        }
-        //GET DATA FROM USER
-        fireBaseDataUser();
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////                GPS                  /////////
     private void getlocation(){
@@ -119,16 +110,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //REQUEST PERMISSION
         ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
 
-        client = LocationServices.getFusedLocationProviderClient(this);
+        //GPS location
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
         if(ActivityCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             return;
         }
         client.getLastLocation().addOnSuccessListener(MainActivity.this, location -> {
             if(location!=null){
-                double longitude = location.getLongitude();
-                double latitude = location.getLatitude();
-                db.updateLocationLongitude(id,Double.toString(longitude));
-                db.updateLocationLatitude(id,Double.toString(latitude));
+                double lat = location.getLatitude();
+                double lon = location.getLongitude();
+                updateFieldUsers("latitude",Double.toString(lat));
+                updateFieldUsers("longitude",Double.toString(lon));
             }
         });
     }
@@ -137,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
         switch (item.getItemId()){
             case R.id.navi_alterar_perfil:
-                Intent intent = new Intent(this, Pag_perfil_usuario.class);
+                Intent intent = new Intent(this, Pag_Profile_Edit.class);
                 startActivity(intent);
                 break;
             case R.id.navi_minha_agenda:
@@ -151,17 +143,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, Pag0_login.class);
                 startActivity(intent);
                 break;
+            case R.id.navi_configurar_banda:
+                intent = new Intent(this, Pag_List_Your_Band.class);
+                startActivity(intent);
+                break;
             case R.id.navi_sobre_app_info:
                 intent = new Intent(this, Pag_Config_Sobre_App.class);
+                startActivity(intent);
+                break;
+            case R.id.navi_avalie_app:
+                intent = new Intent(this, AvaliacaoApp.class);
                 startActivity(intent);
                 break;
             case R.id.navi_fale_conosco:
                 intent = new Intent(this, Database_teste.class);
                 startActivity(intent);
                 break;
-            case R.id.navi_deletar_conta:
+            case R.id.navi_logout:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(this,"Deletar Conta",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Logout",Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, Pag0_login.class);
+                startActivity(intent);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -172,14 +174,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()){
-                case R.id.bottom_procurar_shows:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragment_shows()).commit();
+                case R.id.bottom_bandas:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_bandas()).commit();
                     break;
                 case R.id.bottom_chat:
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_chats()).commit();
                     break;
                 case R.id.bottom_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_menu()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragment_post()).commit();
                     break;
                 case R.id.bottom_procurar_banda:
                     frameLayout.setBackgroundColor(Color.LTGRAY);
@@ -199,47 +201,73 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Usuario user = snapshot.getValue(Usuario.class);
-                if (user != null) {
-                    //NAVIGATION DRAWER -> VISTA DAS CONFIGURAÇÕES QUANDO PUXA O MENU DA ESQUERDA
-                    NavigationView navigationView = findViewById(R.id.navigation_view);
-                    View headerView = navigationView.getHeaderView(0);
-                    //Link Views
-                    TextView navUsername = headerView.findViewById(R.id.textViewUserName);
-                    navUsername.setText(user.getName());//NOME DO USUARIO
+                    Usuario user = snapshot.getValue(Usuario.class);
+                    if (user != null) {
+
+                        //NAVIGATION DRAWER -> VISTA DAS CONFIGURAÇÕES QUANDO PUXA O MENU DA ESQUERDA
+                        NavigationView navigationView = findViewById(R.id.navigation_view);
+                        View headerView = navigationView.getHeaderView(0);
+                        //Link Views do navigation drawer
+                        TextView navUsername = headerView.findViewById(R.id.textViewUserName);
+                        navUsername.setText(user.getName());//NOME DO USUARIO
+
+                        ///////////////////////////////////////////////////////////////
+                        //FOTOS
+                        if (user.getImageURL().equals("default")) {
+                            //FOTO NO MENU PRINCIPAL
+                            ImageView fotoUsuario = findViewById(R.id.im_user);
+                            fotoUsuario.setImageResource(R.drawable.foto_pessoa);
+                            //FOTO NO NAVIGATION DRAWER
+                            fotoUsuario = headerView.findViewById(R.id.im_user);
+                            fotoUsuario.setImageResource(R.drawable.foto_pessoa);
+                        } else {
+                            //FOTO NO MENU PRINCIPAL
+                            ImageView fotoUsuario = findViewById(R.id.im_user);
+                            Glide.with(getApplicationContext()).load(user.getImageURL()).into(fotoUsuario);
+                            //FOTO NO NAVIGATION DRAWER
+                            fotoUsuario = headerView.findViewById(R.id.im_user);
+                            Glide.with(getApplicationContext()).load(user.getImageURL()).into(fotoUsuario);
+                        }
 
 
-                    if (user.getImageURL().equals("default")) {
-                        //FOTO NO MENU PRINCIPAL
-                        ImageView fotoUsuario = findViewById(R.id.im_user);
-                        fotoUsuario.setImageResource(R.drawable.foto_pessoa);
-                        //FOTO NO NAVIGATION DRAWER
-                        fotoUsuario = headerView.findViewById(R.id.im_user);
-                        fotoUsuario.setImageResource(R.drawable.foto_pessoa);
-                    } else {
-                        ImageView fotoUsuario = findViewById(R.id.im_user);
-                        fotoUsuario.setImageResource(R.drawable.foto_usuario);
-                        //FOTO NO NAVIGATION DRAWER
-                        fotoUsuario = headerView.findViewById(R.id.im_user);
-                        fotoUsuario.setImageResource(R.drawable.foto_usuario);
                     }
 
-                }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {            }
         });
     }
-////////                FUNÇÕES                      /////////
-    public void abrirPag_banda(View view){
-        Intent intent = new Intent(this, Pag_banda.class);
-        startActivity(intent);
+
+    //troca dados no database
+    public void updateFieldUsers(String field, String string){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(field, string);
+        reference.updateChildren(map);
     }
-    public void abrirPag_perfil_usuario(View view){
-        Intent intent = new Intent(this, Pag_perfil_usuario.class);
-        startActivity(intent);
+////////                STATUS - Is User Online?                     ///////// NÃO IMPLEMENTADO AINDA
+    public void status(String status){
+            reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+            HashMap<String, Object> hashMap =  new HashMap<>();
+            hashMap.put("status",status);
+            reference.updateChildren(hashMap);
+    }
+    @Override
+    protected void onResume(){
+            super.onResume();
+            status("online");
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        status("offline");
+
+        //HORARIO ULTIMA VEZ ONLINE
+        DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
+        String date = df.format(Calendar.getInstance().getTime());
+        updateFieldUsers("last_seen",date);
     }
 
 }
@@ -247,6 +275,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //https://www.youtube.com/watch?v=U5p8MAJAn_c
 
 //Toast.makeText(this,"Agenda",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(this, Pag0_login.class);
+//                startActivity(intent);
+
 
 //Branches GIT tutorial
 //https://www.youtube.com/watch?v=TbRpFqjv0iM

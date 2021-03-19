@@ -15,9 +15,36 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/background" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/im_googleLogo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextName"
+        app:layout_constraintStart_toStartOf="@+id/editTextName"
+        app:layout_constraintTop_toBottomOf="@+id/logo3"
+        app:srcCompat="@drawable/logo_google">
+
+    </com.google.android.gms.common.SignInButton>
+
+    <ImageView
+        android:id="@+id/gradiente_google"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.4"
+        android:contentDescription="@string/todo"
+        android:onClick="loginGoogle"
+        app:layout_constraintBottom_toBottomOf="@+id/im_googleLogo"
+        app:layout_constraintEnd_toEndOf="@+id/im_googleLogo"
+        app:layout_constraintStart_toStartOf="@+id/im_googleLogo"
+        app:layout_constraintTop_toTopOf="@+id/im_googleLogo"
+        app:srcCompat="@drawable/gradient" />
 
     <Button
         android:id="@+id/button3"
@@ -32,37 +59,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/im_facebook"
-        android:layout_width="50dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toBottomOf="@+id/im_google"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.725"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/im_google"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/logo_facebook" />
-
-    <ImageView
-        android:id="@+id/im_google"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
-        android:contentDescription="@string/todo"
-        android:onClick="LoginGoogle"
-        app:layout_constraintStart_toStartOf="@+id/editTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/textView44"
-        app:srcCompat="@drawable/logo_google" />
-
-    <ImageView
         android:id="@+id/logo3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:contentDescription="@string/todo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/background3"
         app:srcCompat="@drawable/logo_branco" />
@@ -71,11 +73,11 @@
         android:id="@+id/textView42"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="16dp"
         android:text="@string/senha"
         android:textColor="@color/branco"
         app:layout_constraintStart_toStartOf="@+id/textView43"
-        app:layout_constraintTop_toBottomOf="@+id/logo3" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -93,7 +95,7 @@
         android:id="@+id/textView43"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="100dp"
         android:text="@string/usuario"
         android:textColor="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,12 +119,12 @@
         android:id="@+id/textView44"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:onClick="abrirPag_Cadastro"
         android:text="@string/nao_possuo_cadastro"
         android:textColor="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
@@ -130,13 +132,13 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="24dp"
         android:onClick="esqueceuSenha"
         android:text="@string/esqueceu_a_senha"
         android:textColor="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

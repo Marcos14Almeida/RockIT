@@ -1,13 +1,17 @@
 package com.example.rockit;
 
 
-import android.app.SearchableInfo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 public class DatabaseHelper extends SQLiteOpenHelper  {
 

@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/im_friend_user"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
@@ -17,31 +17,41 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/todo"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/foto_cover" />
+        app:srcCompat="@drawable/foto_pessoa" />
 
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/imageView3"
-        android:layout_alignBottom="@+id/imageView3"
+        android:layout_alignTop="@+id/im_friend_user"
+        android:layout_alignBottom="@+id/im_friend_user"
         android:layout_alignParentStart="true"
         android:contentDescription="@string/todo"
-        app:srcCompat="@drawable/circle_externo_azul_petroleo" />
+        app:srcCompat="@drawable/circle_externo_e6e6e6" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/texto_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView3"
+        android:layout_alignTop="@+id/im_friend_user"
         android:layout_centerVertical="true"
         android:layout_marginStart="15dp"
         android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/imageView3"
+        android:layout_toEndOf="@+id/im_friend_user"
         android:background="@drawable/chat_background_left"
         android:padding="8dp"
         android:text="@string/generico"
         android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/texto_message2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/texto_message"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/im_friend_user"
+        android:text="@string/generico"
+        android:textSize="14sp" />
 
 
 </RelativeLayout>

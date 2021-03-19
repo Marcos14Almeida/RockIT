@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e6e6e6"
-    tools:context=".Pag_message">
+    tools:context=".Chat.Pag_message">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,11 +23,12 @@
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar2"
+        android:layout_alignBottom="@+id/toolbar"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="69dp"
         android:gravity="center"
+        android:onClick="ir_pag_amigo"
         android:text="@string/generico"
         android:textColor="@color/branco"
         android:textSize="24sp" />
@@ -36,7 +37,7 @@
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar2"
+        android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="55dp" />
@@ -44,7 +45,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar2"
+        android:layout_below="@+id/toolbar"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="0dp"
         android:padding="5dp">
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginRight="50dp"
             android:background="@color/branco"
             android:hint="Type a message..."
             android:padding="5dp" />

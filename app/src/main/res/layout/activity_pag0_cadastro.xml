@@ -48,7 +48,7 @@
         android:id="@+id/textView31"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:text="@string/idade"
         android:textColor="@color/branco"
         app:layout_constraintStart_toStartOf="@+id/textView30"
@@ -58,17 +58,17 @@
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/sexo"
         android:textColor="@color/branco"
         app:layout_constraintStart_toStartOf="@+id/textView30"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAge" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextMembers" />
 
     <TextView
         android:id="@+id/textView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="@string/email"
         android:textColor="@color/branco"
         app:layout_constraintStart_toStartOf="@+id/textView30"
@@ -109,7 +109,7 @@
         tools:ignore="LabelFor" />
 
     <EditText
-        android:id="@+id/editTextAge"
+        android:id="@+id/editTextMembers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints="@string/idade"
@@ -158,6 +158,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mulher"
+            android:textColor="@color/branco" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/outros"
             android:textColor="@color/branco" />
     </RadioGroup>
 
