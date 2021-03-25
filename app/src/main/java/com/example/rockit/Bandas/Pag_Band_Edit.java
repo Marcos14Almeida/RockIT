@@ -54,7 +54,7 @@ public class Pag_Band_Edit extends AppCompatActivity {
     String userID;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    EditText editCity,editDescription;
+    EditText editCity,editDescription,editInsta;
     //Lista de membros
     AutoCompleteTextView autoCompleteTextView;
     ArrayList<String> listMembers = new ArrayList<>();
@@ -179,6 +179,9 @@ public class Pag_Band_Edit extends AppCompatActivity {
                 //MEMBROS
                 listMyMembers.clear();
                 listMyMembers.addAll(Arrays.asList(user.getMembers().split(";")   ));
+                //INSTAGRAM
+                editInsta=findViewById(R.id.textInsta);
+                editInsta.setText(user.getInstagram());
 
 
                 show_list_members();
@@ -252,6 +255,8 @@ public class Pag_Band_Edit extends AppCompatActivity {
         updateFieldBand("description",selecionado);
         selecionado = editCity.getEditableText().toString();
         updateFieldBand("city",selecionado);
+        selecionado = editInsta.getEditableText().toString();
+        updateFieldBand("instagram",selecionado);
 
         Toast.makeText(this," Informações Salvas",Toast.LENGTH_SHORT).show();
     }

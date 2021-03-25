@@ -50,7 +50,6 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Pag_Profile_Edit extends AppCompatActivity {
-    private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
     ListView list;
@@ -81,12 +80,10 @@ public class Pag_Profile_Edit extends AppCompatActivity {
 
     }
 
-    public String cidade_user(Usuario user){
-        //Display Latitude para teste
-
+    public String cidade_user(String userLatitude, String userLongitude){
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        double lat = Double.parseDouble(user.getLatitude());
-        double lon = Double.parseDouble(user.getLongitude());
+        double lat = Double.parseDouble(userLatitude);
+        double lon = Double.parseDouble(userLongitude);
         try {
             List<Address> addresses = geocoder.getFromLocation(lat,lon, 1);
             String yourCity = addresses.get(0).getAddressLine(0);
@@ -121,7 +118,10 @@ reference.addValueEventListener(new ValueEventListener() {
             }
 
             //LOCALIZAÇÃO
-            String cidade = cidade_user(user);
+            String cidade="";
+            if(snapshot.hasChild("latitude")){//se o usuario permitiu registrar latitude e longitude
+                cidade = cidade_user(user.getLatitude(),user.getLongitude());
+            }
             TextView texto = findViewById(R.id.textViewCidade);
             texto.setText(cidade);
 

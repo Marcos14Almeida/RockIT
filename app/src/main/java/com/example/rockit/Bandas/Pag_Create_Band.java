@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,7 +13,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.rockit.Classes.Banda;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.MainActivity;
 import com.example.rockit.R;
@@ -38,7 +36,7 @@ public class Pag_Create_Band extends AppCompatActivity {
     ArrayList<String> ListaCidades = new ArrayList<>();
 
     //Lista de membros
-    AutoCompleteTextView autoCompleteTextView;
+    AutoCompleteTextView autoCompleteTextView,autoCompleteCity;
     String members="";
     ArrayList<String> listMyMembers = new ArrayList<>();
     ArrayList<String> listMembers = new ArrayList<>();
@@ -56,15 +54,18 @@ public class Pag_Create_Band extends AppCompatActivity {
 
         editName = findViewById(R.id.editTextName);
         editYear = findViewById(R.id.editTextAno);
-        editTextCity = findViewById(R.id.editTextCity);
+        //SEARCH VIEW
+        autoCompleteCity=findViewById(R.id.AutoCompleteCity);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,ListaCidades);
+        autoCompleteCity.setAdapter(adapter1);
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
         //SEARCH VIEW
         autoCompleteTextView=findViewById(R.id.autoCompleteTextView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,listMembers);
-        autoCompleteTextView.setAdapter(adapter);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,listMembers);
+        autoCompleteTextView.setAdapter(adapter2);
 
         //Pega nome de todos os usuarios
         readUsers();//firebase
@@ -103,7 +104,7 @@ public class Pag_Create_Band extends AppCompatActivity {
     public void button_menu_principal(View view){
         name = editName.getText().toString();
         year = editYear.getText().toString();
-        city = editTextCity.getText().toString();
+        city = autoCompleteCity.getEditableText().toString();
 
         if(!name.equals("") && !year.equals("") && !city.equals("")){
 
@@ -169,16 +170,17 @@ public class Pag_Create_Band extends AppCompatActivity {
                             map.put("year",year);
                             map.put("city",city);
                             map.put("members",members);
-                            map.put("description"," ");
+                            map.put("description","");
                             map.put("imageURL","default");
                             map.put("searching_members","0");
                             map.put("stars","0");
+                            map.put("instagram","");
                             map.put("number_followers","0");
                             // Write a message to the database
                             reference.setValue(map).addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
                                     Toast.makeText(getApplicationContext(), "Authentication Success.",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), Pag_List_Your_Band.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }

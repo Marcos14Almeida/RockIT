@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -39,6 +40,8 @@ public class Pag0_Cadastro extends AppCompatActivity {
         editAge = findViewById(R.id.editTextMembers);
         editPassword = findViewById(R.id.editTextPassword);
         editEmail = findViewById(R.id.autoCompleteTextViewCity);
+
+
         //radiogroup
         radioGroup = findViewById(R.id.radioGroup);
         male = findViewById(R.id.radioButton);
@@ -134,9 +137,8 @@ public class Pag0_Cadastro extends AppCompatActivity {
         email = editEmail.getText().toString();
 
 
-        if(password.equals("") || email.equals("")){
+        if(password.equals("") || email.equals("") || age.equals("")){
             Toast.makeText(this,"Por favor preencha os campos",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), Pag1_genero_musical.class));
         }else {
             if(password.length()<6){
                 Toast.makeText(this,"A Senha deve ter pelo menos 6 caracteres",Toast.LENGTH_SHORT).show();
@@ -147,7 +149,10 @@ public class Pag0_Cadastro extends AppCompatActivity {
             if(!email.contains(".com")){
                 Toast.makeText(this,"O email deve ser válido com \".com\"",Toast.LENGTH_SHORT).show();
             }
-            if(email.contains("@") && email.contains(".com") && password.length()>=6){
+            if(Integer.parseInt(age)<0 || Integer.parseInt(age)>100){
+                Toast.makeText(this,"A idade deve ser real",Toast.LENGTH_SHORT).show();
+            }
+            if(email.contains("@") && email.contains(".com") && password.length()>=6 && Integer.parseInt(age)>0 && Integer.parseInt(age)<100){
                 progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 RegisterUser();

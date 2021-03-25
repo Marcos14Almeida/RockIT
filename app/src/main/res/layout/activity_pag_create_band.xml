@@ -40,9 +40,7 @@
         android:text="@string/nome_da_banda"
         android:textColor="@color/branco"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8" />
 
@@ -54,7 +52,7 @@
         android:text="@string/ano_fundacao"
         android:textColor="@color/branco"
         app:layout_constraintStart_toStartOf="@+id/textView38"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCity" />
+        app:layout_constraintTop_toBottomOf="@+id/AutoCompleteCity" />
 
     <TextView
         android:id="@+id/textView38"
@@ -99,8 +97,8 @@
         app:layout_constraintStart_toStartOf="@+id/textView38"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <EditText
-        android:id="@+id/editTextCity"
+    <AutoCompleteTextView
+        android:id="@+id/AutoCompleteCity"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:ems="10"

@@ -197,7 +197,7 @@
             </ListView>
 
             <EditText
-                android:id="@+id/textCity3"
+                android:id="@+id/textInsta"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -205,13 +205,13 @@
                 android:focusable="auto"
                 android:hint="@string/conta_instagram"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView13"
-                app:layout_constraintTop_toTopOf="@+id/imageView13" />
+                app:layout_constraintStart_toEndOf="@+id/im_insta"
+                app:layout_constraintTop_toTopOf="@+id/im_insta" />
 
             <ImageView
-                android:id="@+id/imageView13"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/im_insta"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/todo"
                 app:layout_constraintStart_toStartOf="@+id/textView13"
@@ -224,9 +224,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/arroba"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textCity3"
-                app:layout_constraintEnd_toStartOf="@+id/textCity3"
-                app:layout_constraintTop_toTopOf="@+id/textCity3" />
+                app:layout_constraintBottom_toBottomOf="@+id/textInsta"
+                app:layout_constraintEnd_toStartOf="@+id/textInsta"
+                app:layout_constraintTop_toTopOf="@+id/textInsta" />
+
+            <ImageView
+                android:id="@+id/im_youtube"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="@+id/texto_musicas"
+                app:layout_constraintTop_toBottomOf="@+id/im_insta"
+                app:srcCompat="@drawable/logo_youtube" />
 
             <TextView
                 android:id="@+id/texto_musicas"
@@ -237,7 +246,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textGeneros"
-                app:layout_constraintTop_toBottomOf="@+id/textCity3" />
+                app:layout_constraintTop_toBottomOf="@+id/im_youtube" />
 
             <ImageView
                 android:id="@+id/im_add3"
@@ -245,7 +254,6 @@
                 android:layout_height="40dp"
                 android:contentDescription="@string/todo"
                 android:onClick="button_add_Members"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/texto_musicas"
                 app:layout_constraintTop_toTopOf="@+id/texto_musicas"
                 app:srcCompat="@android:drawable/ic_menu_add" />

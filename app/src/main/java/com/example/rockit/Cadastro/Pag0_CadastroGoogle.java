@@ -1,4 +1,4 @@
-package com.example.rockit;
+package com.example.rockit.Cadastro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.rockit.Cadastro.Pag1_genero_musical;
+import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;

@@ -138,11 +138,14 @@ public class Fragment_procurar_banda extends Fragment {
         return view;
     }
 
-    private String cidade_user(Usuario user){
+    public String cidade_user(String userLatitude, String userLongitude){
+        if(userLatitude.equals("")){
+            return "";
+        }
 
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        double lat = Double.parseDouble(user.getLatitude());
-        double lon = Double.parseDouble(user.getLongitude());
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            double lat = Double.parseDouble(userLatitude);
+            double lon = Double.parseDouble(userLongitude);
         try {
             List<Address> addresses = geocoder.getFromLocation(lat,lon, 1);
             String yourCity = addresses.get(0).getAddressLine(0);
@@ -162,6 +165,8 @@ public class Fragment_procurar_banda extends Fragment {
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
     private void readUsers(){
+        //dataSnapshot = usuario 2
+        //snapshot = usuario 1
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -205,6 +210,14 @@ public class Fragment_procurar_banda extends Fragment {
                             Double dResultadoFinal = similarityResult(usuario1GeneroMedia,usuario2GeneroMedia);
                             @SuppressLint("DefaultLocale") String resultadoFinal = String.format("%.2f", dResultadoFinal)+ '%';
 
+                            //Se o usuario nao permitiu acesso ao GPS, ou se nao quer mostrar
+                                if (!dataSnapshot.child(firebaseUser.getUid()).hasChild("latitude")
+                                        ||     dataSnapshot.child("permission_location").getValue().equals("0"))
+                                {
+                                    oneUser.setLatitude("");
+                                    oneUser.setLongitude("");
+                                }
+
 
                             //POR FIM COM TODAS AS INFOS
                             //Cria o objeto do cartao do Tinder
@@ -215,7 +228,7 @@ public class Fragment_procurar_banda extends Fragment {
                                     dataSnapshot.child("imageURL").getValue().toString(),
                                     dataSnapshot.child("generos").getValue().toString(),
                                     dataSnapshot.child("age").getValue().toString(),
-                                    cidade_user(oneUser),
+                                    cidade_user(oneUser.getLatitude(),oneUser.getLongitude()),
                                     dataSnapshot.child("searching_bands").getValue().toString(),
                                     resultadoFinal
                             );

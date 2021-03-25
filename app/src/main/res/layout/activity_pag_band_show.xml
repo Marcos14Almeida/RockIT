@@ -161,6 +161,29 @@
                     app:layout_constraintStart_toStartOf="@+id/textGeneros"
                     app:layout_constraintTop_toBottomOf="@+id/list_members" />
 
+                <ImageView
+                    android:id="@+id/im_insta"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="28dp"
+                    android:contentDescription="@string/todo"
+                    android:onClick="openInstagram"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toEndOf="@+id/texto_contato"
+                    app:layout_constraintTop_toTopOf="@+id/texto_contato"
+                    app:srcCompat="@drawable/logo_insta" />
+
+                <ImageView
+                    android:id="@+id/im_youtube"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="24dp"
+                    android:contentDescription="@string/todo"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toEndOf="@+id/im_insta"
+                    app:layout_constraintTop_toTopOf="@+id/im_insta"
+                    app:srcCompat="@drawable/logo_youtube" />
+
                 <TextView
                     android:id="@+id/texto_musicas"
                     android:layout_width="wrap_content"

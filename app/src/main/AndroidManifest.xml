@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Pag0_CadastroGoogle"></activity>
+        <activity android:name=".Youtube"></activity>
+        <activity android:name=".Cadastro.Pag0_CadastroGoogle" />
         <activity android:name=".AvaliacaoApp" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

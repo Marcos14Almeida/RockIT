@@ -3,6 +3,7 @@ package com.example.rockit.Bandas;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class Pag_Band_Show extends AppCompatActivity {
     ArrayList<String> listMyMembers = new ArrayList<>();
     MediaController mediaController;
     RatingBar ratingBar;
+    String instagramAccount="default";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,21 @@ public class Pag_Band_Show extends AppCompatActivity {
                     getFirebaseIDfromUser(nomeUser);
                 });
 
+                //Instagram
+                instagramAccount = band.getInstagram();
+                //Se não tiver conta no Instagram
+                if(instagramAccount.length()<2) {
+                    ImageView image = findViewById(R.id.im_insta);
+                    image.setVisibility(View.INVISIBLE);
+                }else{
+                    instagramAccount = band.getInstagram();
+                }
+
+                //Youtube
+                if(!snapshot.hasChild("youtube")){
+                    ImageView image = findViewById(R.id.im_youtube);
+                    image.setVisibility(View.INVISIBLE);
+                }
 
                 ///////////////////////////////////////////////////////////////
                 //FOTOS
@@ -164,6 +181,7 @@ public class Pag_Band_Show extends AppCompatActivity {
                         userID=oneUser.getId();
                     }
                 }
+                //Mostra o perfil do usuario quando clica no nome dele na lista
                 if(!userID.equals("")) {
                     //Intent intent = new Intent(getApplicationContext(), Pag_Profile_Show.class);
                     //intent.putExtra("userID", userID);
@@ -185,6 +203,20 @@ public class Pag_Band_Show extends AppCompatActivity {
         reference.updateChildren(map);
     }
 
+    public void openInstagram(View view){
+        Uri uri = Uri.parse("http://instagram.com/_u/" + instagramAccount);
+        Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+
+        likeIng.setPackage("com.instagram.android");
+
+        try {
+            startActivity(likeIng);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://instagram.com/" + instagramAccount)));
+        }
+
+    }
 
 
 }

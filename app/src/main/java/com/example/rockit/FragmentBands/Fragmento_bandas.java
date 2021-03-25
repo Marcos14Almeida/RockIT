@@ -69,9 +69,9 @@ public class Fragmento_bandas extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 exampleList.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Banda oneUser = dataSnapshot.getValue(Banda.class);
-                        starsList.add(Float.parseFloat(oneUser.getStars()));
-                        exampleList.add(oneUser);
+                    Banda bandObject = dataSnapshot.getValue(Banda.class);
+                        starsList.add(Float.parseFloat(bandObject.getStars()));
+                        exampleList.add(bandObject);
 
                 }
                 organizeBandsStars();

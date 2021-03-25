@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Usuario user = snapshot.getValue(Usuario.class);
-                    if (user != null) {
+                if (snapshot.hasChild("imageURL")) {
 
                         //NAVIGATION DRAWER -> VISTA DAS CONFIGURAÇÕES QUANDO PUXA O MENU DA ESQUERDA
                         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Link Views do navigation drawer
                         TextView navUsername = headerView.findViewById(R.id.textViewUserName);
                         navUsername.setText(user.getName());//NOME DO USUARIO
+
 
                         ///////////////////////////////////////////////////////////////
                         //FOTOS
@@ -247,22 +248,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         map.put(field, string);
         reference.updateChildren(map);
     }
-////////                STATUS - Is User Online?                     ///////// NÃO IMPLEMENTADO AINDA
-    public void status(String status){
-            reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-            HashMap<String, Object> hashMap =  new HashMap<>();
-            hashMap.put("status",status);
-            reference.updateChildren(hashMap);
-    }
+////////                STATUS - Is User Online?                     /////////
     @Override
     protected void onResume(){
             super.onResume();
-            status("online");
+            updateFieldUsers("status","online");
     }
     @Override
     protected void onPause(){
         super.onPause();
-        status("offline");
+        updateFieldUsers("status","online");
 
         //HORARIO ULTIMA VEZ ONLINE
         DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");

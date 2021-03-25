@@ -114,6 +114,8 @@
         android:layout_height="wrap_content"
         android:autofillHints="@string/idade"
         android:ems="10"
+        android:focusable="auto"
+        android:focusableInTouchMode="true"
         android:inputType="date"
         android:textColor="@color/branco"
         app:layout_constraintStart_toStartOf="@+id/editTextName"

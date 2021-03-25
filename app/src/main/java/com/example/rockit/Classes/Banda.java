@@ -17,10 +17,11 @@ public class Banda {
     public String generos;
     public String bandas;
     public String instrumentos;
+    public String instagram;
 
     public Banda(String id, String name, String age, String email, String year, String description,
                  String members, String stars, String number_followers,
-                 String city, String searching_members,
+                 String city, String searching_members, String instagram,
                  String imageURL,
                  String generos, String bandas, String instrumentos) {
 
@@ -39,6 +40,7 @@ public class Banda {
         this.generos = generos;
         this.bandas = bandas;
         this.instrumentos = instrumentos;
+        this.instagram = instagram;
     }
 
     public Banda(){
@@ -89,6 +91,9 @@ public class Banda {
 
     public String getCity() {        return city;    }
     public void setCity(String city) {        this.city = city;    }
+
+    public String getInstagram() {        return instagram;    }
+    public void setInstagram(String instagram) {        this.instagram = instagram;    }
 
 
 }
