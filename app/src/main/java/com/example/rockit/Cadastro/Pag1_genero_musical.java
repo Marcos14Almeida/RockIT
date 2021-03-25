@@ -12,8 +12,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.rockit.DatabaseHelper;
 import com.example.rockit.MainActivity;
 import com.example.rockit.R;
 import com.example.rockit.Classes.Usuario;
@@ -32,6 +30,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 public class Pag1_genero_musical extends AppCompatActivity {
+    String first_login="false";
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
     ArrayList<String> Lista_MeuEstilosMusicais = new ArrayList<>();
     ArrayAdapter<String> adapter;
@@ -128,9 +127,9 @@ public class Pag1_genero_musical extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
-                Toast.makeText(Pag1_genero_musical.this,clickedItem,Toast.LENGTH_LONG).show();
                 Lista_MeuEstilosMusicais.add(clickedItem);
                 ListaEstilosMusicais.remove(clickedItem);
+                arrayAdapter.notifyDataSetChanged();
                 //Refresh list
                 show_list2();
                 if(adapter!=null){
@@ -148,6 +147,8 @@ public class Pag1_genero_musical extends AppCompatActivity {
             final ListView list2 = findViewById(R.id.lista_2);
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, Lista_MeuEstilosMusicais);
             list2.setAdapter(arrayAdapter);
+            //Vai pro final da lista
+            list2.setSelection(Lista_MeuEstilosMusicais.size() - 1);
             //Se clicar deleta o item selecionado
             list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -189,8 +190,14 @@ public class Pag1_genero_musical extends AppCompatActivity {
             //Salva as infos no Firebase
             acesso(string);
 
-            Intent intent = new Intent(this, Pag1_bandas_preferidas.class);
-            startActivity(intent);
+            if(first_login.equals("false")){
+                Intent intent = new Intent(this, Pag1_bandas_preferidas.class);
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
+
         }
     }
     /////////////////////////////////////////////////////////////
@@ -198,6 +205,7 @@ public class Pag1_genero_musical extends AppCompatActivity {
     /////////////////////////////////////////////////////////////
     public void acesso(String string){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         HashMap<String, Object> map = new HashMap<>();
         map.put("generos", string);
@@ -220,6 +228,8 @@ public class Pag1_genero_musical extends AppCompatActivity {
                     if(oneUser.getId().equals(firebaseUser.getUid())) {
 
                         currentGenres = oneUser.getGeneros();
+                        first_login=oneUser.getFirst_login();
+
                         if(currentGenres.length()>2) {
                             currentGenres = currentGenres.replaceAll("\\s+", " "); //remove spaces between words
                             //NOME DOS MEMBROS DE LISTA PARA STRING

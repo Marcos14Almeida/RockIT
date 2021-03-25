@@ -105,7 +105,7 @@
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="20dp"
         android:onClick="abrirMain"
-        android:text="@string/proximo"
+        android:text="@string/salvar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

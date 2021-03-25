@@ -41,6 +41,10 @@ public class ArrayAdapter_Tinder_Card extends ArrayAdapter<Cards_Tinder> {
         TextView name = convertView.findViewById(R.id.helloText);
         name.setText(cards_tinder.getName());
 
+        //NUMERO DE SIMILARIDADE MUSICAL
+        generico = convertView.findViewById(R.id.textSimilarity);
+        generico.setText(cards_tinder.getMusic_similarity());
+
         //Procura banda SWITCH
         Switch aSwitch = convertView.findViewById(R.id.switch1);
         if(cards_tinder.getSearching_bands().equals("1")){

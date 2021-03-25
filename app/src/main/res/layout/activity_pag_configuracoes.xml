@@ -34,7 +34,7 @@
         android:id="@+id/textView27"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="500dp"
         android:onClick="deleteAccount"
         android:text="@string/deletar_conta"
@@ -47,12 +47,12 @@
         android:id="@+id/textView63"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="100dp"
         android:text="@string/privacidade"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.265"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,8 +60,8 @@
         android:id="@+id/textView64"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="48dp"
         android:text="@string/mostrar_minha_localizacao"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
@@ -82,13 +82,13 @@
         android:id="@+id/textView65"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="32dp"
         android:text="@string/permitir_notificacoes"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView63" />
+        app:layout_constraintTop_toBottomOf="@+id/textView64" />
 
     <Switch
         android:id="@+id/switch3"

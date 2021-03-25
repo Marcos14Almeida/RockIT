@@ -10,8 +10,9 @@ public class Cards_Tinder {
     private String age;
     private String city;
     private String searching_bands;
+    private String music_similarity;
 
-    public Cards_Tinder(String userID, String name, String instruments, String imageURL, String genres, String age, String city,String searching_bands){
+    public Cards_Tinder(String userID, String name, String instruments, String imageURL, String genres, String age, String city,String searching_bands,String music_similarity){
         this.userID = userID;
         this.name = name;
         this.instruments = instruments;
@@ -20,6 +21,7 @@ public class Cards_Tinder {
         this.age = age;
         this.city = city;
         this.searching_bands = searching_bands;
+        this.music_similarity = music_similarity;
     }
 
     public String getUserID() {        return userID;    }
@@ -45,4 +47,7 @@ public class Cards_Tinder {
 
     public String getSearching_bands() {        return searching_bands;    }
     public void setSearching_bands(String searching_band) {        this.searching_bands = searching_bands;    }
+
+    public String getMusic_similarity() {        return music_similarity;    }
+    public void setMusic_similarity(String music_similarity) {        this.music_similarity = music_similarity;    }
 }

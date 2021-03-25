@@ -108,7 +108,7 @@ public class Pag_message extends AppCompatActivity {
                 username.setText(user.getName());
 
                 //Manda mensagem
-                readMessage(firebaseUser.getUid(), userID, user.getImageURL());
+                readMessage(firebaseUser.getUid(), userID);
             }
 
             @Override
@@ -128,33 +128,27 @@ public class Pag_message extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+        //BLOQUEAR USUARIO
+        if (item.getItemId() == R.id.item1) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Deseja realmente bloquear o usuário? (A operação é irreversível)");
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                Toast.makeText(getApplicationContext(), "Usuário bloqueado", Toast.LENGTH_SHORT).show();
 
-            //BLOQUEAR USUARIO
-            case R.id.item1:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Deseja realmente bloquear o usuário? (A operação é irreversível)");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),"Usuário bloqueado",Toast.LENGTH_SHORT).show();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+                reference.child(userID).child("connections").child("no").child(firebaseUser.getUid()).setValue(true);
+                reference.child(userID).child("connections").child("yes").child(firebaseUser.getUid()).removeValue();
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.create().show();
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-                        reference.child(userID).child("connections").child("no").child(firebaseUser.getUid()).setValue(true);
-                        reference.child(userID).child("connections").child("yes").child(firebaseUser.getUid()).removeValue();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.create().show();
-
-                return  true;
-            default:
-                return super.onOptionsItemSelected(item);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -183,6 +177,7 @@ public class Pag_message extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Usuario user = snapshot.getValue(Usuario.class);
                     if(notify) {
+                        assert user != null;
                         sendNotification(receiver, user.getName(), msg);
                     }
                     notify=false;
@@ -192,7 +187,7 @@ public class Pag_message extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {}
             });
         }
-    private void readMessage(final String myid, final String userid,final  String imageurl){
+    private void readMessage(final String myid, final String userid){
         mChat = new ArrayList<>();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
@@ -209,7 +204,7 @@ public class Pag_message extends AppCompatActivity {
                         mChat.add(chat);
                     }
                     //SHOW no Recycle Adapter do arquivo MessageAdapter_Chat
-                    messageAdapter_chat = new RecycleView_Message(Pag_message.this,mChat,imageurl);
+                    messageAdapter_chat = new RecycleView_Message(Pag_message.this,mChat);
                     recyclerView.setAdapter(messageAdapter_chat);
                 }
             }

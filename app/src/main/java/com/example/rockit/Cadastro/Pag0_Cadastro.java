@@ -98,7 +98,7 @@ public class Pag0_Cadastro extends AppCompatActivity {
                             map.put("status","offline");
                             map.put("stars","0");
                             map.put("myband","0");
-                            map.put("number_followers","0");
+                            map.put("first_login","false");
                             map.put("instagram"," ");
                             map.put("contact","00 900000000");
                             // Write a message to the database

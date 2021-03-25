@@ -176,7 +176,8 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Selecione pelo menos 1 item",Toast.LENGTH_SHORT).show();
         }else {
             //Salva as infos no Firebase
-            acesso(string);
+            acesso("instrumentos",string);
+            acesso("first_login","true");
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -185,11 +186,11 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
-    public void acesso(String string){
+    public void acesso(String field, String string){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         HashMap<String, Object> map = new HashMap<>();
-        map.put("instrumentos", string);
+        map.put(field, string);
         reference.updateChildren(map);
     }
     private void readUsers(){

@@ -38,6 +38,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+//BR
+//#1 Login and Registration Android App Tutorial Using Firebase Authentication - Create User
+//https://www.youtube.com/watch?v=Z-RE1QuUWPg
 public class Pag0_login extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth mAuth;
@@ -170,7 +173,7 @@ public class Pag0_login extends AppCompatActivity {
                             map.put("status", "offline");
                             map.put("stars", "0");
                             map.put("myband", "0");
-                            map.put("number_followers", "0");
+                            map.put("first_login", "false");
                             map.put("instagram", " ");
                             map.put("contact", "00 900000000");
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
@@ -205,6 +208,3 @@ public class Pag0_login extends AppCompatActivity {
 
     }
 }
-//BR
-//#1 Login and Registration Android App Tutorial Using Firebase Authentication - Create User
-//https://www.youtube.com/watch?v=Z-RE1QuUWPg

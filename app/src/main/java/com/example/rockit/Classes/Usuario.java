@@ -11,7 +11,7 @@ public class Usuario {
     public String description;
     public String status;
     public String stars;
-    public String number_followers;
+    public String first_login;
     public String latitude;
     public String longitude;
     public String searching_bands;
@@ -23,7 +23,7 @@ public class Usuario {
     public String instagram;
 
     public Usuario(String id, String name, String age, String email, String sex, String description,
-                   String status, String stars, String number_followers,
+                   String status, String stars, String first_login,
                    String latitude, String longitude, String searching_bands,
                    String imageURL,
                    String generos, String bandas, String instrumentos,
@@ -38,7 +38,7 @@ public class Usuario {
         this.description = description;
         this.status = status;
         this.stars = stars;
-        this.number_followers = number_followers;
+        this.first_login = first_login;
         this.latitude = latitude;
         this.longitude = longitude;
         this.searching_bands = searching_bands;
@@ -90,8 +90,8 @@ public class Usuario {
     public String getStars() {        return stars;    }
     public void setStars(String stars) {        this.stars = stars;    }
 
-    public String getNumber_followers() {        return number_followers;    }
-    public void setNumber_followers(String number_followers) {        this.number_followers = number_followers;    }
+    public String getFirst_login() {        return first_login;    }
+    public void setFirst_login(String first_login) {        this.first_login = first_login;    }
 
     public String getLatitude() {        return latitude;    }
     public void setLatitude(String latitude) {        this.latitude = latitude;    }

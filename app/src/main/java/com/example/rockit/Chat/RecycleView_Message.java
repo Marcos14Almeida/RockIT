@@ -32,12 +32,13 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
     private Context mcontext;
     private List<Chat> mChat;
 
-    RecycleView_Message(Context context, List<Chat> exampleList, String imageurl) {
+    RecycleView_Message(Context context, List<Chat> exampleList) {
         this.mChat = exampleList;
         this.mcontext = context;
     }
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewHolder result;
         if (viewType == MSG_TYPE_RIGHT) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_right, parent, false);
@@ -50,7 +51,7 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {//Holder contem a imagem e texto das mensagens
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {//Holder contem a imagem e texto das mensagens
         Chat chat = mChat.get(position);//pega os dados do chat
 
         //TUDO ISSO PARA MOSTRAR

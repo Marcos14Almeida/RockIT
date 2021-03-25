@@ -1,5 +1,6 @@
 package com.example.rockit.TinderCard;
 
+import android.annotation.SuppressLint;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -11,10 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rockit.TinderCard.ArrayAdapter_Tinder_Card;
 import com.example.rockit.Classes.Cards_Tinder;
+import com.example.rockit.Classes.Generos;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+import org.apache.commons.math3.distribution.NormalDistribution;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +44,9 @@ public class Fragment_procurar_banda extends Fragment {
     //part 7 - Register Swipes to the Database
     //https://www.youtube.com/watch?v=H5b0LSVRAeM&list=PLxabZQCAe5fio9dm1Vd0peIY6HLfo5MCf&index=9
 ///////////////////////////////////////////////
+    ArrayList<Double> usuario1GeneroMedia= new ArrayList<Double>();;
+    ArrayList<Double> usuario2GeneroMedia= new ArrayList<Double>();;
+    int ngenres=23;
 
     private ArrayAdapter_Tinder_Card arrayAdapter;
     List<Cards_Tinder> rowItems;
@@ -56,6 +62,12 @@ public class Fragment_procurar_banda extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         cardUserDB = FirebaseDatabase.getInstance().getReference().child("Users");
         currentUId = mAuth.getCurrentUser().getUid();
+
+        //inicializa variaveis da media
+        for(int i=0;i<ngenres;i++){
+            usuario1GeneroMedia.add(0.0);
+            usuario2GeneroMedia.add(0.0);
+        }
 
         //users from firebase
         readUsers();
@@ -92,6 +104,8 @@ public class Fragment_procurar_banda extends Fragment {
                 Cards_Tinder cards_tinder = (Cards_Tinder) dataObject;
                 String userID = cards_tinder.getUserID();
                 cardUserDB.child(userID).child("connections").child("yes").child(currentUId).setValue(true);
+                //Cria o não só pra garantir que apaga caso o usuario esteja mudando de opiniao, sem travar o app
+                cardUserDB.child(userID).child("connections").child("no").child(currentUId).setValue(true);
                 cardUserDB.child(userID).child("connections").child("no").child(currentUId).removeValue();
                 Toast.makeText(getActivity(), "Like", Toast.LENGTH_SHORT).show();
             }
@@ -124,7 +138,7 @@ public class Fragment_procurar_banda extends Fragment {
         return view;
     }
 
-    public String cidade_user(Usuario user){
+    private String cidade_user(Usuario user){
 
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         double lat = Double.parseDouble(user.getLatitude());
@@ -141,11 +155,14 @@ public class Fragment_procurar_banda extends Fragment {
         catch(IOException e) {e.printStackTrace();}
         return "";
     }
+
+
+
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
     private void readUsers(){
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -158,9 +175,39 @@ public class Fragment_procurar_banda extends Fragment {
                     assert firebaseUser != null;
                     //Se não for o meu usuario mostra na lista
                     if(!oneUser.getId().equals(firebaseUser.getUid())) {//getImageURL->GETid!!!
-                        //Se eu ainda nao dei like no outro usuario
+                        //Se eu ainda nao/   dei like no outro usuario
                         if(!dataSnapshot.child("connections").child("yes").hasChild(currentUId)){
 
+                            ////////////////////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////
+                            //           SIMILARIDADE DE GOSTOS MUSICAIS              //
+                            ////////////////////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////
+                            //Get genres USUARIO 2
+                            for(int i=0;i<ngenres;i++) {
+                                String s = String.valueOf(dataSnapshot.child("genres").child(getGenreName(i)).getValue());
+                                usuario2GeneroMedia.set(i,Double.parseDouble(s));
+                            }
+
+                            //Get genres USUARIO 1
+                            if(snapshot.child(firebaseUser.getUid()).hasChild("genres")){
+                                Log.d("resul0",usuario1GeneroMedia.toString());
+                                for (int i = 0; i < ngenres; i++) {
+                                    String s = String.valueOf(snapshot.child(firebaseUser.getUid()).child("genres").child(getGenreName(i)).getValue());
+                                    usuario1GeneroMedia.set(i,Double.parseDouble(s));
+                                }
+                            }
+
+                            //Log.d("resul1",usuario1GeneroMedia.toString());
+                            //Log.d("resul2",usuario2GeneroMedia.toString());
+
+                            //FORMULA E CALCULO DO RESULTADO ENTRE 0 E 100%
+                            Double dResultadoFinal = similarityResult(usuario1GeneroMedia,usuario2GeneroMedia);
+                            @SuppressLint("DefaultLocale") String resultadoFinal = String.format("%.2f", dResultadoFinal)+ '%';
+
+
+                            //POR FIM COM TODAS AS INFOS
+                            //Cria o objeto do cartao do Tinder
                             Cards_Tinder cards_tinder = new Cards_Tinder(
                                     dataSnapshot.getKey(),
                                     dataSnapshot.child("name").getValue().toString(),
@@ -169,10 +216,14 @@ public class Fragment_procurar_banda extends Fragment {
                                     dataSnapshot.child("generos").getValue().toString(),
                                     dataSnapshot.child("age").getValue().toString(),
                                     cidade_user(oneUser),
-                                    dataSnapshot.child("searching_bands").getValue().toString()
+                                    dataSnapshot.child("searching_bands").getValue().toString(),
+                                    resultadoFinal
                             );
                             rowItems.add(cards_tinder);
-                        arrayAdapter.notifyDataSetChanged();
+
+
+                            arrayAdapter.notifyDataSetChanged();
+
                         }}
                 }
 
@@ -182,5 +233,60 @@ public class Fragment_procurar_banda extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
+    /////////////////////////////////////////////////////////////
+    //                    PONTUCAO SIMILARIDADE                //
+    /////////////////////////////////////////////////////////////
+    public Double similarityResult(ArrayList<Double> usuario1GeneroMedia, ArrayList<Double> usuario2GeneroMedia) {
+        Double probs_genres = 0.0;
+        Double soma_genres = 0.0;
 
+        for (int i = 0; i < usuario1GeneroMedia.size(); i++){
+            probs_genres = probs_genres + similarityFormula( usuario1GeneroMedia.get(i),usuario2GeneroMedia.get(i) );
+            soma_genres = soma_genres + usuario1GeneroMedia.get(i)+usuario2GeneroMedia.get(i);
+        }
+
+        return 100*probs_genres/soma_genres;
+    }
+
+
+    private double similarityFormula(double media1, double media2){
+        double standardDeviation =  ((media1-media2)*(media1-media2))   /2.0;
+        standardDeviation = Math.sqrt(     standardDeviation);
+        NormalDistribution ndist = new NormalDistribution();
+
+        double result=ndist.cumulativeProbability(standardDeviation);
+        result = 1.0 - (2.0*(result-0.5));
+        result = result*(media1+media2);
+
+        return result;
+    }
+
+
+    public String getGenreName(int i){
+        if(i==0){return "alternative";}
+        if(i==1){return "axe";}
+        if(i==2){return "blues";}
+        if(i==3){return "disco";}
+        if(i==4){return "eletronica";}
+        if(i==5){return "forro";}
+        if(i==6){return "funk";}
+        if(i==7){return "funky_americano";}
+        if(i==8){return "hard_rock";}
+        if(i==9){return "heavy_metal";}
+        if(i==10){return "hip_hop";}
+        if(i==11){return "jazz";}
+        if(i==12){return "mpb";}
+        if(i==13){return "opera";}
+        if(i==14){return "pagode";}
+        if(i==15){return "pop";}
+        if(i==16){return "power_metal";}
+        if(i==17){return "punk";}
+        if(i==18){return "rap";}
+        if(i==19){return "reggae";}
+        if(i==20){return "rock_classico";}
+        if(i==21){return "samba";}
+        if(i==22){return "sertanejo";}
+        //else
+        return "0";
+    }
 }

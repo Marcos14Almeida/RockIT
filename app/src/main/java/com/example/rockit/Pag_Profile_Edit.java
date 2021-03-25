@@ -281,6 +281,8 @@ reference.addValueEventListener(new ValueEventListener() {
 
                         updateFieldUsers("imageURL", aUri);
                         pd.dismiss();
+
+                        Toast.makeText(getApplicationContext(),"Done",Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {

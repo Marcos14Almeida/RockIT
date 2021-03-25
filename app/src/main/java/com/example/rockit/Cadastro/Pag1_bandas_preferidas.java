@@ -2,21 +2,28 @@ package com.example.rockit.Cadastro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rockit.Classes.Generos;
 import com.example.rockit.Classes.Usuario;
+import com.example.rockit.MainActivity;
 import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,8 +38,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class Pag1_bandas_preferidas extends AppCompatActivity {
+    ArrayList<Double> media = new ArrayList<Double>();
+    ArrayList<Double> mediaFinal = new ArrayList<Double>();
+    Double nbandsLiked=0.0;
+    int ngenres=23;int sizeLista_MeuBandas=0;
+
+    String first_login="false";
 
     ArrayList<String> ListaBandas = new ArrayList<>();
     ArrayList<String> Lista_MeuBandas = new ArrayList<>();
@@ -41,7 +55,6 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
     AutoCompleteTextView searchViewBands;String selecionado;
     String currentBands;
     boolean sair=false; //corrige um bug que quando sai da pag, a lista2 fica com itens duplicados
-    boolean UserExists=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +63,11 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         //pega lista de todas as bandas
         texto = findViewById(R.id.textView51);
         texto.setText("");
-        func_Lista_Bandas();
+        //PEGA A LISTA DE BANDAS DO DATABASE
+        ListaBandas();
 
         //ve se o usuario atual ja gosta de alguma banda
         readUsers();
-
-        show_list();
 
         //SEARCH VIEW
         searchViewBands=findViewById(R.id.autoCompleteTextView2);
@@ -94,8 +106,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         ListaBandas.add("Bullet for My Valentine");
         ListaBandas.add("Bush");
         ListaBandas.add("Cage the Elephant");
-        ListaBandas.add("Charlie Brown Jr.");
-        ListaBandas.add("Claudia Leite");
+        ListaBandas.add("Charlie Brown Jr");
         ListaBandas.add("CPM22");
         ListaBandas.add("Dead Sara");
         ListaBandas.add("Diamante");
@@ -124,7 +135,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         ListaBandas.add("Judas Priest");
         ListaBandas.add("Kasabian");
         ListaBandas.add("Kiss");
-        ListaBandas.add("K.Flay");
+        ListaBandas.add("K Flay");
         ListaBandas.add("Imagine Dragons");
         ListaBandas.add("In Flames");
         ListaBandas.add("I Prevail");
@@ -232,6 +243,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
                 return s1.compareToIgnoreCase(s2);
             }
         });
+
         final ListView list = findViewById(R.id.lista_bandas);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, ListaBandas);
         list.setAdapter(arrayAdapter);
@@ -241,6 +253,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
                 String clickedItem=(String) list.getItemAtPosition(position);
                 Lista_MeuBandas.add(clickedItem);
                 ListaBandas.remove(clickedItem);
+                arrayAdapter.notifyDataSetChanged();
 
                 //AVALIA A BANDA DE 0-5 Estrelas
                 //alerta(clickedItem);
@@ -260,9 +273,12 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         }else{texto.setText("");}
 
         if(!sair){
+
         final ListView list2 = findViewById(R.id.lista_2);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.extra_list_text_white, Lista_MeuBandas);
         list2.setAdapter(arrayAdapter);
+        //Vai pro final da lista
+        list2.setSelection(Lista_MeuBandas.size() - 1);
         //Se clicar deleta o item selecionado
         list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -270,6 +286,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
                 String clickedItem=(String) list2.getItemAtPosition(position);
                 Lista_MeuBandas.remove(clickedItem);
                 ListaBandas.add(clickedItem);
+
                 arrayAdapter.notifyDataSetChanged();
             }
         });
@@ -300,6 +317,8 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////////////
+    //                         BOTAO DE ADICIONAR BANDA                              //
     public void search_icon(View view){
         selecionado = searchViewBands.getEditableText().toString();
         //If selecionado is on the list
@@ -314,12 +333,13 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
     }
     ////////                PROXIMA PAG                      /////////
     public void abrirPag(View view){
+        Toast.makeText(this,"Salvando...",Toast.LENGTH_SHORT).show();
+
         sair=true;
         //UPDATE DATABASE
         //Arraylist to String
         String string = "";
         for (String s : Lista_MeuBandas){string += s + ";\t";}
-
 
 
         if(Lista_MeuBandas.size()==0){
@@ -329,8 +349,19 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
             //Salva as infos no Firebase
                     acesso(string);
 
-                    Intent intent = new Intent(this, Pag1_qual_intrumento_toca.class);
-                    startActivity(intent);
+
+            for(int i=0;i<ngenres;i++){
+                media.add(0.0);
+                mediaFinal.add(0.0);
+            }
+                    clearUserBand();
+                    for (int i=0; i<Lista_MeuBandas.size();i++){
+                        sizeLista_MeuBandas=Lista_MeuBandas.size();
+                        //SALVA NOTA E NOME DA BANDA
+                    relationUserBand(Lista_MeuBandas.get(i),"5");
+                    //PEGA A NOTA DOS GENEROS
+                        genre(Lista_MeuBandas.get(i));
+                    }
 
         }
     }
@@ -344,6 +375,47 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
         HashMap<String, Object> map = new HashMap<>();
         map.put("bandas", string);
         reference.updateChildren(map);
+    }
+    public void clearUserBand(){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("bands", " ");
+        reference.updateChildren(map);
+    }
+    public void relationUserBand(String bandName,String stars){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("bands");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(bandName, stars);
+        reference.updateChildren(map);
+    }
+
+    public void relationUserGenre(String genreName,String media){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("genres");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(genreName, media);
+        reference.updateChildren(map);
+    }
+
+
+    private void ListaBandas(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bandas");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    ListaBandas.add(dataSnapshot.getKey());
+                }
+                show_list();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     private void readUsers(){
@@ -363,6 +435,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
                     if(oneUser.getId().equals(firebaseUser.getUid())) {
 
                         currentBands = oneUser.getBandas();
+                        first_login=oneUser.getFirst_login();
 
                         if(currentBands.length()>2) {
                             currentBands = currentBands.replaceAll("\\s+", " "); //remove spaces between words
@@ -400,4 +473,76 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
 
     }
 
+    private void genre(String bandName){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bandas").child(bandName);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Generos genres = snapshot.getValue(Generos.class);
+
+                nbandsLiked++;
+                //lista das bandas
+                    //Nome da banda = procurado//verificar tipo e nome dos dados
+                for(int i=0;i<ngenres;i++){
+                    assert genres != null;
+                    media.set(i,  media.get(i)+ genres.getGenreValue(i));
+                }
+                //No final pega a média e salva
+                for(int i=0;i<ngenres;i++){
+                    mediaFinal.set(i,  media.get(i)/nbandsLiked);
+                }
+
+                //No ultimo loop salva as infos no database
+                if(nbandsLiked==sizeLista_MeuBandas){
+                    for(int i=0;i<ngenres;i++){
+                        mediaFinal.set(i,  media.get(i)/nbandsLiked);
+                        @SuppressLint("DefaultLocale") String mediaFinalFormatada = String.format("%.2f", mediaFinal.get(i)).replaceAll(",",".");
+
+                        //SALVA NO DATABASE O RESULTADO DA MEDIA FINAL POR GENERO
+                        relationUserGenre(getGenreName(i), mediaFinalFormatada);
+                    }
+                    if(first_login.equals("false")) {
+                        Intent intent = new Intent(getApplicationContext(), Pag1_qual_intrumento_toca.class);
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    //
+    public String getGenreName(int i){
+        if(i==0){return "alternative";}
+        if(i==1){return "axe";}
+        if(i==2){return "blues";}
+        if(i==3){return "disco";}
+        if(i==4){return "eletronica";}
+        if(i==5){return "forro";}
+        if(i==6){return "funk";}
+        if(i==7){return "funky_americano";}
+        if(i==8){return "hard_rock";}
+        if(i==9){return "heavy_metal";}
+        if(i==10){return "hip_hop";}
+        if(i==11){return "jazz";}
+        if(i==12){return "mpb";}
+        if(i==13){return "opera";}
+        if(i==14){return "pagode";}
+        if(i==15){return "pop";}
+        if(i==16){return "power_metal";}
+        if(i==17){return "punk";}
+        if(i==18){return "rap";}
+        if(i==19){return "reggae";}
+        if(i==20){return "rock_classico";}
+        if(i==21){return "samba";}
+        if(i==22){return "sertanejo";}
+        //else
+        return "0";
+    }
 }

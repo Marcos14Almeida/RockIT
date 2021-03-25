@@ -26,6 +26,15 @@
         app:srcCompat="@drawable/gradient" />
 
     <TextView
+        android:id="@+id/textSimilarity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:text="@string/numero"
+        android:textColor="@color/branco"
+        android:textSize="24sp" />
+
+    <TextView
         android:id="@+id/helloText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

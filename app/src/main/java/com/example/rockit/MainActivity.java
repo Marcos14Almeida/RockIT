@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import com.bumptech.glide.Glide;
 import com.example.rockit.Bandas.Pag_List_Your_Band;
 import com.example.rockit.Cadastro.Pag0_login;
-import com.example.rockit.Cadastro.Pag1_genero_musical;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.Post.Fragment_post;
 import com.example.rockit.TinderCard.Fragment_procurar_banda;
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getlocation();
             //GET DATA FROM USER
             fireBaseDataUser();
+
         }
 
         //PAGINA INICIAL É O FRAGMENT MENU
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Usuario user = snapshot.getValue(Usuario.class);
+                Usuario user = snapshot.getValue(Usuario.class);
                     if (user != null) {
 
                         //NAVIGATION DRAWER -> VISTA DAS CONFIGURAÇÕES QUANDO PUXA O MENU DA ESQUERDA
