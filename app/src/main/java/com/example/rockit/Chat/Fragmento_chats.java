@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.Notification.Token;
 import com.example.rockit.R;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

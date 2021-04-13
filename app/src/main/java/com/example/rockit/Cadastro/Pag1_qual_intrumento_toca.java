@@ -11,10 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rockit.Classes.Usuario;
-import com.example.rockit.DatabaseHelper;
 import com.example.rockit.MainActivity;
 import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -114,7 +112,6 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem=(String) list.getItemAtPosition(position);
-                Toast.makeText(Pag1_qual_intrumento_toca.this,clickedItem,Toast.LENGTH_LONG).show();
                 Lista_MeuInstrumentos.add(clickedItem);
                 ListaInstrumentos.remove(clickedItem);
                 //show lista 2
@@ -167,27 +164,29 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
         //UPDATE DATABASE
         //Arraylist to String
         String string = "";
-        for (String s : Lista_MeuInstrumentos){string += s + ";\t";}
+        for (String s : Lista_MeuInstrumentos){string += s + "; ";}
 
 
 
+        //Se não toca nenhum instrumento
         if(Lista_MeuInstrumentos.size()==0){
-            sair=false;
-            Toast.makeText(getApplicationContext(),"Selecione pelo menos 1 item",Toast.LENGTH_SHORT).show();
+            //Salva as infos no Firebase
+            acesso("instrumentos"," ");
         }else {
             //Salva as infos no Firebase
             acesso("instrumentos",string);
-            acesso("first_login","true");
-
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
         }
+
+        acesso("first_login","true");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
     public void acesso(String field, String string){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         HashMap<String, Object> map = new HashMap<>();
         map.put(field, string);

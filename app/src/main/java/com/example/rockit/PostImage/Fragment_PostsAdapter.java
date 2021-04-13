@@ -1,5 +1,7 @@
-package com.example.rockit.Post;
+package com.example.rockit.PostImage;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Post;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.Pag_Profile_Show;
@@ -28,7 +32,7 @@ import java.util.List;
 
 //INSTAGRAM App with Firebase
 //https://www.youtube.com/watch?v=mk2CrU-awkM&list=PLzLFqCABnRQduspfbu2empaaY9BoIGLDM&index=8
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
+public class Fragment_PostsAdapter extends RecyclerView.Adapter<Fragment_PostsAdapter.ViewHolder>{
 
     public Context mContext;
     public List<Post> mPost;
@@ -36,7 +40,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     private FirebaseUser firebaseUser;
 
 
-    public PostAdapter(Context mContext, List<Post> mPost) {
+    public Fragment_PostsAdapter(Context mContext, List<Post> mPost) {
         this.mContext = mContext;
         this.mPost = mPost;
     }
@@ -45,14 +49,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i){
         View view = LayoutInflater.from(mContext).inflate(R.layout.post_item,viewGroup,false);
-        return new PostAdapter.ViewHolder(view);
+        return new Fragment_PostsAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i){
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Post post = mPost.get(i);
-        Glide.with(mContext).load(post.getPostimage()).into(viewHolder.post_image);
+
+        //IMAGE
+        getImage(post,viewHolder);
+
+        //DESCRIPTION
         if(post.getDescription().equals("")){
             viewHolder.description.setVisibility(View.GONE);
         }else{
@@ -60,11 +68,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             viewHolder.description.setText(post.getDescription());
         }
 
+        //GET TIME FROM PUBLICATION
+        Classe_Geral classe_geral = new Classe_Geral();
+        String horario = classe_geral.Data(post.getTimestamp());
+        viewHolder.publisher.setText(horario);
+
+        //FUNCTIONS
         publisherInfo(viewHolder.image_profile, viewHolder.username, viewHolder.publisher, post.getPublisher());
-        viewHolder.publisher.setText(post.getTimestamp());
+
         isLikes(post.getPostid(), viewHolder.like);
+
         nrLikes(viewHolder.likes, post.getPostid());
+
         getComments(post.getPostid(), viewHolder.comments);
+
+        /////////////////////////////////////////////////////////////
+        //                    CLICK  ON  ITEMS                     //
+        /////////////////////////////////////////////////////////////
 
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,22 +111,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             }
         });
 
-        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, CommentsActivity.class);
-                intent.putExtra("postid",post.getPostid());
-                intent.putExtra("publisherid",post.getPublisher());
-                mContext.startActivity(intent);
-            }
-        });
-
         viewHolder.image_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Pag_Profile_Show.class);
                 intent.putExtra("userID",post.getPublisher());
                 mContext.startActivity(intent);
+            }
+        });
+        //                    COPY TEXT                     //
+        //https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
+        viewHolder.description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Copy",post.getDescription());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(mContext,"Texto Copiado",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -136,6 +157,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             description = itemView.findViewById(R.id.description);
             comments = itemView.findViewById(R.id.comments);
         }
+    }
+    /////////////////////////////////////////////////////////////
+    //                    SHOW ITEMS                           //
+    /////////////////////////////////////////////////////////////
+    private void getImage(Post post, ViewHolder viewHolder){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("postimage").child(post.getPostid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(post.getPostimage().length()>2){
+                Glide.with(mContext).load(post.getPostimage()).into(viewHolder.post_image);}
+                else{
+                    viewHolder.post_image.getLayoutParams().height=0;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getComments(String postid, TextView comments){
@@ -194,13 +236,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Usuario user = snapshot.getValue(Usuario.class);
-                if(user.getImageURL().equals("default")){
-                    image_profile.setImageResource(R.drawable.foto_pessoa);
-                }else{
-                Glide.with(mContext).load(user.getImageURL()).into(image_profile);}
-                username.setText(user.getName());
-            }
 
+                    if (user.getImageURL().equals("default")) {
+                        image_profile.setImageResource(R.drawable.foto_pessoa);
+                    } else {
+                        Glide.with(mContext).load(user.getImageURL()).into(image_profile);
+                    }
+                    username.setText(user.getName());
+
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });

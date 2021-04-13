@@ -5,23 +5,31 @@ public class Cards_Tinder {
     private String userID;
     private String name;
     private String instruments;
+    private String bands;
     private String imageURL;
     private String genres;
     private String age;
     private String city;
     private String searching_bands;
     private String music_similarity;
+    private String distanceKM;
+    private String new_match;
 
-    public Cards_Tinder(String userID, String name, String instruments, String imageURL, String genres, String age, String city,String searching_bands,String music_similarity){
+    public Cards_Tinder(String userID, String name, String instruments, String bands, String imageURL,
+                        String genres, String age, String city,
+                        String searching_bands,String music_similarity, String distanceKM, String new_match){
         this.userID = userID;
         this.name = name;
         this.instruments = instruments;
+        this.bands = bands;
         this.imageURL = imageURL;
         this.genres=genres;
         this.age = age;
         this.city = city;
         this.searching_bands = searching_bands;
         this.music_similarity = music_similarity;
+        this.distanceKM = distanceKM;
+        this.new_match = new_match;
     }
 
     public String getUserID() {        return userID;    }
@@ -32,6 +40,9 @@ public class Cards_Tinder {
 
     public String getInstruments() {        return instruments;    }
     public void setInstruments(String instruments) {        this.instruments = instruments;    }
+
+    public String getBands() {        return bands;    }
+    public void setBands(String bands) {        this.bands = bands;    }
 
     public String getImageURL() {        return imageURL;    }
     public void setImageURL(String imageURL) {        this.imageURL = imageURL;    }
@@ -50,4 +61,10 @@ public class Cards_Tinder {
 
     public String getMusic_similarity() {        return music_similarity;    }
     public void setMusic_similarity(String music_similarity) {        this.music_similarity = music_similarity;    }
+
+    public String getDistanceKM() {        return distanceKM;    }
+    public void setDistanceKM(String distanceKM) {        this.distanceKM = distanceKM;    }
+
+    public String getNewMatch() {        return new_match;    }
+    public void setNewMatch(String rejected) {        new_match = new_match;    }
 }

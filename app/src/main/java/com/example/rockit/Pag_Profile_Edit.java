@@ -6,11 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.PhoneNumberUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
@@ -25,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.rockit.Cadastro.Pag1_bandas_preferidas;
 import com.example.rockit.Cadastro.Pag1_genero_musical;
 import com.example.rockit.Cadastro.Pag1_qual_intrumento_toca;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Usuario;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,14 +40,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Pag_Profile_Edit extends AppCompatActivity {
+
+    Classe_Geral classe_geral = new Classe_Geral();
+
     FirebaseUser firebaseUser;
     DatabaseReference reference;
     ListView list;
@@ -80,34 +77,17 @@ public class Pag_Profile_Edit extends AppCompatActivity {
 
     }
 
-    public String cidade_user(String userLatitude, String userLongitude){
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        double lat = Double.parseDouble(userLatitude);
-        double lon = Double.parseDouble(userLongitude);
-        try {
-            List<Address> addresses = geocoder.getFromLocation(lat,lon, 1);
-            String yourCity = addresses.get(0).getAddressLine(0);
 
-            if(yourCity.contains("-")) {
-                String subString = yourCity.split("-")[1];//Rua Saude,56 - Vila Aurora, São Paulo - SP, 123523-23
-                return subString.split(",")[1];//Vila Aurora, São Paulo
-            }else return yourCity;
-        }
-        catch(IOException e) {e.printStackTrace();}
-        return "";
-    }
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
     public void fireBaseDataUser(){
     firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-reference.addValueEventListener(new ValueEventListener() {
+    reference.addValueEventListener(new ValueEventListener() {
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         Usuario user = snapshot.getValue(Usuario.class);
-        if (user != null) {
-
 
             //FOTO DO PERFIL
             ImageView fotoUsuario = findViewById(R.id.im_user);
@@ -120,7 +100,7 @@ reference.addValueEventListener(new ValueEventListener() {
             //LOCALIZAÇÃO
             String cidade="";
             if(snapshot.hasChild("latitude")){//se o usuario permitiu registrar latitude e longitude
-                cidade = cidade_user(user.getLatitude(),user.getLongitude());
+                cidade = classe_geral.cidade_user(getApplicationContext(),user.getLatitude(),user.getLongitude());
             }
             TextView texto = findViewById(R.id.textViewCidade);
             texto.setText(cidade);
@@ -155,8 +135,9 @@ reference.addValueEventListener(new ValueEventListener() {
 
             //Lista Fav Bands
             list = findViewById(R.id.listFavBands);
+
             arrayText.clear();
-            arrayText.add(user.getBandas());
+            arrayText.add(classe_geral.filterBands(snapshot));
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, arrayText);
             list.setAdapter(arrayAdapter);
 
@@ -168,9 +149,11 @@ reference.addValueEventListener(new ValueEventListener() {
             list2.setAdapter(arrayAdapter2);
 
             //Lista Fav Genres
+            String auxiliarString = classe_geral.filterGeneros(snapshot);
+
             ListView list3 = findViewById(R.id.listFavGenres);
             arrayText3.clear();
-            arrayText3.add(user.getGeneros());
+            arrayText3.add(auxiliarString);
             ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, arrayText3);
             list3.setAdapter(arrayAdapter3);
 
@@ -182,13 +165,13 @@ reference.addValueEventListener(new ValueEventListener() {
             }
             aSwitch.setOnClickListener(v -> {
                 if(aSwitch.isChecked()){
-                    updateFieldUsers("searching_bands","1");
+                    classe_geral.updateFieldUsers("searching_bands","1");
                 }else{
-                    updateFieldUsers("searching_bands","0");
+                    classe_geral.updateFieldUsers("searching_bands","0");
                 }
             });
 
-        }
+
     }
 
     @Override
@@ -197,14 +180,6 @@ reference.addValueEventListener(new ValueEventListener() {
 });
     }
 
-    //troca dados no database
-    public void updateFieldUsers(String field, String string){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(field, string);
-        reference.updateChildren(map);
-    }
     /////////////////////////////////////////////////////////////
     //                     F U N Ç Õ E S                       //
     /////////////////////////////////////////////////////////////
@@ -213,14 +188,14 @@ reference.addValueEventListener(new ValueEventListener() {
         super.onPause();
         //atualiza campos
         String selecionado = editDescription.getEditableText().toString();
-        updateFieldUsers("description",selecionado);
+        classe_geral.updateFieldUsers("description",selecionado);
         selecionado = editInstagram.getEditableText().toString();
-        updateFieldUsers("instagram",selecionado);
+        classe_geral.updateFieldUsers("instagram",selecionado);
         selecionado = editContact.getEditableText().toString();
         String selecionado2 = editContact2.getEditableText().toString();
         if((Pattern.compile("[0-9][0-9]").matcher(selecionado).matches() || Pattern.compile("[0-9][0-9][0-9]").matcher(selecionado).matches() )
         && selecionado2.length()>0){
-            updateFieldUsers("contact",selecionado+" "+selecionado2);
+            classe_geral.updateFieldUsers("contact",selecionado+" "+selecionado2);
             Toast.makeText(this,"Informações Salvas",Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this,"Número não salvo/Incorreto",Toast.LENGTH_SHORT).show();
@@ -279,7 +254,7 @@ reference.addValueEventListener(new ValueEventListener() {
                         Uri downloadUri = task.getResult();
                         String aUri = downloadUri.toString();
 
-                        updateFieldUsers("imageURL", aUri);
+                        classe_geral.updateFieldUsers("imageURL", aUri);
                         pd.dismiss();
 
                         Toast.makeText(getApplicationContext(),"Done",Toast.LENGTH_SHORT).show();

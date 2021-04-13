@@ -1,8 +1,7 @@
 package com.example.rockit.TinderCard;
 
 import android.annotation.SuppressLint;
-import android.location.Address;
-import android.location.Geocoder;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,12 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rockit.Cadastro.Pag0_login;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Cards_Tinder;
 import com.example.rockit.Classes.Generos;
 import com.example.rockit.Classes.Usuario;
+import com.example.rockit.Pag_Profile_Show;
 import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,30 +30,32 @@ import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
-
-public class Fragment_procurar_banda extends Fragment {
 ///////////////////////////////////////////////
-    //TINDER SWAP
+//TINDER SWAP
 //https://www.youtube.com/watch?v=SJW_4UMXbu8
 //https://github.com/Diolor/Swipecards
-    //part 7 - Register Swipes to the Database
-    //https://www.youtube.com/watch?v=H5b0LSVRAeM&list=PLxabZQCAe5fio9dm1Vd0peIY6HLfo5MCf&index=9
+//part 7 - Register Swipes to the Database
+//https://www.youtube.com/watch?v=H5b0LSVRAeM&list=PLxabZQCAe5fio9dm1Vd0peIY6HLfo5MCf&index=9
 ///////////////////////////////////////////////
-    ArrayList<Double> usuario1GeneroMedia= new ArrayList<Double>();;
-    ArrayList<Double> usuario2GeneroMedia= new ArrayList<Double>();;
-    int ngenres=23;
+
+public class Fragment_procurar_banda extends Fragment {
+
+    Classe_Geral classe_geral = new Classe_Geral();
+
+    ArrayList<Double> usuario1GeneroMedia= new ArrayList<Double>();
+    ArrayList<Double> usuario2GeneroMedia= new ArrayList<Double>();
+    ArrayList<String> bandsInCommon= new ArrayList<String>();
 
     private ArrayAdapter_Tinder_Card arrayAdapter;
     List<Cards_Tinder> rowItems;
     private DatabaseReference cardUserDB;
     private FirebaseAuth mAuth;
-    private String currentUId;
+    private String currentUId, new_match;
+    int ngenres;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +66,8 @@ public class Fragment_procurar_banda extends Fragment {
         cardUserDB = FirebaseDatabase.getInstance().getReference().child("Users");
         currentUId = mAuth.getCurrentUser().getUid();
 
+        Generos generos = new Generos();
+        ngenres = generos.getNumberGenres();
         //inicializa variaveis da media
         for(int i=0;i<ngenres;i++){
             usuario1GeneroMedia.add(0.0);
@@ -121,7 +126,7 @@ public class Fragment_procurar_banda extends Fragment {
 
             @Override
             public void onScroll(float scrollProgressPercent) {
-                Toast.makeText(getActivity(), "onScroll", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "onScroll", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -130,7 +135,13 @@ public class Fragment_procurar_banda extends Fragment {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(getActivity(), "Clicked!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Clicked!", Toast.LENGTH_SHORT).show();
+
+                Cards_Tinder cards_tinder = (Cards_Tinder) dataObject;
+                String userID = cards_tinder.getUserID();
+                Intent intent = new Intent(getContext(), Pag_Profile_Show.class);
+                intent.putExtra("userID",userID);
+                startActivity(intent);
             }
         });
 
@@ -138,35 +149,12 @@ public class Fragment_procurar_banda extends Fragment {
         return view;
     }
 
-    public String cidade_user(String userLatitude, String userLongitude){
-        if(userLatitude.equals("")){
-            return "";
-        }
-
-            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-            double lat = Double.parseDouble(userLatitude);
-            double lon = Double.parseDouble(userLongitude);
-        try {
-            List<Address> addresses = geocoder.getFromLocation(lat,lon, 1);
-            String yourCity = addresses.get(0).getAddressLine(0);
-
-            if(yourCity.contains("-")) {
-                String subString = yourCity.split("-")[1];//Rua Saude,56 - Vila Aurora, São Paulo - SP, 123523-23
-                return subString.split(",")[1];//Vila Aurora, São Paulo
-            }else return yourCity;
-        }
-        catch(IOException e) {e.printStackTrace();}
-        return "";
-    }
-
-
-
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
     private void readUsers(){
-        //dataSnapshot = usuario 2
-        //snapshot = usuario 1
+        //dataSnapshot = usuario 2 = perfil mostrado no tinder
+        //snapshot = usuario 1 =pessoa usando o app
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -179,6 +167,7 @@ public class Fragment_procurar_banda extends Fragment {
                     assert oneUser != null;
                     assert firebaseUser != null;
                     //Se não for o meu usuario mostra na lista
+                    //Log.d("ID",dataSnapshot.child("id").getValue().toString());
                     if(!oneUser.getId().equals(firebaseUser.getUid())) {//getImageURL->GETid!!!
                         //Se eu ainda nao/   dei like no outro usuario
                         if(!dataSnapshot.child("connections").child("yes").hasChild(currentUId)){
@@ -191,12 +180,23 @@ public class Fragment_procurar_banda extends Fragment {
                             //Get genres USUARIO 2
                             for(int i=0;i<ngenres;i++) {
                                 String s = String.valueOf(dataSnapshot.child("genres").child(getGenreName(i)).getValue());
+                                Log.d("saida",s);
                                 usuario2GeneroMedia.set(i,Double.parseDouble(s));
+                            }
+
+                            //bandas em comun
+                            bandsInCommon.clear();
+                            for(DataSnapshot bandsSnapshot2: dataSnapshot.child("bands").getChildren()){//user2 bands
+                                for(DataSnapshot bandsSnapshot1: snapshot.child(firebaseUser.getUid()).child("bands").getChildren()){//user bands
+
+                                    if(Objects.equals(bandsSnapshot1.getKey(), bandsSnapshot2.getKey())) {
+                                        bandsInCommon.add(bandsSnapshot1.getKey());
+                                    }
+                                }
                             }
 
                             //Get genres USUARIO 1
                             if(snapshot.child(firebaseUser.getUid()).hasChild("genres")){
-                                Log.d("resul0",usuario1GeneroMedia.toString());
                                 for (int i = 0; i < ngenres; i++) {
                                     String s = String.valueOf(snapshot.child(firebaseUser.getUid()).child("genres").child(getGenreName(i)).getValue());
                                     usuario1GeneroMedia.set(i,Double.parseDouble(s));
@@ -208,16 +208,31 @@ public class Fragment_procurar_banda extends Fragment {
 
                             //FORMULA E CALCULO DO RESULTADO ENTRE 0 E 100%
                             Double dResultadoFinal = similarityResult(usuario1GeneroMedia,usuario2GeneroMedia);
-                            @SuppressLint("DefaultLocale") String resultadoFinal = String.format("%.2f", dResultadoFinal)+ '%';
+                            @SuppressLint("DefaultLocale") String SimilaridadeMusical = String.format("%.2f", dResultadoFinal)+ '%';
 
-                            //Se o usuario nao permitiu acesso ao GPS, ou se nao quer mostrar
-                                if (!dataSnapshot.child(firebaseUser.getUid()).hasChild("latitude")
-                                        ||     dataSnapshot.child("permission_location").getValue().equals("0"))
-                                {
-                                    oneUser.setLatitude("");
-                                    oneUser.setLongitude("");
+
+
+                                //calculo distancia entre usuarios
+                            double distanceKM=100.0;
+                                //Se o valor existir
+                                if(dataSnapshot.hasChild("latitude") && snapshot.child(firebaseUser.getUid()).hasChild("latitude")) {
+                                    distanceKM = distance(Double.parseDouble(oneUser.getLatitude()),
+                                            Double.parseDouble(oneUser.getLongitude()),
+                                            Double.parseDouble(String.valueOf(snapshot.child(firebaseUser.getUid()).child("latitude").getValue())),
+                                            Double.parseDouble(String.valueOf(snapshot.child(firebaseUser.getUid()).child("longitude").getValue()))
+                                    );
                                 }
+                                else{
+                                oneUser.setLatitude("");
+                                oneUser.setLongitude("");
+                            }
 
+                            //Se ja deslizou pra esquerda  ou não no outro usuario
+                            if(dataSnapshot.child("connections").child("no").hasChild(currentUId)){
+                                new_match = "NO";
+                            }else{
+                                new_match = "YES";
+                            }
 
                             //POR FIM COM TODAS AS INFOS
                             //Cria o objeto do cartao do Tinder
@@ -225,19 +240,43 @@ public class Fragment_procurar_banda extends Fragment {
                                     dataSnapshot.getKey(),
                                     dataSnapshot.child("name").getValue().toString(),
                                     dataSnapshot.child("instrumentos").getValue().toString(),
+                                    classe_geral.filterBands(dataSnapshot),
                                     dataSnapshot.child("imageURL").getValue().toString(),
-                                    dataSnapshot.child("generos").getValue().toString(),
+                                    classe_geral.filterGeneros(dataSnapshot),
                                     dataSnapshot.child("age").getValue().toString(),
-                                    cidade_user(oneUser.getLatitude(),oneUser.getLongitude()),
+                                    classe_geral.cidade_user(getContext(), oneUser.getLatitude(),oneUser.getLongitude()),
                                     dataSnapshot.child("searching_bands").getValue().toString(),
-                                    resultadoFinal
+                                    SimilaridadeMusical,
+                                    String.valueOf(distanceKM),
+                                    new_match
                             );
                             rowItems.add(cards_tinder);
-
 
                             arrayAdapter.notifyDataSetChanged();
 
                         }}
+                }//end: for datasnapshot...
+
+                /////////////////////////////////////
+                //Organiza as cartas de tinder
+                for (int i = 0; i < rowItems.size(); i++) {
+                    Cards_Tinder cards_tinder=rowItems.get(i);
+                    double distanceKM = Double.parseDouble(cards_tinder.getDistanceKM());
+                    for (int k = i; k < rowItems.size(); k++) {
+                        cards_tinder=rowItems.get(k);
+                        double distanceKM2 = Double.parseDouble(cards_tinder.getDistanceKM());
+
+                        //Se o usuario estiver mais perto, sobe na lista
+                        //Se ja deu nao pro outro usuario ele vai pro final da lista
+                        if((distanceKM2<distanceKM) ||
+                           (rowItems.get(i).getNewMatch().equals("NO") && rowItems.get(k).getNewMatch().equals("YES"))     ){
+                            //troca os items
+                            Cards_Tinder cards_auxiliar=rowItems.get(i);
+                            rowItems.set(i,rowItems.get(k));
+                            rowItems.set(k,cards_auxiliar);
+                        }
+
+                    }
                 }
 
             }
@@ -245,6 +284,32 @@ public class Fragment_procurar_banda extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
+    /////////////////////////////////////////////////////////////
+    //                    DISTANCIA USUARIOS                //
+    /////////////////////////////////////////////////////////////
+    /**
+     * Calculate distance between two points in latitude and longitude taking
+     * into account height difference. If you are not interested in height
+     * difference pass 0.0. Uses Haversine method as its base.
+     *
+     * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
+     * el2 End altitude in meters
+     * @returns Distance in Meters
+     */
+    public static double distance(double lat1, double lon1, double lat2, double lon2) {
+
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        return Math.sqrt(distance);
     }
     /////////////////////////////////////////////////////////////
     //                    PONTUCAO SIMILARIDADE                //
@@ -274,7 +339,9 @@ public class Fragment_procurar_banda extends Fragment {
         return result;
     }
 
-
+    /////////////////////////////////////////////////////////////
+    //                    OUTRO                                //
+    /////////////////////////////////////////////////////////////
     public String getGenreName(int i){
         if(i==0){return "alternative";}
         if(i==1){return "axe";}

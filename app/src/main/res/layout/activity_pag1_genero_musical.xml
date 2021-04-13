@@ -38,7 +38,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_weight="1"
+        tools:ignore="LabelFor"
         android:textColor="@color/branco"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,11 +101,10 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="6dp"
+        android:contentDescription="@string/todo"
         android:onClick="search_icon"
         app:layout_constraintBottom_toBottomOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button7"
         app:layout_constraintTop_toBottomOf="@+id/lista_generos"
         app:srcCompat="@android:drawable/ic_menu_add" />
 

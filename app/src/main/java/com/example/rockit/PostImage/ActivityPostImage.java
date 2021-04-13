@@ -1,9 +1,10 @@
-package com.example.rockit.Post;
+package com.example.rockit.PostImage;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -36,7 +37,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 //https://www.youtube.com/watch?v=GV1qbi59rgc&list=PLzLFqCABnRQduspfbu2empaaY9BoIGLDM&index=6
-public class ActivityPost extends AppCompatActivity {
+public class ActivityPostImage extends AppCompatActivity {
 
     Uri imageUri;
     String myUri = "";
@@ -83,7 +84,7 @@ public class ActivityPost extends AppCompatActivity {
     }
 
     private  void uploadImage(){
-        ProgressDialog progressDialog = new ProgressDialog(ActivityPost.this);
+        ProgressDialog progressDialog = new ProgressDialog(ActivityPostImage.this);
         progressDialog.setMessage("Posting");
         progressDialog.show();
 
@@ -114,7 +115,7 @@ public class ActivityPost extends AppCompatActivity {
                         hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                         //HORARIO MENSAGEM
-                        DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
+                        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
                         String date = df.format(Calendar.getInstance().getTime());
                         hashMap.put("timestamp", date);
 

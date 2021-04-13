@@ -7,6 +7,14 @@
     >
 
     <TextView
+        android:id="@+id/texto_seen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/texto_message"
+        android:layout_marginTop="60dp"
+        android:text="seen" />
+
+    <TextView
         android:id="@+id/texto_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

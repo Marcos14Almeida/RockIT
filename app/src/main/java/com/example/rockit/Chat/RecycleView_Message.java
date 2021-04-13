@@ -1,18 +1,23 @@
 package com.example.rockit.Chat;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.rockit.Classes.Chat;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,9 +68,15 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Usuario user = snapshot.getValue(Usuario.class);//pega os dados da classe usuario de quem enviou a mensagem
-                if (user != null) {
+
+                    //Message
                     holder.show_message.setText(chat.getMessage());
-                    holder.show_message2.setText(chat.getTimestamp());
+
+                    //Pega a data do firebase e converte para o formato mais legivel
+                    Classe_Geral classe_geral = new Classe_Geral();
+                    holder.show_message2.setText(classe_geral.Data(chat.getTimestamp()));
+
+                    //IMAGEM
                     if(user.getImageURL().equals("default")){holder.profile_picture.setImageResource(R.drawable.foto_pessoa);}
                     else{
                         // Avalia se o mcontext está certo, pq se não tem um bug
@@ -75,7 +86,50 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
                             Glide.with(mcontext).load(user.getImageURL()).into(holder.profile_picture);
                             }
                         }
+
+                    //Is seen - o usuario visualizou a mensagem
+                    //https://www.youtube.com/watch?v=E1qm09JWUdI 5:25
+                if(position == mChat.size()-1){
+                    if(chat.getIsseen()){
+                        holder.texto_seen.setText("Visto");
+                    }else{
+                        holder.texto_seen.setText("Entregue");
+                    }
+                }else{
+                    holder.texto_seen.setVisibility(View.GONE);
                 }
+
+                //                    COPY TEXT                     //
+                //https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
+                holder.show_message.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mcontext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Copy",chat.getMessage());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(mcontext,"Texto Copiado",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                holder.show_message.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        DatabaseReference referenceTemp = FirebaseDatabase.getInstance().getReference("Chats");
+                        referenceTemp.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                   if(dataSnapshot.child("message").getValue().equals(chat.getMessage())){
+                                       referenceTemp.child(dataSnapshot.getKey()).removeValue();
+                                   }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
+                        return false;
+                    }
+                });
 
             }            @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -101,12 +155,13 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView profile_picture;
-        TextView show_message,show_message2;
+        TextView show_message,show_message2,texto_seen;
         ViewHolder(View itemView) {
             super(itemView);
             profile_picture = itemView.findViewById(R.id.im_friend_user);
             show_message = itemView.findViewById(R.id.texto_message);
             show_message2 = itemView.findViewById(R.id.texto_message2);
+            texto_seen = itemView.findViewById(R.id.texto_seen);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.rockit.Post;
+package com.example.rockit.PostImage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +32,7 @@ import java.util.List;
 public class CommentsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private CommentAdapter commentAdapter;
+    private CommentsAdapter commentsAdapter;
     private List<Comment> commentList;
 
     EditText addcomment;
@@ -60,8 +60,8 @@ public class CommentsActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(this, commentList);
-        recyclerView.setAdapter(commentAdapter);
+        commentsAdapter = new CommentsAdapter(this, commentList);
+        recyclerView.setAdapter(commentsAdapter);
 
         addcomment = findViewById(R.id.add_comment);
         image_profile = findViewById(R.id.image_profile);
@@ -124,7 +124,7 @@ public class CommentsActivity extends AppCompatActivity {
                     Comment comment = dataSnapshot.getValue(Comment.class);
                     commentList.add(comment);
                 }
-                commentAdapter.notifyDataSetChanged();
+                commentsAdapter.notifyDataSetChanged();
             }
 
             @Override

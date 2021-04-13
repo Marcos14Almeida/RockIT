@@ -29,9 +29,6 @@
     <string name="voce_toca_algum_instrumento_musical">Você toca algum instrumento musical?</string>
     <string name="habilidade_no_instrumento">Habilidade no instrumento</string>
     <string name="escolha_suas_bandas">Escolha suas bandas favoritas</string>
-    <string name="red_hot_chilli_peppers">Red Hot Chilli Peppers</string>
-    <string name="metallica">Metallica</string>
-    <string name="katy_perry">Katy Perry</string>
     <string name="proximo">PRÓXIMO</string>
     <string name="meus_generos">Meus gêneros preferidos</string>
     <string name="qual_genero_musical_voce_gosta">Quais gêneros musicais você gosta?</string>
@@ -57,6 +54,8 @@
     <string name="privacidade">Privacidade</string>
     <string name="permitir_notificacoes">Permitir Notificações</string>
     <string name="mostrar_minha_localizacao">Mostrar Minha Localização</string>
+    <string name="filtro_distancia_dos_usuarios">Filtro de Distância</string>
+
 
     <!--         AVALIE O APP               -->
     <string name="o_que_achou_cadastro">O que você achou do Cadastro?</string>
@@ -100,7 +99,7 @@
     <string name="meu_whatsapp">Meu Whatsapp</string>
 
     <!--          BANDA              -->
-    <string name="nome_banda">Os Bacanudos</string>
+    <string name="nome_banda">Nome da Banda</string>
     <string name="generos">Gêneros</string>
     <string name="tags">Tags</string>
     <string name="imagem_banda">Imagem da banda selecionada pelo usuário</string>
@@ -112,6 +111,7 @@
     <string name="videos_banda">Videos</string>
     <string name="avalie_a_banda">Avalie a Banda:</string>
     <string name="suas_bandas">Suas Bandas</string>
+    <string name="link">Link</string>
 
     <!--          FILTROS              -->
     <string name="filtros">FILTROS</string>
@@ -130,6 +130,9 @@
                             Além disso, você pode encontrar outras pessoas com o mesmo perfil musical que você.
                             \n\t\t Aqui você pode escutar e conhecer bandas novas e bem pertinho de onde você mora, e avaliar e comentar a respeito
                             dos músicos locais.\n
+                            \nNossa equipe é formada por estudantes da Unicamp e Unesp com muita vontade de mudar o cenário musical e
+                            alavancar a carreira de músicos ao redor de todo o país, conectando-os com o público, gravadoras, estúdios,
+                            casas de eventos e muito mais!!!
                             </string>
     <!--          FALE CONOSCO              -->
     <string name="assunto">Assunto</string>
@@ -158,5 +161,10 @@
     <string name="post">Post</string>
     <string name="posts">Posts</string>
     <string name="adicione_comentario">Adicione um comentário</string>
+
+    <string name="type_a_message">Type a message...</string>
+
+    <!--         TINDER               -->
+    <string name="bandas_comum">Bandas Em Comum</string>
 
 </resources>

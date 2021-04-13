@@ -45,61 +45,11 @@
         tools:text="@string/generico" />
 
     <TextView
-        android:id="@+id/textInstruments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="560dp"
-        android:gravity="center|start"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:text="@string/instrumentos_praticados" />
-
-    <TextView
-        android:id="@+id/textInstruments2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="580dp"
-        android:gravity="center|center_horizontal"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:text="@string/generico" />
-
-    <TextView
-        android:id="@+id/textAge"
+        android:id="@+id/textCity2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="430dp"
-        android:gravity="center|start"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:text="@string/idade" />
-
-    <TextView
-        android:id="@+id/textAge2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="430dp"
-        android:gravity="center|center_horizontal"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:text="@string/generico" />
-
-    <TextView
-        android:id="@+id/textGenres"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="470dp"
-        android:gravity="center|start"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:text="@string/generos" />
-
-    <TextView
-        android:id="@+id/textGenres2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="490dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="400dp"
         android:gravity="center|center_horizontal"
         android:textColor="@android:color/white"
         android:textSize="18sp"
@@ -116,14 +66,85 @@
         tools:text="@string/cidade" />
 
     <TextView
-        android:id="@+id/textCity2"
+        android:id="@+id/textAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="350dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/idade" />
+
+    <TextView
+        android:id="@+id/textAge2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="190dp"
+        android:layout_marginTop="350dp"
         android:gravity="center|center_horizontal"
         android:textColor="@android:color/white"
         android:textSize="18sp"
+        tools:text="@string/numero" />
+
+    <TextView
+        android:id="@+id/textGenres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="430dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/generos" />
+
+    <TextView
+        android:id="@+id/textGenres2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="450dp"
+        android:gravity="center|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        tools:text="@string/generico" />
+
+    <TextView
+        android:id="@+id/textInstruments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="510dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/instrumentos_praticados" />
+
+    <TextView
+        android:id="@+id/textInstruments2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="530dp"
+        android:gravity="center|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/generico" />
+
+    <TextView
+        android:id="@+id/textBands1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="580dp"
+        android:gravity="center|start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="@string/bandas_favoritas" />
+
+    <TextView
+        android:id="@+id/textBands2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="600dp"
+        android:gravity="center|center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
         tools:text="@string/generico" />
 
     <View
@@ -143,13 +164,13 @@
         android:alpha="0"
         android:background="#5AF" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <TextView
+        android:id="@+id/text_search_band"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="250dp"
-        android:layout_marginTop="400dp"
-        android:text="@string/procurar_banda"
+        android:layout_marginTop="350dp"
+        android:text="@string/generico"
         android:textColor="@color/branco" />
 
 </FrameLayout>

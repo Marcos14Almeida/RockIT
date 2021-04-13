@@ -175,6 +175,7 @@ public class Pag_Create_Band extends AppCompatActivity {
                             map.put("searching_members","0");
                             map.put("stars","0");
                             map.put("instagram","");
+                            map.put("youtube","default");
                             map.put("number_followers","0");
                             // Write a message to the database
                             reference.setValue(map).addOnCompleteListener(task -> {

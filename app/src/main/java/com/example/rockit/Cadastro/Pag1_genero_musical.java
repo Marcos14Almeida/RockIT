@@ -12,6 +12,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.MainActivity;
 import com.example.rockit.R;
 import com.example.rockit.Classes.Usuario;
@@ -30,12 +32,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 public class Pag1_genero_musical extends AppCompatActivity {
+    Classe_Geral classe_geral = new Classe_Geral();
     String first_login="false";
     ArrayList<String> ListaEstilosMusicais = new ArrayList<>();
     ArrayList<String> Lista_MeuEstilosMusicais = new ArrayList<>();
     ArrayAdapter<String> adapter;
     TextView texto;
-    String currentGenres;
     AutoCompleteTextView searchViewBands;String selecionado;
     boolean sair=false;//corrige um bug que quando sai da pag, a lista2 fica com itens duplicados
 
@@ -188,7 +190,6 @@ public class Pag1_genero_musical extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Selecione pelo menos 1 item",Toast.LENGTH_SHORT).show();
         }else {
             //Salva as infos no Firebase
-            acesso(string);
 
             if(first_login.equals("false")){
                 Intent intent = new Intent(this, Pag1_bandas_preferidas.class);
@@ -203,41 +204,22 @@ public class Pag1_genero_musical extends AppCompatActivity {
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
-    public void acesso(String string){
+    private void readUsers(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("generos", string);
-        reference.updateChildren(map);
-    }
-    private void readUsers(){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Usuario oneUser = dataSnapshot.getValue(Usuario.class);
+                    Usuario oneUser = snapshot.getValue(Usuario.class);
                     //garante que tem algum valor disponível
                     assert oneUser != null;
-                    assert firebaseUser != null;
 
-
-                    //Se não for o meu usuario mostra na lista de chats
-                    if(oneUser.getId().equals(firebaseUser.getUid())) {
-
-                        currentGenres = oneUser.getGeneros();
                         first_login=oneUser.getFirst_login();
 
-                        if(currentGenres.length()>2) {
-                            currentGenres = currentGenres.replaceAll("\\s+", " "); //remove spaces between words
-                            //NOME DOS MEMBROS DE LISTA PARA STRING
-                            if (currentGenres.contains(";")) {
-                                String[] separated = currentGenres.split(";");
-                                Lista_MeuEstilosMusicais.addAll(Arrays.asList(separated));
-                                Lista_MeuEstilosMusicais.remove(Lista_MeuEstilosMusicais.size() - 1);
-                            }
+
+                Lista_MeuEstilosMusicais=classe_geral.filterGenerosArray(snapshot);
+
                             //REMOVE FROM FULL LIST OF BANDS
                             for (int i = 0; i < Lista_MeuEstilosMusicais.size(); i++) {
                                 Lista_MeuEstilosMusicais.set(i, Lista_MeuEstilosMusicais.get(i).trim());//remove espaços
@@ -249,13 +231,6 @@ public class Pag1_genero_musical extends AppCompatActivity {
                                 }
                             }
                             show_list2();
-
-                        }
-                    }
-
-
-
-                }
             }
 
             @Override

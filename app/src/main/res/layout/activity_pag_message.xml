@@ -55,10 +55,13 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="50dp"
+            android:layout_marginEnd="50dp"
+            android:autofillHints=""
             android:background="@color/branco"
-            android:hint="Type a message..."
-            android:padding="5dp" />
+            android:hint="@string/type_a_message"
+            android:inputType="text"
+            android:padding="5dp"
+            tools:ignore="LabelFor" />
 
         <ImageView
             android:id="@+id/imageView14"

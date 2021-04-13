@@ -163,8 +163,8 @@
 
                 <ImageView
                     android:id="@+id/im_insta"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="28dp"
                     android:contentDescription="@string/todo"
                     android:onClick="openInstagram"
@@ -175,10 +175,11 @@
 
                 <ImageView
                     android:id="@+id/im_youtube"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="24dp"
                     android:contentDescription="@string/todo"
+                    android:onClick="openYoutube"
                     android:visibility="visible"
                     app:layout_constraintStart_toEndOf="@+id/im_insta"
                     app:layout_constraintTop_toTopOf="@+id/im_insta"

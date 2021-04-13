@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.rockit.Classes.Chat;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,14 +84,22 @@ public class RecycleView_Chat extends RecyclerView.Adapter<RecycleView_Chat.Exam
         }
 
         holder.mTextView1.setText(user.getName());
-        holder.mTextView2.setText(cidade_user(user));
+
+        //Nome da cidade
+        Classe_Geral classe_geral = new Classe_Geral();
+        if(user.getLatitude()!=null) {
+            holder.mTextView2.setText(classe_geral.cidade_user(mcontext, user.getLatitude(), user.getLongitude()));
+        }else{
+            holder.mTextView2.setText("");
+        }
+
         holder.mTextView3.setText("Toca: "+user.getInstrumentos());
 
         //LAST MESSAGE
         lastMessage(user.getId(), holder.mTextView4);
 
-        //MATCH
-        matchValidation(user, holder.mTextView2);
+        //MATCH -> se der match escreve o nome "MATCH", usado como teste
+        //matchValidation(user, holder.mTextView2);
 
         //SE CLICA NA IMAGEM ABRE A PAG DE MENSAGENS
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
@@ -105,24 +114,6 @@ public class RecycleView_Chat extends RecyclerView.Adapter<RecycleView_Chat.Exam
     @Override
     public int getItemCount() {
         return mExampleList.size();
-    }
-
-    public String cidade_user(Usuario user){
-        //Display Latitude para teste
-
-        Geocoder geocoder = new Geocoder(mcontext, Locale.getDefault());
-        double lat = Double.parseDouble(user.getLatitude());
-        double lon = Double.parseDouble(user.getLongitude());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(lat,lon, 1);
-            String yourCity = addresses.get(0).getAddressLine(0);
-            if(yourCity.contains("-")) {
-                String subString = yourCity.split("-")[1];//Rua Saude,56 - Vila Aurora, São Paulo - SP, 123523-23
-                return subString.split(",")[1];//Vila Aurora, São Paulo
-            }else return yourCity;
-        }
-        catch(IOException e) {e.printStackTrace();}
-        return "";
     }
 
     public void matchValidation(Usuario user, TextView textView){

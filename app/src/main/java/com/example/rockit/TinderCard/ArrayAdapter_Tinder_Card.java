@@ -36,6 +36,8 @@ public class ArrayAdapter_Tinder_Card extends ArrayAdapter<Cards_Tinder> {
         generico.setText(R.string.generos);
         generico = convertView.findViewById(R.id.textCity);
         generico.setText(R.string.cidade);
+        generico = convertView.findViewById(R.id.textBands1);
+        generico.setText(R.string.bandas_favoritas);
 
         //Dados usuario
         TextView name = convertView.findViewById(R.id.helloText);
@@ -45,22 +47,13 @@ public class ArrayAdapter_Tinder_Card extends ArrayAdapter<Cards_Tinder> {
         generico = convertView.findViewById(R.id.textSimilarity);
         generico.setText(cards_tinder.getMusic_similarity());
 
-        //Procura banda SWITCH
-        Switch aSwitch = convertView.findViewById(R.id.switch1);
+        //Procura banda
+        TextView search = convertView.findViewById(R.id.text_search_band);
         if(cards_tinder.getSearching_bands().equals("1")){
-            aSwitch.setChecked(true);
+            search.setText("Procurando formar banda");
+        }else{
+            search.setText("");
         }
-        aSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(cards_tinder.getSearching_bands().equals("1")){
-                    aSwitch.setChecked(true);
-                }
-                else {
-                    aSwitch.setChecked(false);
-                }
-            }
-        });
 
         TextView instruments = convertView.findViewById(R.id.textInstruments2);
         instruments.setText(cards_tinder.getInstruments());
@@ -73,6 +66,9 @@ public class ArrayAdapter_Tinder_Card extends ArrayAdapter<Cards_Tinder> {
 
         TextView city = convertView.findViewById(R.id.textCity2);
         city.setText(cards_tinder.getCity());
+
+        TextView bands = convertView.findViewById(R.id.textBands2);
+        bands.setText(cards_tinder.getBands());
 
         //imagem do usuario
         ImageView image = convertView.findViewById(R.id.imageViewFoto);

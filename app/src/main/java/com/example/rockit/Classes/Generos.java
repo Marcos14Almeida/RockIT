@@ -26,13 +26,17 @@ public class Generos {
     public Integer rock_classico;
     public Integer samba;
     public Integer sertanejo;
+    public Integer soul;
+    public Integer classica;
+    public Integer rb;
 
     public Generos(String pais,Integer alternative, Integer axe, Integer blues, Integer disco, Integer eletronica, Integer forro,
                  Integer funk, Integer funky_americano, Integer hard_rock,
                  Integer heavy_metal, Integer hip_hop,
                  Integer jazz, Integer mpb, Integer opera, Integer pagode,
                  Integer pop, Integer power_metal, Integer punk, Integer rap,
-                   Integer reggae, Integer rock_classico, Integer samba, Integer sertanejo
+                   Integer reggae, Integer rock_classico, Integer samba, Integer sertanejo,
+                   Integer soul, Integer classica, Integer rb
                    ) {
 
         this.pais = pais;
@@ -59,37 +63,78 @@ public class Generos {
         this.rock_classico = rock_classico;
         this.samba = samba;
         this.sertanejo = sertanejo;
+        this.soul = soul;
+        this.classica = classica;
+        this.rb = rb;
     }
 
     public Generos(){
     }
 
+    public Integer getNumberGenres(){
+        return 26;
+}
+
     public Integer getGenreValue(int i){
+        //Precisa estar na ordem alfabetica do firebase
         if(i==0){return alternative;}
         if(i==1){return axe;}
         if(i==2){return blues;}
-        if(i==3){return disco;}
-        if(i==4){return eletronica;}
-        if(i==5){return forro;}
-        if(i==6){return funk;}
-        if(i==7){return funky_americano;}
-        if(i==8){return hard_rock;}
-        if(i==9){return heavy_metal;}
-        if(i==10){return hip_hop;}
-        if(i==11){return jazz;}
-        if(i==12){return mpb;}
-        if(i==13){return opera;}
-        if(i==14){return pagode;}
-        if(i==15){return pop;}
-        if(i==16){return power_metal;}
-        if(i==17){return punk;}
-        if(i==18){return rap;}
-        if(i==19){return reggae;}
-        if(i==20){return rock_classico;}
-        if(i==21){return samba;}
-        if(i==22){return sertanejo;}
+        if(i==3){return classica;}
+        if(i==4){return disco;}
+        if(i==5){return eletronica;}
+        if(i==6){return forro;}
+        if(i==7){return funk;}
+        if(i==8){return funky_americano;}
+        if(i==9){return hard_rock;}
+        if(i==10){return heavy_metal;}
+        if(i==11){return hip_hop;}
+        if(i==12){return jazz;}
+        if(i==13){return mpb;}
+        if(i==14){return opera;}
+        if(i==15){return pagode;}
+        if(i==16){return pop;}
+        if(i==17){return power_metal;}
+        if(i==18){return punk;}
+        if(i==19){return rap;}
+        if(i==20){if(rb==null){return 0;}return rb;}
+        if(i==21){return reggae;}
+        if(i==22){return rock_classico;}
+        if(i==23){return samba;}
+        if(i==24){return sertanejo;}
+        if(i==25){return soul;}
         //else
         return 0;
+    }
+    public String getGenreName(int i){
+        if(i==0){return "alternative";}
+        if(i==1){return "axe";}
+        if(i==2){return "blues";}
+        if(i==3){return "classica";}
+        if(i==4){return "disco";}
+        if(i==5){return "eletronica";}
+        if(i==6){return "forro";}
+        if(i==7){return "funk";}
+        if(i==8){return "funky_americano";}
+        if(i==9){return "hard_rock";}
+        if(i==10){return "heavy_metal";}
+        if(i==11){return "hip_hop";}
+        if(i==12){return "jazz";}
+        if(i==13){return "mpb";}
+        if(i==14){return "opera";}
+        if(i==15){return "pagode";}
+        if(i==16){return "pop";}
+        if(i==17){return "power_metal";}
+        if(i==18){return "punk";}
+        if(i==19){return "rap";}
+        if(i==20){return "rb";}
+        if(i==21){return "reggae";}
+        if(i==22){return "rock_classico";}
+        if(i==23){return "samba";}
+        if(i==24){return "sertanejo";}
+        if(i==25){return "soul";}
+        //else
+        return "0";
     }
 
     public Integer getAlternative() {
@@ -152,9 +197,7 @@ public class Generos {
         return funky_americano;
     }
 
-    public void setFunky_americano(Integer funky_americano) {
-        this.funky_americano = funky_americano;
-    }
+    public void setFunky_americano(Integer funky_americano) {        this.funky_americano = funky_americano;    }
 
     public Integer getHard_rock() {
         return hard_rock;
@@ -188,11 +231,11 @@ public class Generos {
         this.jazz = jazz;
     }
 
-    public Integer getMpb() {
+    public Integer gempb() {
         return mpb;
     }
 
-    public void setMpb(Integer mpb) {
+    public void setmpb(Integer mpb) {
         this.mpb = mpb;
     }
 
@@ -275,4 +318,16 @@ public class Generos {
     public void setSertanejo(Integer sertanejo) {
         this.sertanejo = sertanejo;
     }
+
+    public Integer getSoul() {        return soul;    }
+
+    public void setSoul(Integer soul) {        this.soul = soul;    }
+
+    public Integer getClassica() {        return classica;    }
+
+    public void setClassica(Integer classica) {        this.classica = classica;    }
+
+    public Integer getRB() {        return rb;    }
+
+    public void setRB(Integer rb) {        rb = rb;    }
 }

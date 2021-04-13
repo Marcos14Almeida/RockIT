@@ -69,10 +69,10 @@ public class Pag0_CadastroGoogle extends AppCompatActivity {
     /////////////////////////// OTHER FUNCTIONS /////////////////////////////
     public void abrirPag_teste_musical(View view){
         age = editAge.getText().toString();
-        if(!age.equals(null) && !sex.equals(null)){
+        if(!age.equals("") && sex != null){
         acesso("age",age);
         acesso("sex",sex);
-        startActivity(new Intent(getApplicationContext(), Pag1_genero_musical.class));}
+        startActivity(new Intent(getApplicationContext(), Pag1_bandas_preferidas.class));}
         else{
             Toast.makeText(this,"Empty Fields!",Toast.LENGTH_SHORT).show();
         }

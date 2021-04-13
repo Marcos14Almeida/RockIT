@@ -18,10 +18,11 @@ public class Banda {
     public String bandas;
     public String instrumentos;
     public String instagram;
+    public String youtube;
 
     public Banda(String id, String name, String age, String email, String year, String description,
                  String members, String stars, String number_followers,
-                 String city, String searching_members, String instagram,
+                 String city, String searching_members, String instagram,String youtube,
                  String imageURL,
                  String generos, String bandas, String instrumentos) {
 
@@ -41,6 +42,7 @@ public class Banda {
         this.bandas = bandas;
         this.instrumentos = instrumentos;
         this.instagram = instagram;
+        this.youtube = youtube;
     }
 
     public Banda(){
@@ -95,6 +97,8 @@ public class Banda {
     public String getInstagram() {        return instagram;    }
     public void setInstagram(String instagram) {        this.instagram = instagram;    }
 
+    public String getYoutube() {        return youtube;    }
+    public void setYoutube(String youtube) {        this.youtube = youtube;    }
 
 }
 

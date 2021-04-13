@@ -24,15 +24,15 @@ public class Database_teste extends AppCompatActivity {
         setContentView(R.layout.activity_fale_conosco);
 
 
-        DatabaseHelper db=new DatabaseHelper(this);
+        //DatabaseHelper db=new DatabaseHelper(this);
         //If there is no data in databaseHelp then create a new one
         id = 1;
-        try{
-            db.getItem(1,1);
-        }catch (Exception e){
-            db.addData("Joaquim", "M", "Eu sou Legal", "21", "4", "230",
-                    "23.56", "741.2", "0", "Rock", "Green Day", "Bateria", "pedrinho@gmail.com", "0");
-        }
+        //try{
+        //    db.getItem(1,1);
+        //}catch (Exception e){
+        //    db.addData("Joaquim", "M", "Eu sou Legal", "21", "4", "230",
+         //           "23.56", "741.2", "0", "Rock", "Green Day", "Bateria", "pedrinho@gmail.com", "0");
+       // }
         id = 1;
         //db.updateName(id,  "Boris");
 

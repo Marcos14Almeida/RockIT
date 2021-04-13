@@ -110,7 +110,7 @@ public class Pag0_Cadastro extends AppCompatActivity {
                                 public void onComplete(@NonNull Task task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(getApplicationContext(), "Authentication Success.",Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getApplicationContext(), Pag1_genero_musical.class));
+                                        startActivity(new Intent(getApplicationContext(), Pag1_bandas_preferidas.class));
                                         finish();
                                     }
                                     else{

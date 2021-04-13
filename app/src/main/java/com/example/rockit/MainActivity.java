@@ -18,8 +18,9 @@ import android.widget.FrameLayout;
 import com.bumptech.glide.Glide;
 import com.example.rockit.Bandas.Pag_List_Your_Band;
 import com.example.rockit.Cadastro.Pag0_login;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Usuario;
-import com.example.rockit.Post.Fragment_post;
+import com.example.rockit.PostImage.Fragment_posts;
 import com.example.rockit.TinderCard.Fragment_procurar_banda;
 import com.example.rockit.FragmentBands.Fragmento_bandas;
 import com.example.rockit.Chat.Fragmento_chats;
@@ -44,11 +45,13 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    Classe_Geral classe_geral = new Classe_Geral();
+
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
@@ -119,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(location!=null){
                 double lat = location.getLatitude();
                 double lon = location.getLongitude();
-                updateFieldUsers("latitude",Double.toString(lat));
-                updateFieldUsers("longitude",Double.toString(lon));
+                classe_geral.updateFieldUsers("latitude",Double.toString(lat));
+                classe_geral.updateFieldUsers("longitude",Double.toString(lon));
             }
         });
     }
@@ -181,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragmento_chats()).commit();
                     break;
                 case R.id.bottom_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragment_post()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new Fragment_posts()).commit();
                     break;
                 case R.id.bottom_procurar_banda:
                     frameLayout.setBackgroundColor(Color.LTGRAY);
@@ -239,30 +242,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    //troca dados no database
-    public void updateFieldUsers(String field, String string){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(field, string);
-        reference.updateChildren(map);
-    }
 ////////                STATUS - Is User Online?                     /////////
     @Override
     protected void onResume(){
             super.onResume();
-            updateFieldUsers("status","online");
+        classe_geral.updateFieldUsers("status","online");
     }
     @Override
     protected void onPause(){
         super.onPause();
-        updateFieldUsers("status","online");
+        classe_geral.updateFieldUsers("status","offline");
 
         //HORARIO ULTIMA VEZ ONLINE
         DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
         String date = df.format(Calendar.getInstance().getTime());
-        updateFieldUsers("last_seen",date);
+        classe_geral.updateFieldUsers("last_seen",date);
     }
 
 }
@@ -272,6 +266,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //Toast.makeText(this,"Agenda",Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(this, Pag0_login.class);
 //                startActivity(intent);
+//Classe_Geral classe_geral = new Classe_Geral();
 
 
 //Branches GIT tutorial

@@ -109,8 +109,6 @@ public class Pag_List_Your_Band extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user = snapshot.getValue(Usuario.class);
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

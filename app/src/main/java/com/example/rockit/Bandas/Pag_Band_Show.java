@@ -7,22 +7,18 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Banda;
 import com.example.rockit.Classes.Usuario;
-import com.example.rockit.MainActivity;
-import com.example.rockit.Pag_Profile_Show;
 import com.example.rockit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,10 +30,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 //O VIDEO ESTA PUXANDO O LAYOUT PRA BAIXO POR ALGUM MOTIVO
 public class Pag_Band_Show extends AppCompatActivity {
+
+    Classe_Geral classe_geral = new Classe_Geral();
+
     String userID="";
     String bandID;
     FirebaseUser firebaseUser;
@@ -49,6 +47,7 @@ public class Pag_Band_Show extends AppCompatActivity {
     MediaController mediaController;
     RatingBar ratingBar;
     String instagramAccount="default";
+    String youtubeAccount="default";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +57,7 @@ public class Pag_Band_Show extends AppCompatActivity {
         //video = findViewById(R.id.videoView);
         mediaController = new MediaController(this);
 
-        //Toolbar / barra superior
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Se clicar no botao de retornar
-        toolbar.setNavigationOnClickListener(v -> finish());
+        ShowToolbar("");
 
         //Pega o ID do nome da banda
         Intent intent = getIntent(); //vem do arquivo Recycler View Menu
@@ -83,9 +76,19 @@ public class Pag_Band_Show extends AppCompatActivity {
         float stars = ratingBar.getRating();
         //atualiza no firebase
         if(stars>0.0){
-        updateFieldUsers("stars",String.valueOf(stars));}
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bands").child(bandID);
+            classe_geral.updateFieldUsersReference("stars",String.valueOf(stars), reference);}
     }
 
+    public void ShowToolbar(String title){
+        //Toolbar / barra superior
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Se clicar no botao de retornar
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
 
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
@@ -141,7 +144,10 @@ public class Pag_Band_Show extends AppCompatActivity {
                 if(!snapshot.hasChild("youtube")){
                     ImageView image = findViewById(R.id.im_youtube);
                     image.setVisibility(View.INVISIBLE);
+                }else{
+                    youtubeAccount = band.getYoutube();
                 }
+
 
                 ///////////////////////////////////////////////////////////////
                 //FOTOS
@@ -193,16 +199,6 @@ public class Pag_Band_Show extends AppCompatActivity {
         });
     }
 
-
-    //Update Stars
-    //troca dados no database
-    public void updateFieldUsers(String field, String string){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Bands").child(bandID);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(field, string);
-        reference.updateChildren(map);
-    }
-
     public void openInstagram(View view){
         Uri uri = Uri.parse("http://instagram.com/_u/" + instagramAccount);
         Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
@@ -215,8 +211,20 @@ public class Pag_Band_Show extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://instagram.com/" + instagramAccount)));
         }
-
     }
+    public void openYoutube(View view) {
+        if(youtubeAccount.equals("default")){
+            //No futuro mostrar link do youtube da Davai
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/channel/UCOyVV2Mry8B2wlHTPtjP1WA"));
+        startActivity(browserIntent);
+        }else{
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(youtubeAccount));
+            startActivity(browserIntent);
+        }
 
+        //Mostra os videos no próprio App// ainda nao funciona direito
+        //Intent intent = new Intent(this, Youtube.class);
+        //startActivity(intent);
+    }
 
 }

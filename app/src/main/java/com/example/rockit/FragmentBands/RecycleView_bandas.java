@@ -63,6 +63,7 @@ public class RecycleView_bandas extends RecyclerView.Adapter<RecycleView_bandas.
 
         //Se clicar pra editar banda no Pag_list_Your_Band
         if(mshowOrEditBandPage.equals("edit")){
+            //SE CLICA NA IMAGEM ABRE A PAG DA BANDA
             holder.mImageView.setOnClickListener(v -> {
                 Intent intent = new Intent(mcontext, Pag_Band_Edit.class);
                 intent.putExtra("userID", currentItem.getName());
@@ -70,9 +71,22 @@ public class RecycleView_bandas extends RecyclerView.Adapter<RecycleView_bandas.
                 mcontext.startActivity(intent);
                 //PRECISA FECHAR A ATIVIDADE
             });
+            holder.mTextView1.setOnClickListener(v -> {
+                Intent intent = new Intent(mcontext, Pag_Band_Edit.class);
+                intent.putExtra("userID", currentItem.getName());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mcontext.startActivity(intent);
+                //PRECISA FECHAR A ATIVIDADE
+            });
+
         }else{//Fragmento_menu
             //SE CLICA NA IMAGEM ABRE A PAG DA BANDA
             holder.mImageView.setOnClickListener(v -> {
+                Intent intent = new Intent(mcontext, Pag_Band_Show.class);
+                intent.putExtra("userID", currentItem.getName());
+                mcontext.startActivity(intent);
+            });
+            holder.mTextView1.setOnClickListener(v -> {
                 Intent intent = new Intent(mcontext, Pag_Band_Show.class);
                 intent.putExtra("userID", currentItem.getName());
                 mcontext.startActivity(intent);

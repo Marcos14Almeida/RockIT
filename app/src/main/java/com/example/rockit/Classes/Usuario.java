@@ -68,12 +68,6 @@ public class Usuario {
     public String getEmail() {        return email;    }
     public void setEmail(String email) {        this.email = email;    }
 
-    public String getGeneros() {        return generos;    }
-    public void setGeneros(String generos) {        this.generos = generos;    }
-
-    public String getBandas() {        return bandas;    }
-    public void setBandas(String bandas) {        this.bandas = bandas;    }
-
     public String getInstrumentos() {        return instrumentos;    }
     public void setInstrumentos(String instrumentos) {        this.instrumentos = instrumentos;    }
 

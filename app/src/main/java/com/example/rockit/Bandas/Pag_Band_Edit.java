@@ -54,7 +54,7 @@ public class Pag_Band_Edit extends AppCompatActivity {
     String userID;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    EditText editCity,editDescription,editInsta;
+    EditText editCity,editDescription,editInsta,editYoutube;
     //Lista de membros
     AutoCompleteTextView autoCompleteTextView;
     ArrayList<String> listMembers = new ArrayList<>();
@@ -73,28 +73,50 @@ public class Pag_Band_Edit extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
         //Toolbar / barra superior
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Se clicar no botao de retornar
-        toolbar.setNavigationOnClickListener(v -> finish());
+        ShowToolbar("");
 
         //Pega o ID da banda da Activity anterior list_bands
         userID = getIntent().getStringExtra("userID");
 
-        readUsers(); // lista com nome de usuarios
+        // lista com nome de usuarios para ter a lista de opções
+        readUsers();
 
         //Dados da página
         fireBaseDataBand();
 
-        //SEARCH VIEW
+        //SEARCH VIEW / lista de opções
         autoCompleteTextView=findViewById(R.id.autoCompleteTextView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,listMembers);
         autoCompleteTextView.setAdapter(adapter);
     }
 
+    /////////////////////////////////////////////////////////////
+    //                     F U N Ç Õ E S                       //
+    /////////////////////////////////////////////////////////////
+    public void ShowToolbar(String title){
+        //Toolbar / barra superior
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Se clicar no botao de retornar
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
 
+    //ANTES DE SAIR DA PÁGINA SALVA A DESCRIÇÃO
+    public void onDestroy() {
+        super.onDestroy();
+        String selecionado = editDescription.getEditableText().toString();
+        updateFieldBand("description",selecionado);
+        selecionado = editCity.getEditableText().toString();
+        updateFieldBand("city",selecionado);
+        selecionado = editInsta.getEditableText().toString();
+        updateFieldBand("instagram",selecionado);
+        selecionado = editYoutube.getEditableText().toString();
+        updateFieldBand("youtube",selecionado);
+
+        Toast.makeText(this," Informações Salvas",Toast.LENGTH_SHORT).show();
+    }
 
     public void button_add_Members(View view){
         String nameMember = autoCompleteTextView.getEditableText().toString();
@@ -119,7 +141,6 @@ public class Pag_Band_Edit extends AppCompatActivity {
             members+= listMyMembers.get(i)+";";
         }
 
-        Log.d("membros ",members);
         show_list_members();
         //SALVA NO DATABASE
         updateFieldBand("members",members);
@@ -148,7 +169,6 @@ public class Pag_Band_Edit extends AppCompatActivity {
 
 
     }
-
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
@@ -161,41 +181,43 @@ public class Pag_Band_Edit extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Banda user = snapshot.getValue(Banda.class);
-                assert user != null;
+                Banda banda = snapshot.getValue(Banda.class);
+                assert banda != null;
 
                 //Define o nome do usuario no topo da pagina
                 TextView username=findViewById(R.id.nameBand);
-                username.setText(user.getName());
+                username.setText(banda.getName());
                 //Descrição
                 editDescription=findViewById(R.id.texto_descricao);
-                editDescription.setText(user.getDescription());
+                editDescription.setText(banda.getDescription());
                 //GENEROS
                 username=findViewById(R.id.textGeneros);
-                username.setText(user.getGeneros());
+                username.setText(banda.getGeneros());
                 //Cidade
                 editCity=findViewById(R.id.textCity);
-                editCity.setText(user.getCity());
+                editCity.setText(banda.getCity());
                 //MEMBROS
                 listMyMembers.clear();
-                listMyMembers.addAll(Arrays.asList(user.getMembers().split(";")   ));
+                listMyMembers.addAll(Arrays.asList(banda.getMembers().split(";")   ));
                 //INSTAGRAM
                 editInsta=findViewById(R.id.textInsta);
-                editInsta.setText(user.getInstagram());
-
+                editInsta.setText(banda.getInstagram());
+                //Youtube
+                editYoutube=findViewById(R.id.textYoutube);
+                editYoutube.setText(banda.getYoutube());
 
                 show_list_members();
 
                 ///////////////////////////////////////////////////////////////
                 //FOTOS
-                if (user.getImageURL().equals("default")) {
+                if (banda.getImageURL().equals("default")) {
                     //FOTO NO MENU PRINCIPAL
                     ImageView fotoUsuario = findViewById(R.id.im_banda);
                     fotoUsuario.setImageResource(R.drawable.foto_banda_generica);
                 } else {
                     //FOTO NO MENU PRINCIPAL
                     ImageView fotoUsuario = findViewById(R.id.im_banda);
-                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(fotoUsuario);;
+                    Glide.with(getApplicationContext()).load(banda.getImageURL()).into(fotoUsuario);;
                 }
 
 
@@ -208,6 +230,7 @@ public class Pag_Band_Edit extends AppCompatActivity {
         });
     }
 
+    //lista de opções
     private void readUsers(){
         listMembers.clear();
         listMyMembers.clear();
@@ -245,21 +268,7 @@ public class Pag_Band_Edit extends AppCompatActivity {
         map.put(field, string);
         reference.updateChildren(map);
     }
-    /////////////////////////////////////////////////////////////
-    //                     F U N Ç Õ E S                       //
-    /////////////////////////////////////////////////////////////
-    //ANTES DE SAIR DA PÁGINA SALVA A DESCRIÇÃO
-    public void onDestroy() {
-        super.onDestroy();
-        String selecionado = editDescription.getEditableText().toString();
-        updateFieldBand("description",selecionado);
-        selecionado = editCity.getEditableText().toString();
-        updateFieldBand("city",selecionado);
-        selecionado = editInsta.getEditableText().toString();
-        updateFieldBand("instagram",selecionado);
 
-        Toast.makeText(this," Informações Salvas",Toast.LENGTH_SHORT).show();
-    }
     /////////////////////////////////////////////////////////////
     //               T R O C A R    F O T O                    //
     /////////////////////////////////////////////////////////////

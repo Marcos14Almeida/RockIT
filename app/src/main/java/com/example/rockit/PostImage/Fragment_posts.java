@@ -1,5 +1,6 @@
-package com.example.rockit.Post;
+package com.example.rockit.PostImage;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rockit.Classes.Post;
-import com.example.rockit.MainActivity;
-import com.example.rockit.Pag_Profile_Edit;
 import com.example.rockit.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,21 +28,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 //INSTAGRAM App with Firebase
 //https://www.youtube.com/watch?v=mk2CrU-awkM&list=PLzLFqCABnRQduspfbu2empaaY9BoIGLDM&index=8
 //https://www.youtube.com/watch?v=GV1qbi59rgc&list=PLzLFqCABnRQduspfbu2empaaY9BoIGLDM&index=6
-public class Fragment_post extends Fragment {
+public class Fragment_posts extends Fragment {
 
     private RecyclerView recyclerView;
-    private PostAdapter postAdapter;
+    private Fragment_PostsAdapter fragmentPostAdapter;
     private List<Post> postList;
 
     private List<String> followingList;
 
-    public Fragment_post() {
+    public Fragment_posts() {
         // Required empty public constructor
     }
     @Override
@@ -68,24 +73,50 @@ public class Fragment_post extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(), postList);
-        recyclerView.setAdapter(postAdapter);
+        fragmentPostAdapter = new Fragment_PostsAdapter(getContext(), postList);
+        recyclerView.setAdapter(fragmentPostAdapter);
 
         checkFollowing();
 
-        FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ///////////////////////////////////////////////////////////
+        //POST COMMENT
+        //////////////////////////////////////////////////////////
+        TextView post = view.findViewById(R.id.textPost);
+        post.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityPost.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                EditText editText = view.findViewById(R.id.editPost);
+
+                //POST MESSAGE
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
+                String postid = reference.push().getKey();
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("postid",postid);
+                hashMap.put("postimage","");
+                hashMap.put("description",editText.getText().toString());
+                hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                //HORARIO MENSAGEM
+                @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
+                String date = df.format(Calendar.getInstance().getTime());
+                hashMap.put("timestamp", date);
+
+                reference.child(postid).setValue(hashMap);
+
+                //Limpa o campo
+                editText.setText("");
             }
         });
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
+
+        /////////////////////////////////////////////////////////////////////////
+        //POST IMAGE
+        ////////////////////////////////////////////////////////////////////////
+        ImageView imageView = view.findViewById(R.id.im_post_photo);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                Toast.makeText(view.getContext(),"Click here to post new photo",Toast.LENGTH_SHORT).show();
-                return true;
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), ActivityPostImage.class);
+                startActivity(intent);
             }
         });
 
@@ -128,11 +159,11 @@ public class Fragment_post extends Fragment {
                     //for(String id: followingList){
                         assert post != null;
                         //if(post.getPublisher().equals(id)){
-                            postList.add(post);
+                        postList.add(post);
                         //}
                     //}
                 }
-                postAdapter.notifyDataSetChanged();
+                fragmentPostAdapter.notifyDataSetChanged();
             }
 
             @Override

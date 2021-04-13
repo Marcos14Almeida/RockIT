@@ -3,18 +3,22 @@ package com.example.rockit;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.app.Dialog;
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rockit.Cadastro.Pag1_qual_intrumento_toca;
-import com.example.rockit.Classes.Usuario;
-import com.example.rockit.Classes.Usuario_basic;
+import com.example.rockit.Classes.Classe_Geral;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,9 +29,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
+import java.util.Objects;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class Pag_configuracoes extends AppCompatActivity {
+
+    Classe_Geral classe_geral = new Classe_Geral();
+    SeekBar seekBar;
+    TextView texto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,13 @@ public class Pag_configuracoes extends AppCompatActivity {
             finish();
         });
 
+
+        //Distância padrão
+        texto = findViewById(R.id.text_number_filter);
+        texto.setText("100KM");
+        seekBar=findViewById(R.id.seekBar);
+        seekBar.setProgress(100);
+
         //Switches configuration
         fireBaseDataUser();
 
@@ -54,6 +71,7 @@ public class Pag_configuracoes extends AppCompatActivity {
     /////////////////////////////////////////////////////////////
     public void fireBaseDataUser(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,48 +80,77 @@ public class Pag_configuracoes extends AppCompatActivity {
                 //Switch Permission Location
                 Switch aSwitch = findViewById(R.id.switch1);
                 if(snapshot.hasChild("permission_location")) {
-                    if (snapshot.child("permission_location").getValue().equals("1")) {
+                    if (Objects.equals(snapshot.child("permission_location").getValue(), "1")) {
                         aSwitch.setChecked(true);
                     }
+                }
 
                     aSwitch.setOnClickListener(v -> {
                         if (aSwitch.isChecked()) {
-                            updateFieldUsers("permission_location", "1");
+                            classe_geral.updateFieldUsers("permission_location", "1");
+                            getlocation();
+                            Toast.makeText(getApplicationContext(),"Acesso Permitido",Toast.LENGTH_SHORT).show();
                         } else {
-                            updateFieldUsers("permission_location", "0");
+                            classe_geral.updateFieldUsers("permission_location", "0");
+                            classe_geral.deleteFieldUsers("latitude");
+                            classe_geral.deleteFieldUsers("longitude");
+                            Toast.makeText(getApplicationContext(),"Informação deletada",Toast.LENGTH_SHORT).show();
                         }
                     });
 
-                }
+
 
                 //Switch Permission_notification
                 Switch aSwitch2 = findViewById(R.id.switch2);
                 if(snapshot.hasChild("permission_notification")) {
-                    if (snapshot.child("permission_notification").getValue().equals("1")) {
+                    if (Objects.equals(snapshot.child("permission_notification").getValue(), "1")) {
                         aSwitch2.setChecked(true);
                     }
                     aSwitch2.setOnClickListener(v -> {
                         if (aSwitch2.isChecked()) {
-                            updateFieldUsers("permission_notification", "1");
+                            classe_geral.updateFieldUsers("permission_notification", "1");
                         } else {
-                            updateFieldUsers("permission_notification", "0");
+                            classe_geral.updateFieldUsers("permission_notification", "0");
                         }
                     });
                 }
+
+
+                //CONFIGURAÇÃO DE DISTÂNCIA
+                if(snapshot.hasChild("filter")) {
+                    if (snapshot.child("filter").hasChild("filter_distance")) {
+                        int valor = Integer.parseInt(snapshot.child("filter").child("filter_distance").getValue().toString());
+                        seekBar.setProgress(valor);
+                        texto = findViewById(R.id.text_number_filter);
+                        texto.setText(valor + "KM");
+                    }
+                }
+
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    int seekBarValue;
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        seekBarValue = seekBar.getProgress();
+                        texto.setText(seekBarValue +"KM");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("filter");
+                        classe_geral.updateFieldUsersReference("filter_distance", String.valueOf(seekBarValue),reference2);
+                    }
+                });
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-    }
-    public void updateFieldUsers(String field, String string){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(field, string);
-        reference.updateChildren(map);
     }
     /////////////////////////////////////////////////////////////
     //                    DELETAR CONTA                        //
@@ -143,15 +190,24 @@ public class Pag_configuracoes extends AppCompatActivity {
         alerta.show();
     }
 
-    /////////////////////////////////////////////////////////////
-    //                    F I R E B A S E                      //
-    /////////////////////////////////////////////////////////////
-    public void acesso(String field,String string){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(field, string);
-        reference.updateChildren(map);
+    ////////                GPS                  /////////
+    private void getlocation(){
+        //LATITUDE AND LONGITUDE LOCATION
+        //REQUEST PERMISSION
+        ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
+
+        //GPS location
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+        if(ActivityCompat.checkSelfPermission(Pag_configuracoes.this, ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            return;
+        }
+
+        client.getLastLocation().addOnSuccessListener(Pag_configuracoes.this, location -> {
+
+                double lat = location.getLatitude();
+                double lon = location.getLongitude();
+                classe_geral.updateFieldUsers("latitude",Double.toString(lat));
+                classe_geral.updateFieldUsers("longitude",Double.toString(lon));
+        });
     }
 }

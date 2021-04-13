@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rockit.Classes.Chat;
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.Notification.APIService;
 import com.example.rockit.Notification.Client;
@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,19 +52,26 @@ import retrofit2.Response;
 //https://www.youtube.com/watch?v=1mJv4XxWlu8&list=PLzLFqCABnRQftQQETzoVMuteXzNiXmnj8&index=8
 //https://www.youtube.com/watch?v=f1HKTg2hyf0&list=PLzLFqCABnRQftQQETzoVMuteXzNiXmnj8&index=7
 
-public class Pag_message extends AppCompatActivity {
+//NOTIFICAÇÕES
+//https://www.youtube.com/watch?v=7Xc_5cduL-Y ->ótimo tutorial, fiz com base nele
+//https://www.youtube.com/watch?v=wDpxBTjvPys&list=PLzLFqCABnRQftQQETzoVMuteXzNiXmnj8&index=18
 
-    String userID;
+public class Pag_message extends AppCompatActivity {
+    Classe_Geral classe_geral = new Classe_Geral();
+
+    String friendUserID,userID;
+    String friendName="", userName="";
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
     RecycleView_Message messageAdapter_chat;
     List<Chat> mChat;
+    ValueEventListener seenListener;
 
     RecyclerView recyclerView;
-    APIService apiService;
-    Boolean notify=false;
+    //NOTIFICATION
+    private APIService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +81,10 @@ public class Pag_message extends AppCompatActivity {
         //Toolbar / barra superior
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 //Se clicar no botao de retornar
                 toolbar.setNavigationOnClickListener(v -> finish());
-        //Notification
-        apiService = Client.getClient("https://fcm.googleapi.com/").create(APIService.class);
 
 
         //Recycleview do texto do chat
@@ -90,13 +97,33 @@ public class Pag_message extends AppCompatActivity {
 
         //Pega o ID do usuario do amigo da conversa
         Intent intent = getIntent(); //vem do arquivo Recycler View Adapter
-        userID = intent.getStringExtra("userID");
+        friendUserID = intent.getStringExtra("userID");
+
+        //Notification
+        //https://www.youtube.com/watch?v=7Xc_5cduL-Y 8:42
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         //INICIA FIREBASE
-        //seleciona o usuario do amigo da conversa
+        //PEGA O NOME DOS USUARIOS E LE AS MENSAGENS DA CONVERSA
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario user = snapshot.getValue(Usuario.class);
+                assert user != null;
+                userName = user.getName();
+                userID = user.getId();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //seleciona o usuario do amigo da conversa
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(friendUserID);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -107,8 +134,10 @@ public class Pag_message extends AppCompatActivity {
                 assert user != null;
                 username.setText(user.getName());
 
-                //Manda mensagem
-                readMessage(firebaseUser.getUid(), userID);
+                friendName = user.getName();
+
+                //Atualiza mensagens da conversa
+                readMessage(firebaseUser.getUid(), friendUserID);
             }
 
             @Override
@@ -117,7 +146,18 @@ public class Pag_message extends AppCompatActivity {
             }
         });
 
+        updateToken();
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void updateToken(){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String refreshToken = FirebaseInstanceId.getInstance().getToken();
+        Token token = new Token(refreshToken);
+        assert firebaseUser != null;
+        FirebaseDatabase.getInstance().getReference("Tokens").child(firebaseUser.getUid()).setValue(token);
+    }
+
     //////////////////////////////////////////////////////
     //                     MENU ITEMS                   //
     @Override
@@ -136,8 +176,8 @@ public class Pag_message extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Usuário bloqueado", Toast.LENGTH_SHORT).show();
 
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-                reference.child(userID).child("connections").child("no").child(firebaseUser.getUid()).setValue(true);
-                reference.child(userID).child("connections").child("yes").child(firebaseUser.getUid()).removeValue();
+                reference.child(friendUserID).child("connections").child("no").child(firebaseUser.getUid()).setValue(true);
+                reference.child(friendUserID).child("connections").child("yes").child(firebaseUser.getUid()).removeValue();
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -150,43 +190,8 @@ public class Pag_message extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    //////////////////////////////////////////////////////
-    //            SEND/RECEIVE   MESSAGES               //
-
-        private void sendMessage(String sender, String receiver, String message){
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-            HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("sender",sender); //Salva o ID de quem enviou
-            hashMap.put("receiver",receiver);//Salva o ID de quem recebeu
-            hashMap.put("message",message);
-            //HORARIO MENSAGEM
-            DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
-            String date = df.format(Calendar.getInstance().getTime());
-            hashMap.put("timestamp",date);
-
-            reference.child("Chats").push().setValue(hashMap);
-
-            //NOTIFICATION
-            final String msg = message;
-            reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Usuario user = snapshot.getValue(Usuario.class);
-                    if(notify) {
-                        assert user != null;
-                        sendNotification(receiver, user.getName(), msg);
-                    }
-                    notify=false;
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //ATUALIZA MENSAGENS NO LAYOUT DA PAGINA
     private void readMessage(final String myid, final String userid){
         mChat = new ArrayList<>();
 
@@ -200,9 +205,21 @@ public class Pag_message extends AppCompatActivity {
                     assert chat != null;
                     //Seleciona todas as conversas do chat que contenham os dois usuarios
                     if(chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
-                        chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
+                            chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
+
                         mChat.add(chat);
+
+                        //Se a mensagem for de outra pessoa, e enviada por mim
+                        if(chat.getSender().equals(userid) && chat.getReceiver().equals(myid)){
+                        //DOUBLE CHECK IF user has seen message https://www.youtube.com/watch?v=E1qm09JWUdI
+                        HashMap <String, Object> hashMap = new HashMap<>();
+                        hashMap.put("isseen",true);
+                        dataSnapshot.getRef().updateChildren(hashMap);}
                     }
+
+
+
+
                     //SHOW no Recycle Adapter do arquivo MessageAdapter_Chat
                     messageAdapter_chat = new RecycleView_Message(Pag_message.this,mChat);
                     recyclerView.setAdapter(messageAdapter_chat);
@@ -213,61 +230,106 @@ public class Pag_message extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
+
+    //////////////////////////////////////////////////////
+    //     B O T A O    S E N D     M E S S A G E       //
+    public void send(View view){
+        EditText write_message = findViewById(R.id.write_message);
+        String msg = write_message.getText().toString();
+        write_message.setText("");
+
+        if(!msg.equals("")){
+            sendMessage(firebaseUser.getUid(),friendUserID,msg);
+        }else{
+            Toast.makeText(this,"Mensagem Vazia!!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //////////////////////////////////////////////////////
+    //            SEND/RECEIVE   MESSAGES               //
+
+        private void sendMessage(String sender, String receiver, String message){
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("sender",sender); //Salva o ID de quem enviou
+            hashMap.put("receiver",receiver);//Salva o ID de quem recebeu
+            hashMap.put("message",message);
+            hashMap.put("isseen",false);
+            //HORARIO MENSAGEM
+            DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
+            String date = df.format(Calendar.getInstance().getTime());
+            hashMap.put("timestamp",date);
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+            reference.child("Chats").push().setValue(hashMap);
+
+            //NOTIFICATION
+            //////////////////////////////// *** IMPORTANTE *** ////////////////////////////////////
+            //Esse receiver determina pra quem vai mensagem / no caso pega o token de quem vai receber a mensagem
+            reference = FirebaseDatabase.getInstance().getReference("Tokens");
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //receiver = ID do amigo que vai receber a msg
+                        sendNotification(snapshot.child(receiver).child("token").getValue().toString(),userName, message);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
     //////////////////////////////////////////////////////
     //                  NOTIFICATION                    //
     //https://www.youtube.com/watch?v=wDpxBTjvPys&list=PLzLFqCABnRQftQQETzoVMuteXzNiXmnj8&index=18
-    private void sendNotification(String receiver, String username, String message){
-        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
-        Query query = tokens.orderByKey().equalTo(receiver);
-        Log.d("TESTE","ENVIO2"+firebaseUser.getUid()+"\n"+username+"\n"+receiver+"\n"+tokens);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren() ){
-                    Token token = dataSnapshot.getValue(Token.class);
-                    Data data = new Data(firebaseUser.getUid(),R.mipmap.ic_launcher,username+": "+message,"New Message",userID);
-                    Sender sender = new Sender(data, token.getToken());
+    private void sendNotification(String friendToken, String username, String message){
+                    Log.d("Pag_message.java","SendNotification: \nFriend Token: "+friendToken+"\nUsername: "+username+"\n"+message);
+
+                    //sented, user, title, msg
+                    Data data = new Data(userID,friendToken,username,message);
+                    Sender sender = new Sender(data, friendToken);
                     apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
                         @Override
-                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                        public void onResponse( Call<MyResponse> call, Response<MyResponse> response) {
                             if(response.code()==200){
-                                if(response.body().success == 1){
-                                    Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                                assert response.body() != null;
+                                if(response.body().success != 1){
+                                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();}
+                                else{
+                                    Toast.makeText(getApplicationContext(), "SendNotification: \nFriend Token:" +friendToken+"\nUsername: "+username+"\n"+message, Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<MyResponse> call, Throwable t) {}
+                        public void onFailure( Call<MyResponse> call,  Throwable t) {}
                     });
-                }
-            }
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-    }
-    //////////////////////////////////////////////////////
-    //     B O T A O    S E N D     M E S S A G E       //
-    public void send(View view){
-        notify=true;
-        EditText write_message = findViewById(R.id.write_message);
-        String msg = write_message.getText().toString();
-        if(!msg.equals("")){
-            sendMessage(firebaseUser.getUid(),userID,msg);
-        }else{
-            Toast.makeText(this,"Mensagem Vazia!!!", Toast.LENGTH_SHORT).show();
-        }
-        write_message=findViewById(R.id.write_message);
-        write_message.setText("");
-    }
 
     //////////////////////////////////////////////////////
 
     public void ir_pag_amigo(View view){
         Intent intent = new Intent(this, Pag_Profile_Show.class);
-        intent.putExtra("userID",userID);
+        intent.putExtra("userID",friendUserID);
         startActivity(intent);
     }
+    ////////                STATUS - Is User Online?                     /////////
+    @Override
+    protected void onResume(){
+        super.onResume();
+        classe_geral.updateFieldUsers("status","online");
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        classe_geral.updateFieldUsers("status","offline");
+
+        //HORARIO ULTIMA VEZ ONLINE
+        DateFormat df = new SimpleDateFormat("HH:mm;dd/MM/yyyy");
+        String date = df.format(Calendar.getInstance().getTime());
+        classe_geral.updateFieldUsers("last_seen",date);
+    }
+
 
 }

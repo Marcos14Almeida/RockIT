@@ -1,4 +1,4 @@
-package com.example.rockit.Post;
+package com.example.rockit.PostImage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
 //https://www.youtube.com/watch?v=V2lai8cJIkk&list=PLzLFqCABnRQduspfbu2empaaY9BoIGLDM&index=11
-public class CommentAdapter extends  RecyclerView.Adapter<CommentAdapter.ViewHolder>{
+public class CommentsAdapter extends  RecyclerView.Adapter<CommentsAdapter.ViewHolder>{
 
     private List<Comment> mComment;
     private Context mcontext;
@@ -77,14 +77,14 @@ public class CommentAdapter extends  RecyclerView.Adapter<CommentAdapter.ViewHol
             comment = itemView.findViewById(R.id.comment);
         }
     }
-    public CommentAdapter(Context context, List<Comment> mComment) {
+    public CommentsAdapter(Context context, List<Comment> mComment) {
         this.mComment = mComment;
         this.mcontext = context;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mcontext).inflate(R.layout.comment_item,viewGroup,false);
-        return new CommentAdapter.ViewHolder(view);
+        return new CommentsAdapter.ViewHolder(view);
     }
 
     public void getUserInfo(ImageView imageView, TextView username, String publisherid){
