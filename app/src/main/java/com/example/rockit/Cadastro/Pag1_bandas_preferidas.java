@@ -228,7 +228,7 @@ public class Pag1_bandas_preferidas extends AppCompatActivity {
                         first_login=oneUser.getFirst_login();
 
                         for (DataSnapshot dataSnapshot: snapshot.child("bands").getChildren()){
-                            Lista_MeuBandas.add(dataSnapshot.getKey()); //getKey = pega o nome da banda e não o valor da nota
+                            Lista_MeuBandas.add(dataSnapshot.getKey()); //getKey = pega o nome da banda e não o valor da nota atribuida a ela
                         }
 
                             //REMOVE FROM FULL LIST OF BANDS

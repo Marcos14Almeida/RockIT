@@ -45,6 +45,7 @@ import java.util.Objects;
 public class Fragment_procurar_banda extends Fragment {
 
     Classe_Geral classe_geral = new Classe_Geral();
+    Generos generos = new Generos();
 
     ArrayList<Double> usuario1GeneroMedia= new ArrayList<Double>();
     ArrayList<Double> usuario2GeneroMedia= new ArrayList<Double>();
@@ -66,7 +67,6 @@ public class Fragment_procurar_banda extends Fragment {
         cardUserDB = FirebaseDatabase.getInstance().getReference().child("Users");
         currentUId = mAuth.getCurrentUser().getUid();
 
-        Generos generos = new Generos();
         ngenres = generos.getNumberGenres();
         //inicializa variaveis da media
         for(int i=0;i<ngenres;i++){
@@ -179,9 +179,16 @@ public class Fragment_procurar_banda extends Fragment {
                             ////////////////////////////////////////////////////////////
                             //Get genres USUARIO 2
                             for(int i=0;i<ngenres;i++) {
-                                String s = String.valueOf(dataSnapshot.child("genres").child(getGenreName(i)).getValue());
-                                Log.d("saida",s);
-                                usuario2GeneroMedia.set(i,Double.parseDouble(s));
+                                String s = String.valueOf(dataSnapshot.child("genres").child(generos.getGenreName(i)).getValue());
+                                //Log.d("saida",String.valueOf(i)+" "+s);
+                              usuario2GeneroMedia.set(i,Double.parseDouble(s));
+                            }
+                            //Get genres USUARIO 1
+                            if(snapshot.child(firebaseUser.getUid()).hasChild("genres")){
+                                for (int i = 0; i < ngenres; i++) {
+                                    String s = String.valueOf(snapshot.child(firebaseUser.getUid()).child("genres").child(generos.getGenreName(i)).getValue());
+                                    usuario1GeneroMedia.set(i,Double.parseDouble(s));
+                                }
                             }
 
                             //bandas em comun
@@ -195,13 +202,7 @@ public class Fragment_procurar_banda extends Fragment {
                                 }
                             }
 
-                            //Get genres USUARIO 1
-                            if(snapshot.child(firebaseUser.getUid()).hasChild("genres")){
-                                for (int i = 0; i < ngenres; i++) {
-                                    String s = String.valueOf(snapshot.child(firebaseUser.getUid()).child("genres").child(getGenreName(i)).getValue());
-                                    usuario1GeneroMedia.set(i,Double.parseDouble(s));
-                                }
-                            }
+
 
                             //Log.d("resul1",usuario1GeneroMedia.toString());
                             //Log.d("resul2",usuario2GeneroMedia.toString());
