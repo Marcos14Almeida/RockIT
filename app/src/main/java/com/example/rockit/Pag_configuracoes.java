@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rockit.Cadastro.Pag0_login;
 import com.example.rockit.Classes.Classe_Geral;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -106,6 +107,7 @@ public class Pag_configuracoes extends AppCompatActivity {
                     if (Objects.equals(snapshot.child("permission_notification").getValue(), "1")) {
                         aSwitch2.setChecked(true);
                     }
+                }
                     aSwitch2.setOnClickListener(v -> {
                         if (aSwitch2.isChecked()) {
                             classe_geral.updateFieldUsers("permission_notification", "1");
@@ -113,7 +115,7 @@ public class Pag_configuracoes extends AppCompatActivity {
                             classe_geral.updateFieldUsers("permission_notification", "0");
                         }
                     });
-                }
+
 
 
                 //CONFIGURAÇÃO DE DISTÂNCIA
@@ -170,9 +172,24 @@ public class Pag_configuracoes extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Conta Deletada", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
+                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                                    reference.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            //DELETA A CONTA DO USUARIO
+                                            //reference.removeValue();
+
+                                            //DELETA CONTA
+                                            Toast.makeText(getApplicationContext(), "Conta Deletada", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getApplicationContext(), Pag0_login.class);
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }else{
                                     Toast.makeText(getApplicationContext(), "Erro na operação", Toast.LENGTH_SHORT).show();
                                 }

@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.MainActivity;
 import com.example.rockit.R;
@@ -30,6 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 public class Pag1_qual_intrumento_toca extends AppCompatActivity {
+    Classe_Geral classe_geral = new Classe_Geral();
     ArrayList<String> ListaInstrumentos = new ArrayList<>();
     ArrayList<String> Lista_MeuInstrumentos = new ArrayList<>();
     ArrayAdapter<String> adapter;
@@ -171,42 +173,29 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
         //Se não toca nenhum instrumento
         if(Lista_MeuInstrumentos.size()==0){
             //Salva as infos no Firebase
-            acesso("instrumentos"," ");
+            classe_geral.updateFieldUsers("instrumentos"," ");
         }else {
             //Salva as infos no Firebase
-            acesso("instrumentos",string);
+            classe_geral.updateFieldUsers("instrumentos",string);
         }
 
-        acesso("first_login","true");
+        classe_geral.updateFieldUsers("first_login","true");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
     /////////////////////////////////////////////////////////////
     //                    F I R E B A S E                      //
     /////////////////////////////////////////////////////////////
-    public void acesso(String field, String string){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(field, string);
-        reference.updateChildren(map);
-    }
     private void readUsers(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Usuario oneUser = dataSnapshot.getValue(Usuario.class);
+                    Usuario oneUser = snapshot.getValue(Usuario.class);
                     //garante que tem algum valor disponível
                     assert oneUser != null;
-                    assert firebaseUser != null;
 
-
-                    //Se não for o meu usuario mostra na lista de chats
-                    if(oneUser.getId().equals(firebaseUser.getUid())) {
 
                         currentInstruments = oneUser.getInstrumentos();
 
@@ -231,11 +220,6 @@ public class Pag1_qual_intrumento_toca extends AppCompatActivity {
                             show_list2();
 
                         }
-                    }
-
-
-
-                }
             }
 
             @Override

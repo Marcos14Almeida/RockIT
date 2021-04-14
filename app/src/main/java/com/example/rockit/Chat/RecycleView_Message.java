@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +15,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.rockit.Cadastro.Pag0_login;
 import com.example.rockit.Classes.Chat;
 import com.example.rockit.Classes.Classe_Geral;
 import com.example.rockit.Classes.Usuario;
 import com.example.rockit.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -90,46 +96,26 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
                     //Is seen - o usuario visualizou a mensagem
                     //https://www.youtube.com/watch?v=E1qm09JWUdI 5:25
                 if(position == mChat.size()-1){
+                    holder.show_message.setText(chat.getMessage()+"     ");//para ter espaço para o double check
                     if(chat.getIsseen()){
-                        holder.texto_seen.setText("Visto");
+                        holder.im_seen.setImageResource(R.drawable.doublecheck);
                     }else{
-                        holder.texto_seen.setText("Entregue");
+                        holder.im_seen.setImageResource(R.drawable.doublecheck_gray);
                     }
                 }else{
-                    holder.texto_seen.setVisibility(View.GONE);
+                    holder.im_seen.setVisibility(View.GONE);
                 }
 
-                //                    COPY TEXT                     //
-                //https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
+
+                //ABRE DIALOG MESSAGE PARA:
+                // COPIAR OU DELETAR TEXTO
                 holder.show_message.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ClipboardManager clipboard = (ClipboardManager) mcontext.getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Copy",chat.getMessage());
-                        clipboard.setPrimaryClip(clip);
-                        Toast.makeText(mcontext,"Texto Copiado",Toast.LENGTH_SHORT).show();
+                        dialogMessage(chat);
                     }
                 });
-                holder.show_message.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        DatabaseReference referenceTemp = FirebaseDatabase.getInstance().getReference("Chats");
-                        referenceTemp.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                   if(dataSnapshot.child("message").getValue().equals(chat.getMessage())){
-                                       referenceTemp.child(dataSnapshot.getKey()).removeValue();
-                                   }
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {}
-                        });
-                        return false;
-                    }
-                });
 
             }            @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -154,14 +140,14 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView profile_picture;
-        TextView show_message,show_message2,texto_seen;
+        ImageView profile_picture,im_seen;
+        TextView show_message,show_message2;
         ViewHolder(View itemView) {
             super(itemView);
             profile_picture = itemView.findViewById(R.id.im_friend_user);
             show_message = itemView.findViewById(R.id.texto_message);
             show_message2 = itemView.findViewById(R.id.texto_message2);
-            texto_seen = itemView.findViewById(R.id.texto_seen);
+            im_seen = itemView.findViewById(R.id.im_seen);
         }
     }
 
@@ -173,5 +159,49 @@ public class RecycleView_Message extends RecyclerView.Adapter<RecycleView_Messag
         }else{
             return MSG_TYPE_LEFT;
         }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //     copiar ou deletar texto
+    public void dialogMessage(Chat chat){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mcontext);
+        dialog.setCancelable(true);
+
+        //                    COPY TEXT                     //
+        dialog.setPositiveButton("Copiar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
+                ClipboardManager clipboard = (ClipboardManager) mcontext.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Copy",chat.getMessage());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(mcontext,"Texto Copiado",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //                    DELETE TEXT                     //
+        dialog.setNegativeButton("Deletar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseReference referenceTemp = FirebaseDatabase.getInstance().getReference("Chats");
+                referenceTemp.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            if(dataSnapshot.child("message").getValue().equals(chat.getMessage())){
+                                referenceTemp.child(dataSnapshot.getKey()).removeValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
+            }
+        });
+
+        //show dialog
+        AlertDialog alerta = dialog.create();
+        alerta.show();
     }
 }
