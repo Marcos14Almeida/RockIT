@@ -14,3 +14,10 @@ copie o projeto digiando no terminal:
 -git clone https://github.com/Marcos14Almeida/RockIT/
 
 Depois rode o código pelo terminal
+
+<p align="center">
+  <img src="https://github.com/Marcos14Almeida/RockIT/blob/master/screenshot.jpeg" width="200" title="Screenshot">
+  </a>
+</p> 
+
+<h4 align="center">Screenshot</h4>
