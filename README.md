@@ -13,7 +13,6 @@ De preferência utilize Android Studio ou VS Code, depois:
 copie o projeto digiando no terminal:
 -git clone https://github.com/Marcos14Almeida/RockIT/
 
-Depois rode o código pelo terminal -flutter run
 
 ## Screenshot
 
